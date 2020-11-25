@@ -1,0 +1,44 @@
+% -*- prolog -*- not perl...
+
+% 1.a)
+fib(z, z).
+fib(s(z), s(z)).
+fib(s(s(X)), Y) :-
+    fib(X, FX),
+    fib(s(X), FSX),
+    soma(FX, FSX, Y).
+
+% 1.b)
+divisivel(X, Y) :- mult(Y, _, X).
+
+% 1.c)
+num(z, 0).
+num(s(X), N1) :- num(X, N), N1 is N+1.
+
+% 2)
+pares([], []).
+pares([_], []).
+pares([_,A|As], [A|AAs]) :- pares(As, AAs).
+
+% 3.a)
+grau([_], 0) :- !.
+grau([_|P], G) :- grau(P, G1), G is G1+1.
+
+% outro possivel
+grau(P, G) :- length([_|P], G).
+
+% 3.b)
+avalia([], _, 0).
+avalia([C|Cs], X, Y) :-
+    avalia(Cs, X, YI),
+    Y is X * YI + C.
+
+% 3.c)
+derivada([_|P], D) :-
+    derivada(P, 1, D).
+
+derivada([], _, []).
+derivada([C|Cs], N, [NC|NCs]) :-
+    NC is N*C,
+    N1 is N+1,
+    derivada(Cs, N1, NCs).
