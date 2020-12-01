@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-int conta(float x) {
+int conta(int x) {
 
     float somaPrim;
 
@@ -19,8 +19,6 @@ int conta(float x) {
 
     }
 
-    
-
     return somaPrim;
 
 }
@@ -30,7 +28,7 @@ float serie(int x){
     float contaFeita;
     int i;
 
-    x = x / 3;
+    //x = x / 3;
 
     while(i <= x){
 
