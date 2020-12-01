@@ -2,24 +2,23 @@
 
 float horaChegada(float hp, float mp, float d, float vm) {
 
-	float hora, tempo, hc, mc;
+	float minutos, tempo, hc, mc;
 	int i;
 
-	tempo = d / vm;
-	hora = (hp * 60 * 60) + (mp * 60) + tempo;
-	hora = hora / 60;
+	tempo = (d / vm) * 60;
+	minutos = (hp * 60) + mp + tempo;
 
 	i = 0;
 
-	while ( hora >= 60 ) {
+	while ( minutos >= 60 ) {
 
-		hora -= 60;
+		minutos -= 60;
 		i++;
 
-	}
+	} 
 
 	hc = i;
-	mc = hora;
+	mc = minutos;
 
 	printf("%.0lf h %.0lf min\n", hc, mc);
 
@@ -40,9 +39,16 @@ int main() {
 	printf("numero do troço (1-3): ");
 	scanf("%d", &troco);
 
-	if ( troco == 1 ) { d = 2; vm = 7.5; };
-	if ( troco == 2 ) { d = 6; vm = 10.9; };
-	if ( troco == 3 ) { d = 2; vm = 7.5; };
+	if ( troco == 1 ) { 
+		d = 2; 
+		vm = 7.5; 
+	} else if ( troco == 2 ) { 
+		d = 6; 
+		vm = 10.9; 
+	} else if ( troco == 3 ) { 
+		d = 2; 
+		vm = 7.5; 
+	};
 
 	n = horaChegada(hp, mp, d, vm);
 	printf("%f \n", n);

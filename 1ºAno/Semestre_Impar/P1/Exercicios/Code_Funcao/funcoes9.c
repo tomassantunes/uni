@@ -2,27 +2,26 @@
 
 int eTriangulo(float l1, float l2, float l3) {
 
-	if ( l1 + l2 > l3 ) { 
+	if (l1 != 0 && l2 != 0 && l3!= 0) {
 
-		printf("é triângulo\n"); 
+		if ( l1 + l2 > l3) { 
 
-	} else if ( l2 + l3 > l1 ) { 
+			printf("é triângulo\n"); 
 
-		printf("é triângulo\n");
+		} else if ( l2 + l3 > l1) { 
 
-	} else if ( l3 + l2 > l1 ) { 
+			printf("é triângulo\n");
 
-		printf("é triângulo\n");
+		} else if ( l1 + l3 > l2 ) {
 
-	} else if ( l1 + l3 > l2 ) {
-
-		printf("é triângulo\n");
+			printf("é triângulo\n");	
+		}
 
 	} else {
 
 		printf("não é triângulo\n");
 
-	}
+	};
 
 	return 0;
 
