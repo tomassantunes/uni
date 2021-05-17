@@ -10,8 +10,8 @@ MAX_DISCRETA = 5
 MAX_CONTINUA = 2
 
 # discretas
-def uniforme(N):
-  return 1 / N
+def uniforme(n):
+  return 1 / n
 
 def bernoulli(x, p):
   return (p ** x) * ((1 - p) ** (1 - x))
@@ -65,8 +65,8 @@ if __name__ == '__main__' :
     
   if tipo == 'discreta':
     if distri == 1:
-      N = int(input("N = "))
-      print("Resultado:",  uniforme(N))
+      n = int(input("n = "))
+      print("Resultado:",  uniforme(n))
     elif distri == 2:
       p = float(input("p = "))
       x = int(input("x = "))
