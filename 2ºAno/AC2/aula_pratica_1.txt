@@ -1,0 +1,16 @@
+Exercicio 1
+a - 2, 0 e 1
+b - 8
+c - 4, 8
+d - 2^10, 2^20, 2^30
+e - posição na memória onde são armazenados dados
+f - 16 bytes
+g - 2^32 bytes, 2^22, 2^12, 2^2
+h - 2^32, 2^34, 2^24, 2^14, 2^4 
+
+Exercicio 2
+a - 32
+b - no processador
+c - 32, 1
+d - ii
+e - 0x10000004
