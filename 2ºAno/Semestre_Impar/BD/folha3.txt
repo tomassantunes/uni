@@ -1,0 +1,3 @@
+SELECT percentage * population
+FROM language, country
+WHERE country.code=country AND country.name='Brazil' AND language.name='Poruguese'

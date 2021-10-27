@@ -1,5 +1,0 @@
-1
-a - {IdBib, IdBib-NomeB, IdBib-Cidade}, {ISBN, ISBN-Titulo}, {IdLivro, IdLivro-ISBN, IdLivro-IdBib}, ISBN-CodA, CodA, NumS, NumS, NumS
-b - IdBib, ISBN, IdLivro, CodA-ISBN, 
-c - IdBib, ISBN, IdLivro, ISBN-CodA, 
-d - não tem, não tem, {ISBN, IdLivro}, {ISBN, CodA}, 

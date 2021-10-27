@@ -1,0 +1,51 @@
+ARQUITETURA DE COMPUTADORES
+
+bit - 2 valores -> 0 e 1
+
+byte = 8 bits
+
+4 bytes em 32 bits (32 / 8)
+8 bytes em 64 bits (64 / 8)
+
+1KiB = 2^10 bytes
+1MiB = 2^20 bytes
+1GiB = 2^30 bytes
+
+Endereço -> identificador de um objeto dentro de um conjuto de objetos. Quando o conjunto é numerado,
+um endereço é o *número* do objeto.
+Em arquitetura de computadores, os endereços mais comuns são *endereços de memória*, que são o *número
+de um byte* pertencente à sequência de bytes que constitui a memória de um computador. Neste caso, um
+endereço identifica uma posição da memória.
+
+
+com 4 bits é possível endereçar 2^4 bytes (16 bytes)
+
+com 32 bits é possível endereçar 2^32 bytes. (2^32/2^10 KiB, 2^32/2^20 MiB e 2^32/2^30 GiB)
+
+um processador que implementa RISC-V tem 32 registos de uso genérico (x0 a x31)
+
+os registos RISC-V encontram-se no processador
+
+um registo tem a capacidade de 32 bits = 4 bytes = 1 palavra
+
+o número de bytes (endereço) da palavra tem de ser múltiplo de 4 
+
+MIPS 32
+
+- It's a load-store architeture
+
+It involves:
+	1. MIPS Register File
+		32 bits (one word, word adressable) * 32 unit. Inside the CPU, accessing is fast (fewer clock cycles). Each Register
+		stores the value of a variable. Registers represented like this: $t0
+	
+	2. Memory
+		4GB. Each memory location is 8 bits (byte adressable). RAM is external, greater number of clock
+		cycles, greater access time. Only access memory when we want to load data from the memory into
+		registers OR store data into memory from registers.
+	
+	3. MIPS Instructions
+		There are three types of MIPS instructions:
+			- R-type	
+			- I-type
+			- J-type

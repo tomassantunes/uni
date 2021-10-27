@@ -1,0 +1,64 @@
+'Reino dos Algarves'
+'RAL'
+'Faro'
+'Faro'
+20 000
+1 000 000
+fronteira ral-espanha 100
+fronteira ral-lisboa 200
+
+INSERT INTO country VALUES ('Reino dos Algarves', 'RAL', 'Faro', 'Faro', 20000, 1000000);
+
+UPDATE country
+SET population = population - 1000000, area = area - 20000
+WHERE name='Portugal'
+
+INSERT INTO language VALUES ('RAL', 'Portuguese', 100);
+
+UPDATE language
+SET percentage=((population+1000000)*percentage / 100 - 1000000) / population * 100
+FROM country
+WHERE country=code AND country='P' AND language.name='Portuguese'
+
+UPDATE language
+SET percentage=(population+1000000) *  percentage / population
+FROM country
+WHERE country=code AND country='P' AND language.name!='Portuguese'
+
+INSERT INTO religion VALUES('RAL', 'Catholic', 100);
+
+UPDATE religion
+SET percentage=((population+1000000)*percentage / 100 - 1000000) / population * 100
+FROM country
+WHERE country=code AND country='P' AND religion.name='Catholic'
+
+UPDATE religion
+SET percentage=(population+1000000) *  percentage / population
+FROM country
+WHERE country=code AND country='P' AND religion.name!='Catholic'
+
+INSERT INTO borders VALUES('E', 'RAL', 100);
+INSERT INTO borders VALUES('P', 'RAL', 200);
+
+UPDATE borders
+SET length = length - 100
+WHERE country1='E' AND country2='P'
+
+INSERT INTO encompasses VALUES('RAL', 'Europe', '100');
+
+
+-----------------------------------------------------------------------------------------------------
+
+CREATE TABLE mar(
+	nome char(20) primary key,
+	area integer,
+	profundidade integer);
+	
+-----------------------------------------------------------------------------------------------------
+
+CREATE TABLE banha(
+	nome varchar(20),
+  	pais VARchar(4),
+	length integer,
+  	FOREIGN KEY (pais) REFERENCES country(code),
+	PRIMARY KEY (nome, pais));

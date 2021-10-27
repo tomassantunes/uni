@@ -1,0 +1,100 @@
+<x3d>
+  <scene>
+    <shape>
+      <appearance>
+        <commonsurfaceshader
+            specularFactor="1 1 1"
+            shininessFactor="5">
+          <imagetexture containerField="diffuseTexture" 
+            url="media/tri2_d.png"></imagetexture>
+          <imagetexture containerField="specularTexture"
+            url="media/tri2_s.png"></imagetexture>
+          <imagetexture containerField="normalTexture"
+            url="media/tri2_n.png"></imagetexture>
+        </commonsurfaceshader>
+      </appearance>
+      <indexedfaceset 
+        coordIndex="
+          0 1 3 -1
+          0 3 6 -1
+          0 6 4 -1
+          0 4 2 -1
+          0 2 1 -1
+
+          1 2 5 -1
+          1 5 7 -1
+          1 7 3 -1
+
+          11 5 8 -1
+          11 7 5 -1
+          11 9 7 -1
+
+          10 9 11 -1
+          10 6 9 -1
+          10 4 6 -1
+          10 8 4 -1
+          10 11 8 -1
+
+          2 4 8 -1
+          2 8 5 -1
+
+          3 9 6 -1
+          3 7 9 -1
+        " 
+          
+        texCoordIndex="
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+
+          0 1 2 -1
+          0 1 2 -1
+          0 1 2 -1
+
+          0 1 2 -1
+          0 1 2 -1
+
+          0 1 2 -1
+          0 1 2 -1
+        ">
+        <coordinate point="
+          +0.00   +1.62   -1.00
+          +0.00   +1.62   +1.00
+
+          -1.62   +1.00   +0.00
+          +1.62   +1.00   +0.00
+
+          -1.00   +0.00   -1.62
+          -1.00   +0.00   +1.62
+          +1.00   +0.00   -1.62
+          +1.00   +0.00   +1.62
+
+          -1.62   -1.00   +0.00
+          +1.62   -1.00   +0.00
+
+          +0.00   -1.62   -1.00
+          +0.00   -1.62   +1.00
+        ">
+        </coordinate>
+        <texturecoordinate point="
+          0.00 0.00
+          1.00 0.00
+          0.50 1.00
+          ">
+        </texturecoordinate>
+      </indexedfaceset>
+    </shape>
+  </scene>
+</x3d>

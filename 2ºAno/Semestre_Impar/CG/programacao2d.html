@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script>
+
+        function main() {
+            let gc = document
+                    .getElementById("acanvas")
+                    .getContext("2d");
+
+            gc.fillStyle = "crimson";
+            gc.fillRect(10,10,256,256);
+            gc.strokeStyle = "darkgreen";
+            gc.lineWidth = 5;
+            gc.rect(10, 10, 256, 256);
+            gc.stroke();
+
+            // gradiente horizontal
+            // let g = gc.createLinearGradient(0, 0, 512, 0);
+            // g.addColorStop(0.2, "seagreen");
+            // g.addColorStop(0.2, "khaki");
+            // g.addColorStop(0.5, "steelblue");
+            // g.addColorStop(1, "crimson");
+            // gc.fillStyle = g;
+            // gc.fillRect(0, 0, 512, 512);
+
+            // gradiente vertical
+            // let g = gc.createLinearGradient(0, 0, 0, 512);
+            // g.addColorStop(0.0, "seagreen");
+            // g.addColorStop(0.5, "khaki");
+            // g.addColorStop(0.5, "steelblue");
+            // g.addColorStop(1.0, "crimson");
+            // gc.fillStyle = g;
+            // gc.fillRect(0, 0, 512, 512);
+
+            // gc.beginPath();
+            // gc.moveTo(50, 10);
+            // gc.lineTo(50, 10);
+            // gc.lineTo(70, 90);
+            // gc.bezierCurveTo(90, 100, 90, 0, 70, 10);
+            // gc.quadraticCurveTo(0, 50, 50, 90);
+            // gc.closePath();
+            // gc.stroke();
+
+            // gc.beginPath();
+            // gc.moveTo(50, 10);
+            // gc.quadraticCurveTo(0, 50, 50, 90);
+            // gc.lineTo(70, 90);
+            // gc.bezierCurveTo(90, 100, 90, 0, 70, 10);
+            // gc.lineTo(50, 10);
+            // gc.closePath();
+            // gc.stroke();
+
+            // gc.beginPath();
+            // gc.moveTo(50, 10);
+            // gc.quadraticCurveTo(0, 50, 50, 90);
+            // gc.lineTo(70, 90);
+            // gc.lineTo(50, 10);
+            // gc.bezierCurveTo(90, 100, 90, 0, 70, 10);
+            // gc.closePath();
+            // gc.stroke();
+
+            // gc.beginPath();
+            // gc.moveTo(0, 64);
+            // gc.lineTo(256, 64);
+            // gc.moveTo(0, 128);
+            // gc.lineTo(256, 128);
+            // gc.moveTo(0, 192);
+            // gc.lineTo(256, 192);
+            // gc.moveTo(64, 0);
+            // gc.lineTo(64, 256);
+            // gc.moveTo(128, 0);
+            // gc.lineTo(128, 256);
+            // gc.moveTo(192, 0);
+            // gc.lineTo(192, 256);
+            // gc.moveTo(0, 0);
+            // gc.lineTo(256, 0);
+            // gc.lineTo(256, 256);
+            // gc.lineTo(0, 256);
+            // gc.lineTo(0, 0);
+            // gc.stroke();
+
+        }
+    </script>
+</head>
+<body>
+    <canvas id="acanvas" width="512" height="512">
+        <script>main();</script>
+    </canvas>
+
+    <!-- <svg width="..." height="..."
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M 50 10 Q 0 50 50 90 L 70 90 C 100 90 40 10 70 10 L 50 10 Z" />
+    </svg> -->
+
+    <!-- padrao xadrez -->
+    <!-- <svg width="512" height="512">
+        <path stroke="black" fill="none" d = "M 0 64 L 256 64 M 0 128 L 256 128 M 0 192 L 256 192 M 64 0 L 64 256 M 128 0 L 128 256 M 192 0 L 192 256 M 0 0 L 256 0 L 256 256 L 0 256 L 0 0"/>
+    </svg> -->
+
+    <!-- gradiente horizontal -->
+    <!-- <svg width="640px" height="120px">
+        <defs>
+            <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                <stop
+                    offset="0"
+                    stop-color="khaki" />
+                <stop
+                    offset="1"
+                    stop-color="steelblue" />
+                <stop
+                    offset="0.5"
+                    stop-color="seagreen" />
+            </linearGradient>
+        </defs>
+        <rect
+        rx="4"
+        x="0" y="0"
+        width="640" height="120"
+        fill="url(#grad1)" />
+    </svg> -->
+
+    <!-- gradiente vertical -->
+    <!-- <svg width="640px" height="120px">
+        <defs>
+            <linearGradient id="grad1" x2="0" y2="1">
+                <stop
+                    offset="0"
+                    stop-color="khaki" />
+                <stop
+                    offset="1"
+                    stop-color="steelblue" />
+                <stop
+                    offset="0.5"
+                    stop-color="seagreen" />
+            </linearGradient>
+        </defs>
+        <rect
+        rx="4"
+        x="0" y="0"
+        width="640" height="120"
+        fill="url(#grad1)" />
+    </svg> -->
+</body>
+</html>
