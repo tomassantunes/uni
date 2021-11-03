@@ -45,7 +45,16 @@ It involves:
 		registers OR store data into memory from registers.
 	
 	3. MIPS Instructions
-		There are three types of MIPS instructions:
+		There are three types of MIPS instructions: add, sub, lw, sw
 			- R-type	
 			- I-type
 			- J-type
+			
+Single Cycle:
+	Each MIPS instruction is executed in 1 fixed clock cycle. 
+	Slowest cycle is chosen, therefore time is wasted.
+	
+	
+	
+	
+	select 'INSERT INTO gostaDe VALUES (''' || 'Liliana Ferro' || ''', ' || '''' || country.name || ''');' FROM ismember, country WHERE ismember.organization='EU' and ismember.country=country.code;

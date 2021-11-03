@@ -1,0 +1,42 @@
+--b)
+CREATE TABLE membro(
+	nome varchar(20),
+  	email VARchar(50),
+	ano integer,
+	PRIMARY KEY (nome, email));
+	
+
+CREATE TABLE gostaDe (
+	nome varchar(20),
+	country varchar(4),
+	PRIMARY KEY (nome, country)),
+	FOREIGN KEY (country) REFERENCES country(code));
+	
+--c)
+INSERT INTO membro VALUES('Liliana Ferro', 'lilianaferro@gmail.com', '1970');
+INSERT INTO membro VALUES('Ruben Fontes', 'rubenfontes@gmail.com', '1980');
+INSERT INTO membro VALUES('Lyana Lalanda', 'lyanalalanda@gmail.com', '1960');
+INSERT INTO membro VALUES('Salvador Valido', 'salvadorvalido@gmail.com', '1950');
+INSERT INTO membro VALUES('Fábio Patrício', 'fabiopatricio@gmail.com', '1954');
+INSERT INTO membro VALUES('Mathias Águeda', 'mathiasagueda@gmail.com', '1974');
+INSERT INTO membro VALUES('Marisol Teves', 'marisolteves@gmail.com', '1998');
+INSERT INTO membro VALUES('Débora Pederneiras', 'deborapederneiras@gmail.com', '1985');
+INSERT INTO membro VALUES('Eunice Bogado', 'eunicebogado@gmail.com', '1990');
+INSERT INTO membro VALUES('Katerina Mota', 'katerinemota@gmail.com', '1995');
+INSERT INTO membro VALUES('Mercês Guimarães', 'mercesguimaraes@gmail.com', '1991');
+INSERT INTO membro VALUES('Maurício Veríssimo', 'mauricioverissimo@gmail.com', '1993');
+INSERT INTO membro VALUES('Anaisa Palhares', 'anaisapalhares@gmai.com', '1987');
+INSERT INTO membro VALUES('Nicole Malho', 'nicolemalho@gmail.com', '1973');
+INSERT INTO membro VALUES('Ludmila Monsanto', 'ludmilamonsanto@gmail.com', '1964');
+
+INSERT INTO gostaDe (nome, country) 
+SELECT membros.nm, country.code
+FROM (SELECT membro.nome as nm FROM membro limit 5 offset 0) as membros, encompasses, country WHERE encompasses.continent='Europe' and encompasses.country=country.code;
+
+INSERT INTO gostaDe (nome, country) 
+SELECT membros.nm, country.code
+FROM (SELECT membro.nome as nm FROM membro limit 5 offset 5) as membros, ismember, country WHERE ismember.organization='EU' and ismember.country=country.code;
+
+INSERT INTO gostaDe (nome, country) 
+SELECT membros.nm, country.code
+FROM (SELECT membro.nome as nm FROM membro limit 5 offset 10) as membros, language, country WHERE language.name='Portuguese' and language.country=country.code;

@@ -1,0 +1,72 @@
+--a)
+SELECT name
+FROM country, ismember
+WHERE organization='EU' and country.code=ismember.country;
+
+--b)
+SELECT distinct name
+FROM country, ismember, encompasses
+WHERE organization!='EU' and country.code=ismember.country and encompasses.country=ismember.country and encompasses.continent='Europe';
+
+--c)
+SELECT gdp
+FROM country, ismember, economy
+WHERE organization='EU' and country.code=ismember.country and economy.country=ismember.country;
+
+--d)
+SELECT country.name
+FROM (SELECT min(gdp) as n FROM economy, encompasses WHERE encompasses.continent='Europe' and economy.country=encompasses.country) as r, economy, country
+WHERE r.n=gdp and economy.country=country.code;
+
+--e)
+SELECT organization.name, count(ismember.country)
+FROM ismember, organization
+WHERE ismember.organization=organization.abbreviation
+group by organization.name;
+
+--f)
+SELECT country.name, count(ismember.country)
+FROM ismember, country
+WHERE ismember.country=country.code
+group by country.name;
+
+--g)
+with count_cnts(name, n) as (SELECT country.name, count(ismember.country) as mycount 
+FROM ismember, country
+WHERE ismember.country=country.code
+group by country.name)
+select name
+from (select max(n) as n from count_cnts) as r, count_cnts
+where r.n= count_cnts.n;
+
+--h)
+with count_orgs(name, n) as (SELECT organization.name, count(ismember.country) 
+FROM ismember, organization
+WHERE ismember.organization=organization.abbreviation
+group by organization.name)
+select name
+from (select min(n) as n from count_orgs) as r, count_orgs
+where r.n= count_orgs.n;
+
+--i)
+SELECT country.name
+FROM (select max(gdp) as n from economy) as r, economy, country
+WHERE r.n=gdp and economy.country=country.code;
+
+--j)
+SELECT distinct name 
+FROM (SELECT organization as org FROM ismember WHERE country='MA') as n, ismember, country
+WHERE ismember.country=country.code and ismember.organization=n.org;
+
+--k)
+SELECT organization 
+FROM ismember 
+WHERE ismember.country='B'
+INTERSECT
+SELECT organization 
+FROM ismember 
+WHERE ismember.country='L'
+INTERSECT
+SELECT organization 
+FROM ismember 
+WHERE ismember.country='NL';

@@ -1,0 +1,11 @@
+superchaves na tabela economy -> {Country}, {Country, GDP}
+chaves candidatas na tabela economy -> {Country}
+chaves estrangeiras na tabela economy -> {Country}
+
+superchaves na tabela organization -> {Abbreviation}, {Abbreviation, Name}, 
+chaves candidatas na tabela organization -> {Abbreviation}
+chaves estrangeiras na tabela organization -> {Country}
+
+superchaves na tabela isMember -> {Organization, Country}
+chaves candidatas na tabela isMember -> {Organization, Country}
+chaves estrangeiras na tabela isMember -> {Country}
