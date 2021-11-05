@@ -60,3 +60,16 @@
 //         System.out.println(pesoMercurio);
 //     }
 // }
+class Calc {
+    public static long calc03(int maxPower) {
+        long sum = 0;
+        for(int i = 1; i <=maxPower; i++) {
+            sum += (long)Math.pow(2, i) - 1;
+        }
+        
+        return sum;
+    }
+    public static void main(String[] args) {
+        System.out.format("%d", calc03(23));        
+    }
+}
