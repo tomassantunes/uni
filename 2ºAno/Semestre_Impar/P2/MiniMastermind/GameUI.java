@@ -17,14 +17,29 @@ public class GameUI {
     
 
     do {
+      
       progress = new Progress();
+      
       do {
-        String guessText = prompt("Palpite: ");
-        Guess guess = new Guess(guessText);
-      
+        
+        String guessText = null;
+        Guess guess = null;
+        boolean guessOk = false;
+
+        do {
+          guessText = prompt("Palpite: ");
+        
+          try {
+            guess = new Guess(guessText);
+            guessOk = true;
+          } catch (Exception e) {
+            System.out.println("Entrada incorreta. Use o formato \"N N N\" para o seu palpite.");
+          }
+        } while(!guessOk);
+
         String result = progress.evalGuess(guess);
-      
-        System.out.printf("%2d %s |> %s%n", progress.getGuessCount(), guessText, result); 
+        System.out.printf("%2d %s |> %s%n", progress.getGuessCount(), guessText, result);
+
       } while(progress.secretFound());
       System.out.format("Parabéns, resolveu em %2d palpites", progress.getGuessCount());
 

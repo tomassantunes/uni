@@ -60,16 +60,64 @@
 //         System.out.println(pesoMercurio);
 //     }
 // }
-class Calc {
-    public static long calc03(int maxPower) {
-        long sum = 0;
-        for(int i = 1; i <=maxPower; i++) {
-            sum += (long)Math.pow(2, i) - 1;
-        }
+// class Calc {
+//     public static long calc03(int maxPower) {
+//         long sum = 0;
+//         for(int i = 1; i <=maxPower; i++) {
+//             sum += (long)Math.pow(2, i) - 1;
+//         }
         
-        return sum;
-    }
-    public static void main(String[] args) {
-        System.out.format("%d", calc03(23));        
-    }
-}
+//         return sum;
+//     }
+//     public static void main(String[] args) {
+//         //System.out.format("%d", calc03(23)); 
+        
+//         int n = 1000;
+//         int length = (int)(Math.log10(n)+1);
+//         System.out.println(length);
+//     }
+// }
+
+// import java.util.Date;
+
+// class Primes {
+    
+//     private Date startTime;
+    
+//     public void resetTimer() {
+//         startTime = new Date();
+//     }
+    
+//     public long getElapsed() {
+//         Date endTime = new Date();
+        
+//         long getElapsedTimeInMs = endTime.getTime() - startTime.getTime();
+        
+//         return getElapsedTimeInMs;
+//     }
+    
+//     public static boolean isPrime(int n) {
+//         int count = 0; 
+//         for(int i = 1; i <= n; i++) {
+//             if(n % i == 0) {
+//                 count++;
+//             }
+//         }
+        
+//         if(count == 2) { return true; }
+//         return false;
+//     }
+    
+//     public int countPrimes(int end) {
+//         int count = 0;
+//         for(int i = 2; i <= end; i++) {
+//             if(isPrime(i)) {
+//                 count++;
+//             }
+//         }
+        
+//         return count;
+//     }
+    
+    
+// }

@@ -228,6 +228,10 @@ class Ciclos {
 
     System.out.println("6. " + c.segundoProduto()); // 6.
 
+    int num = 10;
+
+    System.out.println((String)num.length());
+
   }
 }
   
