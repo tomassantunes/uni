@@ -76,7 +76,7 @@ function init_model() {
             rot_vel: 0.01
         },
         {
-            //shape: [{x: 0, y: 0}, {x: 1, y:0}, {x: 1, y: 1}, {x: 0, y: 1}],
+            shape: [{x: 0, y: 0}, {x: 1, y:0}, {x: 1, y: 1}, {x: 0, y: 1}],
             style: {fill: "crimson"},
             transform: {
                 dx: 0.725, dy: 0.25,
@@ -85,7 +85,7 @@ function init_model() {
             children: [
                 {
                     shape: [{x: 0, y: 0}, {x: 1, y: 1}, {x: 0, y: 1}],
-                    style: {fill: "seagreen"},
+                    style: {fill: "Cyan"},
                     transform: {
                         dx: 0.125, dy: 0.125,
                         sx: 0.725, sy: 0.725,
