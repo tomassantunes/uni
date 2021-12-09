@@ -1,14 +1,16 @@
 package SquareCoder;
 
+import java.beans.ExceptionListener;
 // alinea 1
 import java.text.Normalizer;
 
 // alinea 2
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
+import java.util.Vector;
+import java.util.stream.Stream;
 // alinea 4
 import java.util.Collections;
 
@@ -81,6 +83,26 @@ public class Cipher {
    }
 
    // alinea 4
+   public static List<String> explore(String candidate, List<String> words) {
+      List<String> result = new Vector<>();
+
+      for(var word: words) {
+         if (candidate.startsWith(word)) {
+            
+            var suffix = candidate.substring(word.length());
+            var children = explore(suffix, words);
+
+            for(var child: children) {
+               var solution = String.format("%s %s", word, child);
+               System.out.println(solution);
+               result.add(solution);
+            }
+         }
+      }
+
+      return result;
+   }
+
    public static List<String> breakCipher(String cipherText, List<String> words) {
       List<Integer> divisores = findDividers(cipherText.length());
       
@@ -106,29 +128,16 @@ public class Cipher {
          cipher.clear();
       }
 
-      List<Integer> countCipher = new ArrayList<Integer>();
+      List<List<String>> possibleResults = new ArrayList<List<String>>();
 
-      for(var x: ciphers) {
-         countCipher.add(0);
+      for(var candidate: ciphers) {
+         // System.out.println(explore(candidate, words));
+         possibleResults.add(explore(candidate, words));
       }
+      
+      for(var x: possibleResults)
+         System.out.println(x);
 
-      List<String> itemsRemove = new ArrayList<String>();
-
-      for(var x: words) {
-         for(var y: ciphers) {
-            //System.out.println(y + " " + x + " " + y.contains(x));  
-            if(y.contains(x)) {
-               int num = countCipher.remove(ciphers.indexOf(y));
-               countCipher.add(ciphers.indexOf(y), num + 1);  
-            }
-         }
-      }
-
-      for(var x: ciphers) {
-         if(x != ciphers.get(Collections.max(countCipher) - 1)) { itemsRemove.add(x); }
-      }
-
-      ciphers.removeAll(itemsRemove);
       return ciphers;
    }
 
@@ -148,8 +157,10 @@ public class Cipher {
       dicionario.add("bom");
       dicionario.add("alegria");
       dicionario.add("dia");
+      dicionario.add("om");
+      dicionario.add("ale");
+      dicionario.add("gria");
       List<String> brokenCipher = breakCipher(testEnc, dicionario);
       System.out.println(brokenCipher);
-
    }
 }

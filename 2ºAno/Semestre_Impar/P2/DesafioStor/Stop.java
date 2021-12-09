@@ -65,7 +65,7 @@ public class Stop {
 
    public static void main(String[] args) {
       File myFile = new File("OneDrive/Documents/!!uni/2ºAno/Semestre_Impar/P2/DesafioStor/aula_pratica.txt");
-      // ex1206(myFile);
+      ex1206(myFile);
       ex1207(myFile);
 
    }
