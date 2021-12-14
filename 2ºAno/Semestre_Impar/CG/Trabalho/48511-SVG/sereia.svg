@@ -8,6 +8,30 @@
             <stop offset="100%" stop-color="#c22727"/>
         </radialGradient>
 
+        <linearGradient id="braco-esq-grad">
+            <stop offset="0%" stop-color="#ffc41e"/>
+            <stop offset="50%" stop-color="#ffc41e"/>
+            <stop offset="90%" stop-color="#feb200"/>
+        </linearGradient>
+
+        <linearGradient id="braco-esq-stroke-grad">
+            <stop offset="0%" stop-color="#fabd17"/>
+            <stop offset="70%" stop-color="#ecaf12"/>
+            <stop offset="90%" stop-color="#d89b0e"/>
+        </linearGradient>
+
+        <linearGradient id="braco-dir-grad">
+            <stop offset="0%" stop-color="#feb200"/>
+            <stop offset="50%" stop-color="#ffc41e"/>
+            <stop offset="90%" stop-color="#ffc41e"/>
+        </linearGradient>
+
+        <linearGradient id="braco-dir-stroke-grad">
+            <stop offset="0%" stop-color="#d89b0e"/>
+            <stop offset="70%" stop-color="#ecaf12"/>
+            <stop offset="90%" stop-color="#fabd17"/>
+        </linearGradient>
+
         <ellipse id="cara" cx="500" cy="145" rx="55" ry="59" fill="#ffc41e"/>
         
         <circle id="olhoesq" cx="480" cy="150" r="7"/>
@@ -89,27 +113,32 @@
         fill="#ffc41e" />
     </g>
 
-    <g i="tronco" fill="transparent" stroke="black" stroke-width="2" >
+    <g i="tronco" fill="transparent" >
         <path id="corpo" d="
             M 480 220
             C 480 220 440 225 445 230
             C 445 230 432 290 445 350
             C 445 350 500 380 555 350
             C 555 350 568 290 555 230
-            C 555 230 550 225 520 220" />
+            C 555 230 550 225 520 220" 
+            fill="#ffc41e" />
 
         <path id="braco-dir" d="
         M 555 228
         C 555 231 575 235 575 260
         C 575 270 580 290 545 320
         C 545 320 537 330 525 305
-        C 525 305 550 290 545 255" />
+        C 525 305 550 290 545 255" 
+        fill="#ffc41e" 
+        stroke="url(#braco-dir-stroke-grad)" stroke-width="4"/>
 
         <path id="braco-esq" d="
         M 445 227
         C 445 228 435 230 425 235
         C 415 245 410 260 407 300
-        C 410 310 420 307 442 309" />
+        C 410 310 420 307 442 309" 
+        fill="#ffc41e" 
+        />
 
         <path id="antebraco-esq" d="
         M 407 300
@@ -117,11 +146,20 @@
         C 510 295 530 305 540 300
         C 550 295 545 285 535 270
         C 530 265 520 270 510 275
-        C 510 275 465 280 425 285"/>
+        C 510 275 465 280 425 285"
+        fill="url(#braco-esq-grad)" 
+        stroke="url(#braco-esq-stroke-grad)" stroke-width="4" />
 
         <path id="antebraco-dir" d="
         M 545 320
-        " />
+        C 540 325 525 330 500 310
+        C 500 310 490 300 465 280
+        C 465 280 455 280 445 280
+        C 445 280 455 260 475 265
+        C 475 265 490 275 535 305
+        C 535 305 540 315 540 325" 
+        fill="url(#braco-dir-grad)"
+        stroke="url(#braco-dir-stroke-grad)" stroke-width="4"/>
 
     </g>
 </svg>
