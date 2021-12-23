@@ -1,0 +1,230 @@
+CREATE TABLE animaisCativeiro(
+	classe varchar(20),
+	ordem varchar(20),
+	familia varchar(20),
+	especie varchar(20),
+	nome varchar(20),
+	registo integer,
+	sexo varchar(10),
+	dob date,
+	nomeMae varchar(20),
+	nomePai varchar(20),
+	regMae integer,
+	regPai integer,
+	local varchar(20),
+	tratador varchar(20)
+);
+
+CREATE TABLE animaisCapturado(
+	classe varchar(20),
+	ordem varchar(20),
+	familia varchar(20),
+	especie varchar(20),
+	nome varchar(20),
+	registo integer,
+	sexo varchar(10),
+	localCaptura varchar(30),
+	dataCaptura date,
+	estimativaDob date,
+	local varchar(20),
+	tratador varchar(20)
+);
+
+CREATE TABLE espacos (
+	local varchar(5),
+	area integer,
+	atmosfera varchar(20),
+	meio varchar(20)
+);
+
+CREATE TABLE funcionario (
+	nome varchar(30),
+	nif integer,
+	dataInicio date,
+	contactos integer,
+	responsavel varchar(30),
+	funcao varchar(20),
+);
+
+CREATE TABLE administrativo (
+	nome varchar(30),
+	nif integer,
+	responsavel varchar(20)
+);
+
+CREATE TABLE tratador (
+	nome varchar(30),
+	nif integer,
+	animalResp varchar(20)
+);
+
+CREATE TABLE tratadorAux (
+	nome varchar(30),
+	nif integer,
+	locaisResp varchar(5)
+);
+
+CREATE TABLE vet (
+	nome varchar(30),
+	nif integer,
+	nomeAnimal varchar(20),
+	data date,
+	diagnostico varchar(50)
+);
+
+INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Aka', '322456', 'feminino', '2005-12-12', 'Malii', 'Taji', '222456', '123456', 'A3', 'Joaquim Silva');
+INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'TaTa', '422456', 'masculino', '2006-01-20', 'Malii', 'Taji', '222456', '123456', 'A4', 'Joaquim Silva');
+INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Kata', '522456', 'feminino', '2007-03-02', 'TaTa', 'Cáta', '422456', '432456', 'A5', 'Joaquim Silva');
+INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Mata', '622456', 'masculino', '2008-02-02', 'Kata', 'Taji', '522456', '123456', 'A4', 'Joaquim Silva');
+INSERT INTO animaisCapturado VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Taji', '123456', 'masculino', 'Agra', '2015-12-21', '2014-12-21', 'A3', 'Joaquim Silva');
+INSERT INTO animaisCapturado VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Malii', '222456', 'feminino', 'Deli', '2015-12-21', '2014-12-21', 'A3', 'Joaquim Silva');
+INSERT INTO animaisCapturado VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Cáta', '432456', 'masculino', 'Calcutá', '2005-01-01', '2004-08-01', 'A5', 'Joaquim Silva');
+
+INSERT INTO animaisCapturado VALUES('mamífero', 'artiodáctilo', 'hipopótamo', 'hipopótamo comum', 'Hipo', '123444', 'masculino', 'Madagascar', '2004-06-06', '2003-06-06', 'A1', 'Manuel Santos');
+INSERT INTO animaisCapturado VALUES('mamífero', 'artiodáctilo', 'hipopótamo', 'hipopótamo comum', 'Tapi', '223444', 'feminino', 'Madagascar', '2004-06-06', '2004-01-06', 'A1', 'Manuel Santos');
+INSERT INTO animaisCativeiro VALUES('mamífero', 'artiodáctilo', 'hipopótamo', 'hipopótamo comum', 'Hita', '323444', 'feminino', '2006-09-01', 'Tapi', 'Hipo', '223444', '123444', 'A1', 'Manuel Santos');
+
+INSERT INTO animaisCapturado VALUES('mamífero', 'artiodáctilo', 'cervídeo', 'veado', 'Kaki', '123666', 'masculino', 'Pirenéus', '2017-12-21', '2017-06-21', 'A2', 'Manuel Santos');
+INSERT INTO animaisCapturado VALUES('mamífero', 'artiodáctilo', 'cervídeo', 'veado', 'Kalu', '223666', 'feminino', 'Ourense', '2017-12-19', '2017-06-17', 'A2', 'Manuel Santos');
+INSERT INTO animaisCapturado VALUES('mamífero', 'artiodáctilo', 'cervídeo', 'veado', 'Luka', '423666', 'feminino', 'Gerês', '2018-12-20', '2018-08-18', 'A2', 'Manuel Santos');
+INSERT INTO animaisCativeiro VALUES('mamífero', 'artiodáctilo', 'cervídeo', 'veado', 'Kilu', '323666', 'feminino', '2008-04-03', 'Kalu', 'Kaki', '223666', '123666', 'A2', 'Manuel Santos');
+INSERT INTO animaisCativeiro VALUES('mamífero', 'artiodáctilo', 'cervídeo', 'veado', 'Kuli', '524666', 'masculino', '2008-03-04', 'Luka', 'Kaki', '423666', '123666', 'A2', 'Manuel Santos');
+
+INSERT INTO animaisCapturado VALUES('aves', 'psittaciformes', 'psittacidae', 'arara-azul-pequena', 'Ará', '123555', 'masculino', 'Paraná', '2017-12-21', '2017-06-21', 'A5', 'Maria Gomes');
+INSERT INTO animaisCapturado VALUES('aves', 'psittaciformes', 'psittacidae', 'arara-azul-pequena', 'Zará', '133555', 'masculino', 'Paraná', '2017-12-21', '2017-08-21', 'A5', 'Maria Gomes');
+INSERT INTO animaisCapturado VALUES('aves', 'psittaciformes', 'psittacidae', 'arara-azul-pequena', 'Rará', '223555', 'femino', 'Uruguai', '2018-12-21', '2017-10-21', 'A5', 'Maria Gomes');
+INSERT INTO animaisCativeiro VALUES('aves', 'psittaciformes', 'psittacidae', 'arara-azul-pequena', 'Rara', '323555', 'masculino', '2009-05-07', 'Rará', 'Ará', '223555', '123555', 'A5', 'Maria Gomes');
+INSERT INTO animaisCativeiro VALUES('aves', 'psittaciformes', 'psittacidae', 'arara-azul-pequena', 'Zula', '423555', 'feminino', '2009-05-07', 'Rará', 'Ará', '223555', '123555', 'A5', 'Maria Gomes');
+INSERT INTO animaisCativeiro VALUES('aves', 'psittaciformes', 'psittacidae', 'arara-azul-pequena', 'Zura', '523555', 'feminino', '2009-05-07', 'Rará', 'Ará', '223555', '123555', 'A5', 'Maria Gomes');
+
+INSERT INTO espacos VALUES('A1', '2000', 'quente/seca', 'misto');
+INSERT INTO espacos VALUES('A2', '1500', 'fria/seca', 'terrestre');
+INSERT INTO espacos VALUES('A3', '1200', 'quente/humida', 'terrestre');
+INSERT INTO espacos VALUES('A4', '1100', 'quente/humida', 'terrestre');
+INSERT INTO espacos VALUES('A5', '1600', 'quente/humida', 'terrestre');
+
+INSERT INTO funcionario VALUES('Joaquim Silva', '123123123', '2003-01-02', '919999999', 'Maria Gomes', 'tratador');
+INSERT INTO funcionario VALUES('Joaquim Silva', '123123123', '2003-01-02', '266787809', 'Maria Gomes', 'tratador');
+INSERT INTO funcionario VALUES('Manuel Santos', '123123124', '2003-04-01', '919999998', 'Maria Gomes', 'tratador');
+INSERT INTO funcionario VALUES('Manuel Santos', '123123124', '2003-04-01', '266787808', 'Maria Gomes', 'tratador');
+INSERT INTO funcionario VALUES('Maria Gomes', '123123125', '2003-01-01', '919999997', 'Manuela Torres', 'tratador');
+INSERT INTO funcionario VALUES('Maria Gomes', '123123125', '2003-01-01', '266787807', 'Manuela Torres', 'tratador');
+INSERT INTO funcionario VALUES('Mariana Silva', '123123126', '2004-02-01', '919999996', 'Manuela Torres', 'tratador auxiliar');
+INSERT INTO funcionario VALUES('Mariana Silva', '123123126', '2004-02-01', '266787806', 'Manuela Torres', 'tratador auxiliar');
+INSERT INTO funcionario VALUES('Jorge Gomes', '123123127', '2004-03-01', '919999995', 'Manuela Torres', 'tratador auxiliar');
+INSERT INTO funcionario VALUES('Jorge Gomes', '123123127', '2004-03-01', '266787807', 'Manuela Torres', 'tratador auxiliar');
+INSERT INTO funcionario VALUES('Francisco Jorge', '123123128', '2004-03-01', '919999994', 'Manuela Torres', 'tratador auxiliar');
+INSERT INTO funcionario VALUES('Francisco Jorge', '123123128', '2004-03-01', '266787806', 'Manuela Torres', 'tratador auxiliar');
+INSERT INTO funcionario VALUES('Manuel Ferreira', '123123129', '2004-02-01', '919999996', 'Manuela Torres', 'administrativo');
+INSERT INTO funcionario VALUES('Manuel Ferreira', '123123129', '2004-02-01', '266787806', 'Manuela Torres', 'administrativo');
+INSERT INTO funcionario VALUES('Manuela Torres', '123123130', '2004-04-01', '919999996', 'Manuel Ferreira', 'administrativo');
+INSERT INTO funcionario VALUES('Manuela Torres', '123123130', '2004-04-01', '266787806', 'Manuel Ferreira', 'administrativo');
+INSERT INTO funcionario VALUES('Pedro Vale', '123123131', '2004-05-01', '919999986', 'Manuel Ferreira', 'veterinario');
+INSERT INTO funcionario VALUES('Pedro Vale', '123123131', '2004-05-01', '266787816', 'Manuel Ferreira', 'veterinario');
+INSERT INTO funcionario VALUES('Isabel Soares', '123123132', '2004-06-01', '919999976', 'Pedro Vale', 'veterinario');
+INSERT INTO funcionario VALUES('Isabel Soares', '123123132', '2004-06-01', '266787826', 'Pedro Vale', 'veterinario');
+
+INSERT INTO administrativo VALUES('Manuel Ferreira', '123123129', 'Manuela Torres');
+INSERT INTO administrativo VALUES('Manuela Torres', '123123130', 'Manuel Ferreira');
+
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'Taji');
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'Malii');
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'Aka');
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'TaTa');
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'Cáta');
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'Kata');
+INSERT INTO tratador VALUES('Joaquim Silva', '123123123', 'Mata');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Hipo');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Tapi');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Hita');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Kaki');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Kalu');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Kilu');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Luka');
+INSERT INTO tratador VALUES('Manuel Santos', '123123124', 'Kuli');
+INSERT INTO tratador VALUES('Maria Gomes', '123123125', 'Ará');
+INSERT INTO tratador VALUES('Maria Gomes', '123123125', 'Zará');
+INSERT INTO tratador VALUES('Maria Gomes', '123123125', 'Rará');
+INSERT INTO tratador VALUES('Maria Gomes', '123123125', 'Rara');
+INSERT INTO tratador VALUES('Maria Gomes', '123123125', 'Zula');
+INSERT INTO tratador VALUES('Maria Gomes', '123123125', 'Zura');
+
+INSERT INTO tratadorAux VALUES('Mariana Silva', '123123126', 'A3');
+INSERT INTO tratadorAux VALUES('Mariana Silva', '123123126', 'A4');
+INSERT INTO tratadorAux VALUES('Mariana Silva', '123123126', 'A5');
+INSERT INTO tratadorAux VALUES('Jorge Gomes', '123123127', 'A1');
+INSERT INTO tratadorAux VALUES('Francisco Jorge', '123123128', 'A2');
+INSERT INTO tratadorAux VALUES('Francisco Jorge', '123123128', 'A5');
+
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2005-08-12', 'grávida');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2005-09-12', 'cálcio injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2005-12-12', 'parto');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2006-07-12', 'infecção');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2006-07-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Kaki', '2009-05-12', 'infecção');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Kaki', '2009-05-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Ará', '2009-05-12', 'infecção');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Ará', '2009-05-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Zula', '2009-05-12', 'infecção');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Zula', '2009-05-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Tapi', '2007-08-12', 'infecção');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Tapi', '2007-08-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2006-07-12', 'grávida');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2006-07-12', 'cálcio injectado');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2006-09-12', 'parto');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2007-07-12', 'infecção');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2007-07-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2007-07-12', 'grávida');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2007-07-12', 'cálcio injectado');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2007-09-12', 'parto');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Zula', '2009-06-12', 'infecção');
+INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Zula', '2009-06-12', 'antibiótico injectado');
+
+10.
+(a)
+SELECT DISTINCT animaisCativeiro.local, animaisCapturado.local
+FROM animaisCativeiro, animaisCapturado
+WHERE animaisCativeiro.classe='aves' AND animaisCapturado.classe='aves'
+
+R: A5
+
+(b)
+SELECT DISTINCT animaisCativeiro.local, animaisCapturado.local
+FROM animaisCativeiro, animaisCapturado
+WHERE animaisCativeiro.ordem!='carnívoro' AND animaisCapturado.ordem!='carnívoro'
+
+R: A1, A2
+
+(c)
+SELECT DISTINCT a.nome
+FROM animaisCativeiro as a, animaisCativeiro as c, animaisCativeiro as k
+WHERE c.nome!='Kilu' and a.nome=c.nome and (a.nomepai=c.nomepai or a.nomemae=c.nomemae) and k.nome='Kilu' and c.especie=k.especie
+
+R: Kuli
+
+(d)
+SELECT f.contactos
+FROM funcionario as f, animaisCativeiro as a
+WHERE a.nome='Kata' and f.nome=a.tratador
+
+R: 919999999 e 266787809
+
+(e)
+SELECT DISTINCT fr.contactos
+FROM funcionario as f, animaisCativeiro as a, tratadoraux as ta, funcionario as fr
+WHERE a.nome='Kata' and ta.locaisresp=a.local and f.nome=ta.nome and fr.nome=f.responsavel
+
+R: 919999996 e 266787806
+
+(f)
+SELECT DISTINCT diagnostico, data
+FROM vet
+WHERE nomeAnimal='Mali'
+
+R: antibiótico injectado  2006-07-12
+   cálcio injectado       2005-09-12
+   grávida                2005-08-12
+   infecção               2006-07-12
+   parto                  2005-12-12
+
+(g)
