@@ -1,7 +1,0 @@
-Alinea 1
-
-usar array multidimensional para organizar texto separado
-
-
-toLowerCase()
-[^a-zA-Z0-9]

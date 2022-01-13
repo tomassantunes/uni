@@ -1,5 +1,3 @@
-package SquareCoder;
-
 import java.beans.ExceptionListener;
 // alinea 1
 import java.text.Normalizer;
@@ -11,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 import java.util.stream.Stream;
+
 // alinea 4
 import java.util.Collections;
 
@@ -88,17 +87,17 @@ public class Cipher {
 
       for(var word: words) {
          if (candidate.startsWith(word)) {
-            
             var suffix = candidate.substring(word.length());
             var children = explore(suffix, words);
-
             for(var child: children) {
                var solution = String.format("%s %s", word, child);
-               System.out.println(solution);
                result.add(solution);
             }
          }
       }
+      
+      if (result.isEmpty())
+         result.add(candidate);
 
       return result;
    }
@@ -115,10 +114,10 @@ public class Cipher {
          String text = new String();
 
          for(int k = 0; k < length; k += x) {
-            cipher.add(cipherText.substring(k, k + x)); 
+            cipher.add(cipherText.substring(k, k + x));
          }
 
-         for(int i = 0; i < x; i ++) {
+         for(int i = 0; i < x; i++) {
             for(var y: cipher) {
                text += y.substring(i, i+1);
             }
@@ -128,17 +127,23 @@ public class Cipher {
          cipher.clear();
       }
 
-      List<List<String>> possibleResults = new ArrayList<List<String>>();
+      List<List<String>> resultsCheck = new ArrayList<List<String>>();
 
       for(var candidate: ciphers) {
-         // System.out.println(explore(candidate, words));
-         possibleResults.add(explore(candidate, words));
+         resultsCheck.add(explore(candidate, words));
       }
-      
-      for(var x: possibleResults)
-         System.out.println(x);
 
-      return ciphers;
+      List<String> results = new ArrayList<String>();
+
+      for(var x: resultsCheck) {
+         if(x.size() > 0) {
+            for(var y: x) {
+               results.add(y);
+            }
+         }
+      }
+
+      return results;
    }
 
    
@@ -157,10 +162,8 @@ public class Cipher {
       dicionario.add("bom");
       dicionario.add("alegria");
       dicionario.add("dia");
-      dicionario.add("om");
-      dicionario.add("ale");
-      dicionario.add("gria");
       List<String> brokenCipher = breakCipher(testEnc, dicionario);
       System.out.println(brokenCipher);
+
    }
 }
