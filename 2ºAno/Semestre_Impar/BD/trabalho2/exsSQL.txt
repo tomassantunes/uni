@@ -1,3 +1,4 @@
+-- 8.
 CREATE TABLE animaisCativeiro(
 	classe varchar(20),
 	ordem varchar(20),
@@ -72,6 +73,7 @@ CREATE TABLE vet (
 	diagnostico varchar(50)
 );
 
+-- 9.
 INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Aka', '322456', 'feminino', '2005-12-12', 'Malii', 'Taji', '222456', '123456', 'A3', 'Joaquim Silva');
 INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'TaTa', '422456', 'masculino', '2006-01-20', 'Malii', 'Taji', '222456', '123456', 'A4', 'Joaquim Silva');
 INSERT INTO animaisCativeiro VALUES('mamífero', 'carnívoro', 'felinos', 'tigre', 'Kata', '522456', 'feminino', '2007-03-02', 'TaTa', 'Cáta', '422456', '432456', 'A5', 'Joaquim Silva');
@@ -156,11 +158,11 @@ INSERT INTO tratadorAux VALUES('Jorge Gomes', '123123127', 'A1');
 INSERT INTO tratadorAux VALUES('Francisco Jorge', '123123128', 'A2');
 INSERT INTO tratadorAux VALUES('Francisco Jorge', '123123128', 'A5');
 
-INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2005-08-12', 'grávida');
-INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2005-09-12', 'cálcio injectado');
-INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2005-12-12', 'parto');
-INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2006-07-12', 'infecção');
-INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Mali', '2006-07-12', 'antibiótico injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Malii', '2005-08-12', 'grávida');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Malii', '2005-09-12', 'cálcio injectado');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Malii', '2005-12-12', 'parto');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Malii', '2006-07-12', 'infecção');
+INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Malii', '2006-07-12', 'antibiótico injectado');
 INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Kaki', '2009-05-12', 'infecção');
 INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Kaki', '2009-05-12', 'antibiótico injectado');
 INSERT INTO vet VALUES('Pedro Vale', '123123131', 'Ará', '2009-05-12', 'infecção');
@@ -180,51 +182,89 @@ INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Tapi', '2007-09-12', 'part
 INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Zula', '2009-06-12', 'infecção');
 INSERT INTO vet VALUES('Isabel Soares', '123123132', 'Zula', '2009-06-12', 'antibiótico injectado');
 
-10.
-(a)
-SELECT DISTINCT animaisCativeiro.local, animaisCapturado.local
-FROM animaisCativeiro, animaisCapturado
-WHERE animaisCativeiro.classe='aves' AND animaisCapturado.classe='aves'
+-- 10.
+-- (a)
+SELECT DISTINCT animaisCativeiro.local
+FROM animaisCativeiro
+WHERE animaisCativeiro.classe='aves'
+INTERSECT
+SELECT DISTINCT animaisCapturado.local
+FROM animaisCapturado
+WHERE animaisCapturado.classe='aves';
 
-R: A5
+-- R: A5
 
-(b)
-SELECT DISTINCT animaisCativeiro.local, animaisCapturado.local
-FROM animaisCativeiro, animaisCapturado
-WHERE animaisCativeiro.ordem!='carnívoro' AND animaisCapturado.ordem!='carnívoro'
+-- (b)
+SELECT DISTINCT animaisCativeiro.local
+FROM animaisCativeiro
+WHERE animaisCativeiro.ordem!='carnívoro'
+INTERSECT
+SELECT DISTINCT animaisCapturado.local
+FROM animaisCapturado
+WHERE animaisCapturado.ordem!='carnívoro';
 
-R: A1, A2
+-- R: A1, A2
 
-(c)
+-- (c)
 SELECT DISTINCT a.nome
 FROM animaisCativeiro as a, animaisCativeiro as c, animaisCativeiro as k
-WHERE c.nome!='Kilu' and a.nome=c.nome and (a.nomepai=c.nomepai or a.nomemae=c.nomemae) and k.nome='Kilu' and c.especie=k.especie
+WHERE c.nome!='Kilu' and a.nome=c.nome and (a.nomepai=c.nomepai or a.nomemae=c.nomemae) and k.nome='Kilu' and c.especie=k.especie;
 
-R: Kuli
+-- R: Kuli
 
-(d)
+-- (d)
 SELECT f.contactos
 FROM funcionario as f, animaisCativeiro as a
-WHERE a.nome='Kata' and f.nome=a.tratador
+WHERE a.nome='Kata' and f.nome=a.tratador;
 
-R: 919999999 e 266787809
+-- R: 919999999 e 266787809
 
-(e)
+-- (e)
 SELECT DISTINCT fr.contactos
 FROM funcionario as f, animaisCativeiro as a, tratadoraux as ta, funcionario as fr
-WHERE a.nome='Kata' and ta.locaisresp=a.local and f.nome=ta.nome and fr.nome=f.responsavel
+WHERE a.nome='Kata' and ta.locaisresp=a.local and f.nome=ta.nome and fr.nome=f.responsavel;
 
-R: 919999996 e 266787806
+-- R: 919999996 e 266787806
 
-(f)
+-- (f)
 SELECT DISTINCT diagnostico, data
 FROM vet
-WHERE nomeAnimal='Mali'
+WHERE nomeAnimal='Malii';
 
-R: antibiótico injectado  2006-07-12
-   cálcio injectado       2005-09-12
-   grávida                2005-08-12
-   infecção               2006-07-12
-   parto                  2005-12-12
+-- R: antibiótico injectado  2006-07-12
+--    cálcio injectado       2005-09-12
+--    grávida                2005-08-12
+--    infecção               2006-07-12
+--    parto                  2005-12-12
 
-(g)
+-- (g)
+SELECT distinct vet.nome
+FROM animaiscapturado, vet
+WHERE animaiscapturado.nome=vet.nomeanimal and animaiscapturado.ordem='carnívoro' and vet.diagnostico='grávida'
+UNION
+SELECT distinct vet.nome
+FROM animaiscativeiro, vet
+WHERE animaiscativeiro.nome=vet.nomeanimal and animaiscativeiro.ordem='carnívoro'  and vet.diagnostico='grávida';
+
+-- R: Pedro Vale
+
+-- (h)
+SELECT animaiscapturado.familia, count(animaiscapturado.nome)
+FROM animaiscapturado
+WHERE animaiscapturado.ordem='artiodáctilo'
+group by animaiscapturado.familia
+UNION
+SELECT animaiscativeiro.familia, count(animaiscativeiro.nome)
+FROM animaiscativeiro
+WHERE animaiscativeiro.ordem='artiodáctilo'
+group by animaiscativeiro.familia;
+
+-- R: 
+-- Cervídeo   - 5
+-- Hipopótamo - 3
+
+-- (l)
+SELECT count(animaisCativeiro.nome)
+FROM animaiscativeiro;
+
+-- R: 10

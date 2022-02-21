@@ -3,8 +3,214 @@
     <head>
         <meta charset="utf-8" />
         <title>48511 - SVG</title>
+        <script src="js/animacao.js"></script>
     </head>
     <body>
         <h1>Trabalho de 48511 - SVG</h1>
+        <div id="terminal" style="font-family: monospace;"></div>
+        <div id="svg-container">
+            <g width="1000" height="1000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="sereia">
+                    <g id="cabeca">
+
+                        <radialGradient id="hair" cx="0.5" cy="0.5" r="0.5" fx="0.5" fy="0.2">
+                            <stop offset="0%" stop-color="#d89595"/>
+                            <stop offset="100%" stop-color="#c22727"/>
+                        </radialGradient>
+
+                        <linearGradient id="braco-esq-grad">
+                            <stop offset="0%" stop-color="#ffc41e"/>
+                            <stop offset="50%" stop-color="#ffc41e"/>
+                            <stop offset="90%" stop-color="#feb200"/>
+                        </linearGradient>
+
+                        <linearGradient id="braco-esq-stroke-grad">
+                            <stop offset="0%" stop-color="#fabd17"/>
+                            <stop offset="70%" stop-color="#ecaf12"/>
+                            <stop offset="90%" stop-color="#d89b0e"/>
+                        </linearGradient>
+
+                        <linearGradient id="braco-dir-grad">
+                            <stop offset="0%" stop-color="#feb200"/>
+                            <stop offset="50%" stop-color="#ffc41e"/>
+                            <stop offset="90%" stop-color="#ffc41e"/>
+                        </linearGradient>
+
+                        <linearGradient id="braco-dir-stroke-grad">
+                            <stop offset="0%" stop-color="#d89b0e"/>
+                            <stop offset="70%" stop-color="#ecaf12"/>
+                            <stop offset="90%" stop-color="#fabd17"/>
+                        </linearGradient>
+
+                        <ellipse id="cara" cx="500" cy="145" rx="55" ry="59" fill="#ffc41e"/>
+                        
+                        <circle id="olhoesq" cx="480" cy="150" r="7"/>
+                        <circle id="olhodir" cx="520" cy="150" r="7"/>
+                        
+                        <path id="sob-esq" d="
+                        M 470 140
+                        C 470 140 480 130 490 140" 
+                        fill="transparent" stroke="#3a2811" stroke-width="5"/>
+                        
+                        <path id="sob-dir" d="
+                        M 510 140
+                        C 510 140 520 130 530 140" 
+                        fill="transparent" stroke="#3a2811" stroke-width="5"/>
+
+                        <path id="nariz" d="
+                        M 492 165
+                        C 492 165 500 170 508 165" 
+                        fill="transparent" stroke="#c99917" stroke-width="4"/>
+
+                        <path id="boca" d="
+                        M 485 175
+                        C 485 175 500 190 515 175" 
+                        fill="transparent" stroke="#461509" stroke-width="8" />
+
+                        <path id="dentes" d="
+                        M 490 175
+                        C 490 175 500 180 510 175" 
+                        fill="transparent" stroke="#e2e1b4" stroke-width="3" />
+
+                        <path id="cabelo" d="
+                        M 500 100
+                        C 500 100 480 140 450 145
+                        C 450 145 425 170 500 210
+                        C 500 215 460 220 435 195
+                        C 435 195 430 180 436 174
+                        C 436 174 410 152 436 130
+                        C 436 130 425 120 440 110
+                        C 440 110 425 95 455 90
+                        C 455 90 440 85 447 70
+                        C 447 70 440 77 470 83
+                        C 470 83 490 50 550 85
+                        C 550 85 580 89 565 120
+                        C 565 120 590 140 570 160
+                        C 570 160 565 165 574 167
+                        C 574 167 585 167 585 157
+                        C 585 157 605 175 565 187
+                        C 565 185 575 196 587 190
+                        C 587 190 544 225 500 210
+                        C 500 210 573 185 550 120
+                        C 550 120 527 115 525 110
+                        C 525 110 510 95 500 100"
+                        fill="url(#hair)" />
+
+                        
+
+                        <g id="orelha-esq">
+                            <ellipse id="base-esq" cx="445" cy="155" rx="7" ry="11" fill="#ffc41e"/>
+                            <path d="
+                            M 447 149
+                            C 439 149 443 158 447 162" 
+                            fill="transparent" stroke="#ea8d1c" stroke-width="4" />
+                        </g>
+
+                        <g id="orelha-dir">
+                            <ellipse id="base-dir" cx="555" cy="155" rx="7" ry="11" fill="#ffc41e"/>
+                            <path d="
+                            M 553 149
+                            C 561 149 557 158 553 162" 
+                            fill="transparent" stroke="#ea8d1c" stroke-width="4" />
+                        </g>
+
+                        <path id="pescoco" d="
+                        M 480 190 
+                        C 480 190 495 210 480 220
+                        C 480 220 500 230 520 220
+                        C 520 220 505 210 520 190
+                        L 480 190" 
+                        fill="#ffc41e" />
+                    </g>
+
+                    <g id="tronco" fill="transparent" >
+                        <path id="corpo" d="
+                            M 480 220
+                            C 480 220 440 225 445 230
+                            C 445 230 432 290 445 350
+                            C 445 350 500 380 555 350
+                            C 555 350 568 290 555 230
+                            C 555 230 550 225 520 220" 
+                            fill="#ffc41e" />
+
+                        <path id="braco-dir" d="
+                        M 555 228
+                        C 555 231 575 235 575 260
+                        C 575 270 580 290 545 320
+                        C 545 320 537 330 525 305
+                        C 525 305 550 290 545 255" 
+                        fill="#ffc41e" 
+                        stroke="url(#braco-dir-stroke-grad)" stroke-width="4"/>
+
+                        <path id="braco-esq" d="
+                        M 445 227
+                        C 445 228 435 230 425 235
+                        C 415 245 410 260 407 300
+                        C 410 310 420 307 442 309" 
+                        fill="#ffc41e" />
+
+                        <path id="antebraco-esq" d="
+                        M 407 300
+                        C 410 315 440 310 510 295
+                        C 510 295 530 305 540 300
+                        C 550 295 545 285 535 270
+                        C 530 265 520 270 510 275
+                        C 510 275 465 280 425 285"
+                        fill="url(#braco-esq-grad)" 
+                        stroke="url(#braco-esq-stroke-grad)" stroke-width="4" />
+
+                        <path id="antebraco-dir" d="
+                        M 545 320
+                        C 540 325 525 330 500 310
+                        C 500 310 490 300 465 280
+                        C 465 280 455 280 445 280
+                        C 445 280 455 260 475 265
+                        C 475 265 490 275 535 305
+                        C 535 305 540 315 540 325" 
+                        fill="url(#braco-dir-grad)"
+                        stroke="url(#braco-dir-stroke-grad)" stroke-width="4"/>
+
+                    </g>
+
+                    <g id="parte-inferior" >
+                        <linearGradient id="cauda-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#ff9213"/>
+                            <stop offset="50%" stop-color="#ff7240"/>
+                            <stop offset="80%" stop-color="#ff9213"/>
+                        </linearGradient>
+
+                        <path id="cauda" d="
+                            M 445 350
+                            C 445 350 420 430 485 510
+                            C 485 510 510 555 590 510
+                            C 590 510 620 540 670 490
+                            C 670 490 640 475 610 490
+                            C 610 490 620 455 605 440
+                            C 605 440 600 435 600 420
+                            C 600 420 580 440 585 485
+                            C 585 485 570 495 530 485
+                            C 525 470 525 440 525 420
+                            C 525 410 535 380 555 350
+                            C 555 350 500 380 445 350" 
+                            fill="url(#cauda-grad)" />
+                    </g>
+                </g>
+
+                <g id="companheiro" fill="transparent" >
+                    <path id="tridente" d="
+                        M 750 490
+                        L 750 300
+                        C 750 300 700 295 700 230
+                        L 707 230 700 220 693 230 700 230
+                        M 750 300
+                        L 750 230 757 230 750 220 743 230 750 230
+                        M 750 300
+                        C 750 300 800 295 800 230
+                        L 807 230 800 220 793 230 800 230"
+                    stroke="#8a1f1f" stroke-width="8" />
+                </g>
+            </svg>
+        </div>
+        <script>main();</script>
     </body>
 </html>

@@ -21,7 +21,7 @@ public class Cipher {
 
       normalizedText = Normalizer.normalize(naturalText, Normalizer.Form.NFD);
       normalizedText = normalizedText.toLowerCase();
-      normalizedText = normalizedText.replaceAll("[^a-zA-Z0-9]", "");
+      normalizedText = normalizedText.replaceAll("[^a-z0-9]", "");
 
       return normalizedText;
    }

@@ -1,7 +1,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <g i="cabeca">
+    <g id="cabeca">
 
         <radialGradient id="hair" cx="0.5" cy="0.5" r="0.5" fx="0.5" fy="0.2">
             <stop offset="0%" stop-color="#d89595"/>
@@ -113,7 +113,7 @@
         fill="#ffc41e" />
     </g>
 
-    <g i="tronco" fill="transparent" >
+    <g id="tronco" fill="transparent" >
         <path id="corpo" d="
             M 480 220
             C 480 220 440 225 445 230
@@ -137,8 +137,7 @@
         C 445 228 435 230 425 235
         C 415 245 410 260 407 300
         C 410 310 420 307 442 309" 
-        fill="#ffc41e" 
-        />
+        fill="#ffc41e" />
 
         <path id="antebraco-esq" d="
         M 407 300
@@ -161,5 +160,42 @@
         fill="url(#braco-dir-grad)"
         stroke="url(#braco-dir-stroke-grad)" stroke-width="4"/>
 
+    </g>
+
+    <g id="parte-inferior" >
+        <linearGradient id="cauda-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ff9213"/>
+            <stop offset="50%" stop-color="#ff7240"/>
+            <stop offset="80%" stop-color="#ff9213"/>
+        </linearGradient>
+
+        <path id="cauda" d="
+            M 445 350
+            C 445 350 420 430 485 510
+            C 485 510 510 555 590 510
+            C 590 510 620 540 670 490
+            C 670 490 640 475 610 490
+            C 610 490 620 455 605 440
+            C 605 440 600 435 600 420
+            C 600 420 580 440 585 485
+            C 585 485 570 495 530 485
+            C 525 470 525 440 525 420
+            C 525 410 535 380 555 350
+            C 555 350 500 380 445 350" 
+            fill="url(#cauda-grad)" />
+    </g>
+
+    <g id="companheiro" fill="transparent" >
+        <path id="tridente" d="
+            M 750 490
+            L 750 300
+            C 750 300 700 295 700 230
+            L 707 230 700 220 693 230 700 230
+            M 750 300
+            L 750 230 757 230 750 220 743 230 750 230
+            M 750 300
+            C 750 300 800 295 800 230
+            L 807 230 800 220 793 230 800 230"
+        stroke="#8a1f1f" stroke-width="8" />
     </g>
 </svg>
