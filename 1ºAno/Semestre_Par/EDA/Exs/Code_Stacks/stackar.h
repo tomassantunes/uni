@@ -1,4 +1,4 @@
-typedef int ElementType;
+typedef float ElementType;
 
 #ifndef _Stack_h
 #define _Stack_h

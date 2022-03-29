@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\title{Resumo do artigo "Neural Software Analysis"}
+\author{Tomás Antunes Nº48511}
+\date{Fevereiro 2022}
+\begin{document}
+\maketitle
+\begin{abstract}
+A análise neuronal de software é algo que num futuro próximo irá facilitar o trabalho dos developers, no sentido em que tenta completar o código do developer com o que acha, tendo em conta os dados que tem, ser a melhor forma de ir em relação ao problema em questão. É uma tecnologia que está em crescimento e treino constante, e que, mesmo inconscientemente grande parte dos developers estão a contribuir com software, que mais tarde será analisado por estas tecnologias.
+
+Esta tecnologia é bastante útil na revisão de código, pois esta, ao contrário dos humanos, consegue identificar padrões no código, e facilmente analisa código com informação imprecisa, tornando assim o trabalho de um analista mais fácil.
+\end{abstract}
+\section{Descrição do artigo analisado}
+Neste artigo faz-se uma apresentação de uma tecnologia bastante útil para os developers, a Análise Neuronal de Software. Este artigo está dividido em 10 secções.
+
+Na primeira secção o artigo descreve condições em que esta tecnologia é útil, e provavelmente melhor que os métodos tradicionais de análise de software baseada em lógica. A análise de software tradicional é baseada em ter conclusões definitivas da informação dada, no entanto tal modo de análise, falha muitas vezes a representar incertezas. A análise neuronal, consegue lidar com informação imprecisa, ou seja, quanto mais imprecisa for a informação, mais adequada é a análise neuronal. Outro cenário em que a análise neuronal é mais eficaz, é no caso dos programas que têm critérios de correção bem definidos, ou especificação que diz quando uma resposta dada é a que o humano quer, sem verificar com o mesmo. Neste caso a análise neuronal é mais eficaz, pois como já existe uma resposta certa definida, é dispensada assim, a análise humana do código.
+
+Na secção 2, o artigo explica a framework conceptual da análise neuronal de software, explicando assim, como esta funciona. As análises neuronais de software têm uma arquitetura que consiste em 5 elementos, um code corpus para aprender de exemplos de código extraídos que sejam apropriados para o problema em questão. Estes exemplos são então transformados em vetores, baseados em representações conhecidas pelo compilador, árvores abstratas de syntax ou uma representação do código desenvolvida para aprendizagem baseada na análise. De seguida estes exemplos são usados como treino pela tecnologia neuronal. Depois do treino estar concluído, a análise neuronal entra em fase de previsão, onde o developer a consulta com código nunca antes visto pela mesma. O modelo apresenta sugestões para o código em questão, que é dada diretamente ao developer ou passa por um processo de validação e ranking, tendo em conta o seu treino, para apresentar a melhor proposta ao developer.
+
+Assim a análise neuronal pode ser muito útil e também eficaz na análise de código, facilitando não só o trabalho dos developers, mas também o dos analistas.
+\begin{thebibliography}{8}
+\bibitem{ref1}
+ Author, F.: Michael Pradel e Satish Chandra, Neural Software Analysis,
+Communications of the ACM Volume 65,
+\textbf 86–96 (2022)
+\end{thebibliography}
+\end{document}

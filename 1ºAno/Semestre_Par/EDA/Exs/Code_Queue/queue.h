@@ -1,4 +1,4 @@
-typedef int ElementType;
+typedef float ElementType;
 
 #ifndef _Queue_h
 #define _Queue_h

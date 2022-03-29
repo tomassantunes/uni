@@ -186,8 +186,8 @@ int q1(long n) {
 }
 
 // 2.
-//int main(){
-   //Stack S = CreateStack(100);
+int main(){
+   Stack S = CreateStack(100);
 
 // 	// 2.a) 23 56- 3* 1 3 4 / + /
 // 	// 2.b) 2 4 7 32 / + 7 5 - 3 *- -
@@ -292,7 +292,35 @@ int q1(long n) {
 // 	Push(e - f, S);
 // 	printf("Resultado = %f \n", Top( S ));
 // 	Pop( S );
-//}
+//
+// 19 2 + 4 3 + / 24 3 3 + /
+
+   float a,b;
+   Push(19, S);
+   Push(2, S);
+   b = Pop(S);
+   a = Pop(S);
+   Push(a+b, S);
+   Push(4, S);
+   Push(3, S);
+   b = Pop(S);
+   a = Pop(S);
+   Push(a+b, S);
+   b = Pop(S);
+   a = Pop(S);
+   Push(a/b, S);
+   Push(24, S);
+   Push(3, S);
+   Push(3, S);
+   b = Pop(S);
+   a = Pop(S);
+   Push(a+b, S);
+   b = Pop(S);
+   a = Pop(S);
+   Push(a/b, S);
+   printf("%.2f\n", Pop(S));
+   printf("%.2f\n", Pop(S));
+}
 
 
 // 3.
