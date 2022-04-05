@@ -2,6 +2,8 @@
 #define doubleLList_h
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 typedef int ElementType;
 
 struct DNode;
@@ -18,10 +20,12 @@ int IsEmptyDList(DList L);
 void InsertDList(ElementType X, DPosition P);
 void InsertDListIth(ElementType X, int i, DList L);
 void addDList(ElementType X, DList L);
-DPosition FindDList(ElementType e);
+DPosition FindDList(ElementType e, DList L);
 void DeleteElement(ElementType e, DList L);
 ElementType RemoveElementAt(int i, DList L);
 DPosition Advance(DPosition P);
 DPosition Back(DPosition P);
 ElementType Retrieve(DPosition P);
 void PrintDList(char *name, DList L);
+
+#endif /* doubleLList_h */
