@@ -4,7 +4,7 @@ struct DNode {
     ElementType data;
     DPosition next;
     DPosition prev;
-} DNode;
+};
 
 struct DListStruct {
     int size;
@@ -161,7 +161,7 @@ ElementType Retrieve(DPosition P) {
 }
 
 void PrintDList(char *name, DList L) {
-    
+    // https://codereview.stackexchange.com/questions/188792/double-linked-list-implementation-in-c
 }
 
 int main() {
