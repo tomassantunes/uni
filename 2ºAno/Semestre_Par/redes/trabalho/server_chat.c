@@ -25,10 +25,11 @@ int valueinarray(char* val, char* arr[])
     return 0;
 }
 
-void sendToAll(char* message) {
+void sendToAll(char* message, int index) {
     int i = 0;
     while(clients[i] != "0") {
-        write(i + 4, message, strlen(message)+1);
+        if(i != index)
+            write(i + 4, message, strlen(message)+1);
         i++;
     }
 }
@@ -40,7 +41,7 @@ void sendToUser(char* user, char* message) {
             break;
         i++;
     }
-    write(i + 4, message, strlen(message)+1);
+    write(i + 4, message, strlen(message));
 }
 
 int process_client(int sock, char *clients[]) {
@@ -58,49 +59,44 @@ int process_client(int sock, char *clients[]) {
 
     if(clients[index] == "0") {
         clients[index] = strdup(buf);
-        
         return 1;
     }
 
     char* user = strtok(strdup(buf), " ");
-    
-    int isNick = valueinarray(user, clients); // verifica se a primeira string é um nome de utilizador
 
-    if(isNick) {
+    if(user[0] == '-') {
         // mensagem para outro cliente
-        printf("- %s\n", buf);
 
-        char message[BUFSIZE] = "- ";
+        user++; // remover primeiro caracter da string user
+        if(!valueinarray(user, clients)) // se o cliente nao existir
+            return 0;
+
+        printf("%s\n", buf);
+
+        char message[BUFSIZE] = "-";
         strcat(message, clients[index]);
         strcat(message, " ");
         
         int sz = 0;
         int j = 0;
 
-        char result[BUFSIZE];
         char* aux = strdup(buf);
 
-        char* token = strtok(aux, " ");
-
-        while(token[sz] != '\0') { // tamanho do nome
+        while(user[sz] != '\0') { // tamanho do nome
+            printf("%c\n", user[sz]);
             sz++;
         }
-
-        for(int i = sz + 1; aux[i] != '\0'; i++) {
-            result[j] = aux[i];
-            j++;
-        }
-
-        strcat(message, result);
+        aux += sz + 2; // remover -<user> da mensagem
+        printf("aux: %s\n", aux);
+        strcat(message, strdup(aux));
         sendToUser(user, message);
 
-    } else {
+    } else if(user[0] == '+') {
         // mensagem para todos
-        printf("+ %s \n", buf);
+        printf("%s \n", buf);
         
-        char message[BUFSIZE] = "+ ";
-        strcat(message, buf);
-        sendToAll(message);
+        char* message = strdup(buf);
+        sendToAll(message, index);
     }
 
     return 1;
@@ -185,7 +181,11 @@ int main(int argc, char const *argv[]) {
                     if (process_client(i, clients) == 0) { // client close()d
                         FD_CLR(i, &master);
                         close(i);
-                        printf("%s disconnected.\n", clients[i-4]);
+                        
+                        char disconnect[BUFSIZE] = "";
+                        strcat(disconnect, clients[i-4]);
+                        strcat(disconnect, " disconnected.");
+                        sendToAll(disconnect, i-4);
                     } else { /* already processed */ }
                 }
             }
