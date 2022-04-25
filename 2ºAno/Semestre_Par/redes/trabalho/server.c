@@ -64,18 +64,20 @@ int process_client(int sock, char *clients[]) {
         return 1;
     }
 
-    char* user = strtok(strdup(buf), " ");
+    char* user = strtok(strdup(buf), " "); // retira do buf o nome do utilizador a ser enviada a mensagem
 
     if(user[0] == '-') {
         // mensagem para outro cliente
 
         user++; // remover primeiro caracter da string user
         if(!valueinarray(user, clients)) // se o cliente nao existir
-            return 0;
+            return 1;
 
         printf("%s\n", buf);
 
         char message[BUFSIZE] = "-";
+
+        // adicionar o nome do utilizador que enviou
         strcat(message, clients[index]);
         strcat(message, " ");
         
@@ -85,11 +87,11 @@ int process_client(int sock, char *clients[]) {
         char* aux = strdup(buf);
 
         while(user[sz] != '\0') { // tamanho do nome
-            printf("%c\n", user[sz]);
             sz++;
         }
         aux += sz + 2; // remover -<user> da mensagem
-        printf("aux: %s\n", aux);
+
+        // junção da mensagem a ser enviada com o nome de utilizador de quem enviou
         strcat(message, strdup(aux));
         sendToUser(user, message);
 
