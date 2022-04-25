@@ -12,8 +12,8 @@
 
 char *clients[MAXCLIENTS];
 
-int valueinarray(char* val, char* arr[])
-{
+// verifica se val está no array arr[]
+int valueinarray(char* val, char* arr[]) {
     int i;
     for(i = 0; i < MAXCLIENTS; i++)
     {
@@ -25,6 +25,7 @@ int valueinarray(char* val, char* arr[])
     return 0;
 }
 
+// envia uma mensagem a todos os utilizadores exluindo aquele que enviou
 void sendToAll(char* message, int index) {
     int i = 0;
     while(clients[i] != "0") {
@@ -34,6 +35,7 @@ void sendToAll(char* message, int index) {
     }
 }
 
+// envia uma mensagem para o utilizador <user>
 void sendToUser(char* user, char* message) {
     int i = 0;
     while(clients[i] != "0") {
