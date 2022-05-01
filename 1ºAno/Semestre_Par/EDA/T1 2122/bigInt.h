@@ -2,8 +2,11 @@
 #define bigInt_h
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-// falta os structs
+struct BigInt;
+typedef struct BigInt *BigInt;
 
 BigInt big_new(char *num);
 BigInt sum_b(BigInt a, BigInt b);

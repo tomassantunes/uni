@@ -7,11 +7,12 @@ struct DNode {
 };
 
 struct DListStruct {
-    int size;
     void(*destroy)(void *data);
     DPosition first;
     DPosition last;
 };
+
+DNode head = NULL;
 
 DList CreateDList(void) {
     DList list = calloc(1, sizeof(DList));
@@ -32,7 +33,14 @@ void MakeEmptyDList(DList L) {
 }
 
 int SizeDList(DList L) {
-    return L->size;
+    int count = 0;
+    DPosition it = L->first;
+    while(it->next != NULL) {
+        count++;
+        it = it->next;
+    }
+
+    return count;
 }
 
 DPosition DHeader(DList L) {
@@ -44,7 +52,7 @@ DPosition DFooter(DList L) {
 }
 
 int IsEmptyDList(DList L) {
-    return L->size == 0;
+    return SizeDList(L) == 0;
 }
 
 void InsertDList(ElementType X, DPosition P) {
@@ -61,7 +69,10 @@ void InsertDList(ElementType X, DPosition P) {
 }
 
 void InsertDListIth(ElementType X, int i, DList L) {
-
+    DPosition it = L->first;
+    for(i; i > 0; i--)
+        it = it->next;
+    
 }
 
 void addDList(ElementType X, DList L) {
@@ -93,7 +104,6 @@ void DeleteElement(ElementType e, DList L) {
 
     for(DPosition it = L->first; it != NULL; it = it->next) {
         if(cmp(it->data, e)) {
-            L->size--;
 
             if(!it->prev && !it->next) { // apenas existe o elemento e
                 MakeEmptyDList(L);
@@ -161,9 +171,10 @@ ElementType Retrieve(DPosition P) {
 }
 
 void PrintDList(char *name, DList L) {
-    // https://codereview.stackexchange.com/questions/188792/double-linked-list-implementation-in-c
-}
+    DPosition it = L->first;
 
-int main() {
-    printf("Hello World!\n");
+    while(it->next != NULL) {
+        printf(" %d ", it->data);
+        it = it->next;
+    }
 }
