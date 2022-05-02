@@ -7,7 +7,7 @@
 typedef int ElementType;
 
 struct DNode;
-struct  DListStruct;
+struct DListStruct;
 typedef struct DNode *DPosition;
 typedef struct DListStruct *DList;
 

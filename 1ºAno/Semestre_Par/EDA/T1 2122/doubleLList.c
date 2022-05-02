@@ -35,7 +35,7 @@ void MakeEmptyDList(DList L) {
 int SizeDList(DList L) {
     int count = 0;
     DPosition it = L->first;
-    while(it->next != NULL) {
+    while(it != NULL) {
         count++;
         it = it->next;
     }
@@ -44,11 +44,11 @@ int SizeDList(DList L) {
 }
 
 DPosition DHeader(DList L) {
-    return L->first;
+    return L->first ? L->first : NULL;
 }
 
 DPosition DFooter(DList L) {
-    return L->last;
+    return L->last ? L->last : NULL;
 }
 
 int IsEmptyDList(DList L) {
@@ -60,38 +60,69 @@ void InsertDList(ElementType X, DPosition P) {
 }
 
 void InsertDListIth(ElementType X, int i, DList L) {
-    DPosition it = L->first;
     DPosition new = malloc(sizeof(DPosition));
-
-    for(i; i > 0; i--)
-        it = Advance(it);
-    
     new->data = X;
-    it->prev = new;
-    new->next = it;
-    it = new;
+    new->prev = NULL;
+    new->next = NULL;
+    
+    if(L->first != NULL) {
+        if(i >= SizeDList(L)) {
+            DPosition tmp = L->first;
+            while(tmp->next != NULL) {
+                tmp = tmp->next;
+            }
+            tmp->next = new;
+            new->prev = tmp;
+            L->last = new;
 
-    if(i==0) { head = new; }
+        } else {
+            DPosition it = L->first;
+            DPosition temp = NULL;
+
+            for(i; i > 0; i--)
+                it = Advance(it);
+            
+            temp = it->next;
+            temp->prev = it;
+
+            it->next = new;
+            new->prev = it;
+            new->next = temp;
+            temp->prev = new;
+        }
+    } else {
+        L->first = new;
+        L->last = new;
+        head = L->first;
+    }
 }
 
 void addDList(ElementType X, DList L) {
     DPosition new = malloc(sizeof(DPosition));
-    DPosition tmp = L->first;
-
-    if(SizeDList(L) != 0)
-        head = L->first;
-
-    while(tmp->next != NULL)
-        tmp = Advance(tmp);
-
     new->data = X;
-    tmp->next = new;
-    L->last = new;
+    new->prev = NULL;
+    new->next = NULL;
+    
+    if(L->first != NULL) {
+        DPosition tmp = L->first;
+
+        while(tmp->next != NULL)
+            tmp = Advance(tmp);
+
+        tmp->next = new;
+        new->prev = tmp;
+        L->last = new;
+    } else {
+        L->first = new;
+        L->last = new;
+        head = L->first;
+    }
+
 }
 
 DPosition FindDList(ElementType e) {
     DPosition tmp = head;
-    while(tmp->next != NULL) {
+    while(tmp != NULL) {
         if(tmp->data == e) { return tmp; }
         tmp = Advance(tmp);
     }
@@ -177,8 +208,9 @@ ElementType Retrieve(DPosition P) {
 void PrintDList(char *name, DList L) {
     DPosition it = L->first;
 
-    while(it->next != NULL) {
-        printf(" %d ", it->data);
+    while(it != NULL) {
+        printf("%d ", it->data);
         it = it->next;
     }
+    printf("\n");
 }
