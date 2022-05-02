@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "doubleLList.c"
 
 struct BigInt;
 typedef struct BigInt *BigInt;

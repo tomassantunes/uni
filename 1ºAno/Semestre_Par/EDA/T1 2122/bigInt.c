@@ -5,8 +5,8 @@ struct BigInt {
     int size;
 };
 
-int[] tranfosrmCharInt(BigInt a) {
-    int result[a->size];
+int* tranfosrmCharInt(BigInt a) {
+    int* result = malloc(a->size);
 
     for(int i = 0; i < a->size; i++) {
         result[i] = (int)a->number[i] - '0';    
@@ -31,73 +31,40 @@ BigInt big_new(char* num) {
 }
 
 BigInt sum_b(BigInt a, BigInt b) {
-    int[] firstNum = tranfosrmCharInt(a);
-    int[] secondNum = tranfosrmCharInt(b);
-    int sz1 = a->size, sz2 = b->size;
-
-    if(sz1 > sz2) {
-        int aux = sz1 - sz2 + 1;
+    if(a->size > b->size) {
+        int aux = a->size - b->size + 1;
         
-        sz1++;
-        sz2 += aux;
+        int sza = a->size + 1;
+        int szb = a->size + aux; 
 
-        int arr3[sz1], arr4[sz2];
-        arr3[0] = 0;
+        DList aList = CreateDList();
+        DList bList = CreateDList();
 
-        for(int i = 0; i < aux; i++) {
-            arr4[i] = 0;
-        }
+        addDList(0, aList);
+        for(int i = 0; i < a->size; i++)
+            addDList((int)a->number[i] - '0', aList);
 
-        for(int i = 1; i < sz1; i++) {
-            arr3[i] = firstNum[i-1];
-        }
+        for(int i = 0; i < aux; i++)
+            addDList(0, bList);
+
+        for(int i = 0; i < b->size; i++)
+            addDList((int)b->number[i] - '0', bList);
+
+        PrintDList("tommy", aList);
+        PrintDList("daniels", bList);
 
 
-        for(int i = aux; i < sz2; i++) {
-            arr4[i] = secondNum[i-aux];
-        }
-    } else {
-        int aux = sz2 - sz1 + 1;
-        
-        sz1 += aux;
-        sz2++;
+    } else if(a->size < b->size) {
+        int aux = a->size - b->size + 1;
 
-        int arr3[sz1], arr4[sz2];
-        arr4[0] = 0;
+        int sza = b->size + aux; 
+        int szb = b->size + 1;
 
-        for(int i = 0; i < aux; i++) {
-            arr3[i] = 0;
-        }
+    } else if(a->size == b->size) {
+        int sza = a->size + 1;
+        int szb = b->size + 1;
 
-        for(int i = aux; i < sz2; i++) {
-            arr3[i] = firstNum[i-aux];
-        }
-
-        for(int i = 1; i < sz1; i++) {
-            arr4[i] = secondNum[i-1];
-        }
     }
-
-    int sum[sz1], tmp;
-    for(int i = 0; i < sz1; i++) 
-        sum[i] = 0;
-
-    for(int i = sz1 - 1; i >= 0; i--) {
-        tmp = arr3[i] + arr4[i];
-        if(tmp >= 10) {
-            tmp -= 10;
-            sum[i-1]++;
-        }
-        
-        sum[i] += tmp;
-    }
-
-    char result[sz1];
-    for(int i = 0; i < sz1; i++)
-        result[i] = (char)(sum[i] + '0');
-
-    BigInt resultBig = big_new(result);
-    return resultBig;
 }
 
 BigInt sub_b(BigInt a, BigInt b) {}
@@ -114,3 +81,9 @@ void print_b(BigInt a) {
 
 // <nome do bigInt>->number para teres o array
 // <nome do bigInt>->size para teres o size
+
+int main() {
+    BigInt a = big_new("123456");
+    BigInt b = big_new("126");
+    sum_b(a, b);
+}

@@ -7,12 +7,12 @@ struct DNode {
 };
 
 struct DListStruct {
-    void(*destroy)(void *data);
+    void(*destroy)(ElementType data);
     DPosition first;
     DPosition last;
 };
 
-DNode head = NULL;
+DPosition head = NULL;
 
 DList CreateDList(void) {
     DList list = calloc(1, sizeof(DList));
@@ -24,7 +24,7 @@ void MakeEmptyDList(DList L) {
     while(it) {
         DPosition tmp = it;
         if(L->destroy) 
-            L->destroy(tmp);
+            L->destroy(tmp->data);
         
         free(tmp);
     }
@@ -56,44 +56,48 @@ int IsEmptyDList(DList L) {
 }
 
 void InsertDList(ElementType X, DPosition P) {
-    DPosition tmp;
-    tmp = malloc(sizeof(struct DNode));
-    if(tmp == NULL) {
-        printf("Out of Memory\n");
-        exit(0);
-    }
-
-    tmp->data = X;
-    tmp->next = P->next;
-    P->next = tmp;
+    P->data = X;
 }
 
 void InsertDListIth(ElementType X, int i, DList L) {
     DPosition it = L->first;
+    DPosition new = malloc(sizeof(DPosition));
+
     for(i; i > 0; i--)
-        it = it->next;
+        it = Advance(it);
     
+    new->data = X;
+    it->prev = new;
+    new->next = it;
+    it = new;
+
+    if(i==0) { head = new; }
 }
 
 void addDList(ElementType X, DList L) {
-    DPosition tmp;
-    tmp = malloc(sizeof(struct DNode));
-    if(tmp == NULL) {
-        printf("Out of Memory\n");
-        exit(0);
-    }
+    DPosition new = malloc(sizeof(DPosition));
+    DPosition tmp = L->first;
 
-    L->last->next = X;
-    tmp->data = X;
-    tmp->prev = L->last->data;
-    L->last = tmp;
+    if(SizeDList(L) != 0)
+        head = L->first;
+
+    while(tmp->next != NULL)
+        tmp = Advance(tmp);
+
+    new->data = X;
+    tmp->next = new;
+    L->last = new;
 }
 
-DPosition FindDList(ElementType e, DList L) {
-    for(DPosition it = L->first; it != NULL; it = it->next) {
-        if(cmp(it->data, e))
-            return it;
+DPosition FindDList(ElementType e) {
+    DPosition tmp = head;
+    while(tmp->next != NULL) {
+        if(tmp->data == e) { return tmp; }
+        tmp = Advance(tmp);
     }
+
+    printf("%d does not exist.", e);
+    exit(0);
 }
 
 void DeleteElement(ElementType e, DList L) {
@@ -103,7 +107,7 @@ void DeleteElement(ElementType e, DList L) {
     }
 
     for(DPosition it = L->first; it != NULL; it = it->next) {
-        if(cmp(it->data, e)) {
+        if(it->data == e) {
 
             if(!it->prev && !it->next) { // apenas existe o elemento e
                 MakeEmptyDList(L);
@@ -151,7 +155,7 @@ ElementType RemoveElementAt(int i, DList L) {
 
     DPosition it = L->first;
     for(i; i > 0; i--) {
-        it = it->next;
+        it = Advance(it);
     }
     ElementType tmp = it->data;
     RemoveElementAt(tmp, L);
