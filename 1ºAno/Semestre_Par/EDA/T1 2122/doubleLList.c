@@ -23,13 +23,13 @@ void MakeEmptyDList(DList L) {
     DPosition it = L->first;
     while(it) {
         DPosition tmp = it;
+        it = it->next;
         if(L->destroy) 
             L->destroy(tmp->data);
         
         free(tmp);
     }
     L->first = L->last = NULL;
-    free(L);
 }
 
 int SizeDList(DList L) {
@@ -66,7 +66,13 @@ void InsertDListIth(ElementType X, int i, DList L) {
     new->next = NULL;
     
     if(L->first != NULL) {
-        if(i >= SizeDList(L)) {
+        if(i == 0) {
+            DPosition tmp = L->first;
+            L->first = new;
+            L->first->next = tmp;
+            tmp->prev = new;
+            head = L->first;
+        } else if(i >= SizeDList(L)) {
             DPosition tmp = L->first;
             while(tmp->next != NULL) {
                 tmp = tmp->next;
@@ -140,17 +146,17 @@ void DeleteElement(ElementType e, DList L) {
     for(DPosition it = L->first; it != NULL; it = it->next) {
         if(it->data == e) {
 
-            if(!it->prev && !it->next) { // apenas existe o elemento e
+            if(!it->prev && !it->next) {
                 MakeEmptyDList(L);
-                exit(0);
-            } else if(!it->next){ // no fim
+                break;
+            } else if(!it->next){
                 it->prev->next = NULL;
                 if (L->destroy) {
                     L->destroy(it->data);
                 }
                 free(it);
-                exit(0);
-            } else if(!it->prev) { // no inicio
+                break;
+            } else if(!it->prev) {
                 DPosition next = it->next;
                 next->prev = NULL;
                 if (L->destroy) {
@@ -159,20 +165,19 @@ void DeleteElement(ElementType e, DList L) {
                 free(it);
 
                 L->first = next;
-                exit(0);
-            } else { // algures no meio
+                break;
+            } else {
                 DPosition next = it->next;
                 DPosition prev = it->prev;
 
                 next->prev = prev;
                 prev->next = next;
 
-                if (L->destroy) {
+                if (L->destroy)
                     L->destroy(it->data);
-                }
                 free(it);
 
-                exit(0);
+                break;
             }
         }
     }
@@ -184,12 +189,17 @@ ElementType RemoveElementAt(int i, DList L) {
         exit(0);
     }
 
+    if(i >= SizeDList(L)) {
+        printf("The list does not have an index of %d.\n", i);
+        exit(0);
+    }
+
     DPosition it = L->first;
     for(i; i > 0; i--) {
         it = Advance(it);
     }
     ElementType tmp = it->data;
-    RemoveElementAt(tmp, L);
+    DeleteElement(tmp, L);
     return tmp;
 }
 
@@ -206,10 +216,15 @@ ElementType Retrieve(DPosition P) {
 }
 
 void PrintDList(char *name, DList L) {
+    if(IsEmptyDList(L)) {
+        printf("List is empty.\n");
+        exit(0);
+    }
+
     DPosition it = L->first;
 
     while(it != NULL) {
-        printf("%d ", it->data);
+        printf("%d", it->data);
         it = it->next;
     }
     printf("\n");

@@ -1,163 +1,344 @@
 #include "bigInt.h"
 
+#define rep(i,n) for(i=0;i<n;i++)
+#define N 156
+
 struct BigInt {
-    char* number;
-    int size;
+    DList number;
+    bool negative;
 };
 
-int* tranfosrmCharInt(BigInt a) {
-    int* result = malloc(a->size);
+BigInt big_new(char* num) {
+    int i;
+    BigInt new = calloc(1, sizeof(BigInt));
+    new->number = CreateDList();
 
-    for(int i = 0; i < a->size; i++) {
-        result[i] = (int)a->number[i] - '0';    
+    if(num[0] == '-') {
+        new->negative = true;
+        i = 1;
+    } else {
+        new->negative = false;
+        i = 0;
+    }
+
+    for(i; num[i] != '\0'; i++) {
+        addDList((int)num[i] - '0', new->number);
+    }
+
+    return new;
+}
+
+int BigIntGreater(BigInt a, BigInt b) {
+    if((SizeDList(a->number) > SizeDList(b->number) || (SizeDList(a->number) == SizeDList(b->number) && a->number->first->data > b->number->first->data))) {
+        return 1;
+    }
+    return 0;
+}
+
+int BigIntGreaterEqual(BigInt a, BigInt b) {
+    if((SizeDList(a->number) >= SizeDList(b->number) || (SizeDList(a->number) == SizeDList(b->number) && a->number->first->data >= b->number->first->data))) {
+        return 1;
+    }
+    return 0;
+}
+
+int BigIntEqual(BigInt a, BigInt b) {
+    DPosition ita = a->number->first;
+    DPosition itb = b->number->first;
+    
+    if(SizeDList(a->number) != SizeDList(b->number)) { return 0; }
+    while(ita != NULL && itb != NULL) {
+        if(ita->data != itb->data) {
+            return 0;
+        }
+        ita = ita->next;
+        itb = itb->next;
+    }
+    
+    return 1;
+}
+
+BigInt BigIntCpy(BigInt src, BigInt dest) {
+    if(!IsEmptyDList(dest->number)) {
+        MakeEmptyDList(dest->number);
+    }
+
+    DPosition ita = src->number->first;
+    while(ita != NULL) {
+        addDList(ita->data, dest->number);
+        ita = ita->next;
+    }
+    return dest;
+}
+
+int* BigIntToArr(BigInt src) {
+    int sz = SizeDList(src->number);
+    int* result = malloc(sz * sizeof(int));
+    DPosition ita = src->number->first;
+    
+    for(int i = 0; i < sz && ita != NULL; i++) {
+        result[i] = ita->data;
+        ita = ita->next;
     }
 
     return result;
 }
 
-BigInt big_new(char* num) {
-    BigInt new = calloc(1, sizeof(BigInt));
+BigInt ArrToBigInt(int* src, int sz) {
+    char* conv = malloc(sz * sizeof(char));
+    int j = 0;
+    while(src[j] == 0) { j++; }
 
-    new->number = num;
-
-    int sz = 0;
-    for(int i = 0; num[i] != '\0'; i++) {
-        sz++;
+    for(int i = 0; i < sz; i++) {
+        if(j < sz)
+            conv[i] = (char)src[j] + '0';
+        j++;
     }
 
-    new->size = sz;
+    BigInt result = big_new(conv);
+    return result;
+}
 
-    return new;
+void ClearZero(BigInt a) {
+    if(IsEmptyDList(a->number)) {
+        printf("List is empty.");
+        exit(0);
+    }
+
+    while(a->number->first->data == 0 && a->number->first != NULL) {
+        a->number->first = a->number->first->next;
+        a->number->first->prev = NULL;
+    }
 }
 
 BigInt sum_b(BigInt a, BigInt b) {
-    DList aList = CreateDList();
-    DList bList = CreateDList();
-    if(a->size > b->size) {
-        int aux = a->size - b->size + 1;
+    if(a->negative && b->negative) {
+        a->negative = false;
+        b->negative = false;
+
+        BigInt result = sum_b(a, b);
+        result->negative = true;
+
+        return result;
+    }
+
+    if(BigIntGreater(a, b)) {
+        if(!a->negative && b->negative) {
+            b->negative = false;
         
-        addDList(0, aList);
-        for(int i = 0; i < a->size; i++)
-            addDList((int)a->number[i] - '0', aList);
-
-        for(int i = 0; i < aux; i++)
-            addDList(0, bList);
-
-        for(int i = 0; i < b->size; i++)
-            addDList((int)b->number[i] - '0', bList);
-
-    } else if(a->size < b->size) {
-        int aux = b->size - a->size + 1;
+            BigInt result = sub_b(a, b);
         
-        addDList(0, bList);
-        for(int i = 0; i < b->size; i++)
-            addDList((int)b->number[i] - '0', bList);
+            return result;
+        }
+    
+        if(a->negative && !b->negative) {
+            a->negative = false;
+            
+            BigInt result = sub_b(a, b);
+            result->negative = true;
 
-        for(int i = 0; i < aux; i++)
-            addDList(0, aList);
+            return result;
+        }
+    } else {
+        if(!a->negative && b->negative) {
+            b->negative = false;
 
-        for(int i = 0; i < a->size; i++)
-            addDList((int)a->number[i] - '0', aList);
+            BigInt result = sub_b(b, a);
+            result->negative = true;
 
-    } else if(a->size == b->size) {
-        addDList(0, aList);
-        addDList(0, bList);
+            return result;
+        }
 
-        for(int i = 0; i < a->size; i++) {
-            addDList((int)a->number[i] - '0', aList);
-            addDList((int)b->number[i] - '0', bList);
+        if(a->negative && !b->negative) {
+            a->negative = false;
+
+            BigInt result = sub_b(b, a);
+
+            return result;
         }
     }
 
-    int sz = SizeDList(aList);
+    if(SizeDList(a->number) > SizeDList(b->number)) {
+        int aux = SizeDList(a->number) - SizeDList(b->number) + 1;
+        
+        InsertDListIth(0, 0, a->number);
+
+        for(int i = 0; i < aux; i++)
+            InsertDListIth(0, 0, b->number);
+
+    } else if(SizeDList(a->number) < SizeDList(b->number)) {
+        int aux = SizeDList(b->number) - SizeDList(a->number) + 1;
+        
+        InsertDListIth(0, 0, b->number);
+
+        for(int i = 0; i < aux; i++)
+            InsertDListIth(0, 0, a->number);
+
+    } else if(SizeDList(a->number) == SizeDList(b->number)) {
+        InsertDListIth(0, 0, a->number);
+        InsertDListIth(0, 0, b->number);
+    }
+
+
+    int sz = SizeDList(a->number)-1;
     int sum[sz], tmp;
     for(int i = 0; i < sz; i++) {
         sum[i] = 0;
     }
 
 
-    DPosition ita = aList->last;
-    DPosition itb = bList->last;
-
-    for(int i = sz - 1; i >= 0; i--) {
-        if(ita == NULL || itb == NULL) { break; }
-        tmp = ita->data + itb->data;
+    DPosition ita = a->number->last;
+    DPosition itb = b->number->last;
+    
+    if(!a->negative && !b->negative) {
+        for(int i = sz - 1; i >= 0; i--) {
+            if(ita == NULL || itb == NULL) { break; }
         
-        if(tmp >= 10) {
-            tmp -= 10;
-            sum[i-1]++;
-        }
+            if(!a->negative && !b->negative) {
+                tmp = ita->data + itb->data;
+        
+                if(tmp >= 10) {
+                    tmp -= 10;
+                    sum[i-1]++;
+                }
 
-        sum[i] += tmp;
-        if(sum[i] >= 10) {
-            sum[i] -= 10;
-            sum[i-1]++;
+                sum[i] += tmp;
+                if(sum[i] >= 10) {
+                    sum[i] -= 10;
+                    sum[i-1]++;
+                }
+                ita = ita->prev;
+                itb = itb->prev;
+            }
         }
-        ita = ita->prev;
-        itb = itb->prev;
     }
 
     char result[sz];
-    for(int i = 0; i < sz; i++)
-        result[i] = (char)(sum[i] + '0');
-    
+    int i = 0;
+    while(sum[i] == 0)
+        i++;
+    for(int j = 0; j < sz; j++) { 
+        if(i < sz)
+            result[j] = (char)(sum[i] + '0'); 
+        i++;
+    }
     BigInt resultBig = big_new(result);
     return resultBig;
-
 }
 
 BigInt sub_b(BigInt a, BigInt b) {
-    DList aList = CreateDList();
-    DList bList = CreateDList();
-    if(a->size > b->size) {
-        int aux = a->size - b->size + 1;
+    int sza = SizeDList(a->number);
+    int szb = SizeDList(b->number);
+    if(sza > szb) {
+        int aux = SizeDList(a->number) - SizeDList(b->number) + 1;
         
-        addDList(0, aList);
-        for(int i = 0; i < a->size; i++)
-            addDList((int)a->number[i] - '0', aList);
+        InsertDListIth(0, 0, a->number);
 
         for(int i = 0; i < aux; i++)
-            addDList(0, bList);
+            InsertDListIth(0, 0, b->number);
 
-        for(int i = 0; i < b->size; i++)
-            addDList((int)b->number[i] - '0', bList);
-
-    } else if(a->size < b->size) {
-        int aux = b->size - a->size + 1;
+    } else if(sza < szb) {
+        int aux = SizeDList(a->number) - SizeDList(b->number) + 1;
         
-        addDList(0, bList);
-        for(int i = 0; i < b->size; i++)
-            addDList((int)b->number[i] - '0', bList);
+        InsertDListIth(0, 0, b->number);
 
         for(int i = 0; i < aux; i++)
-            addDList(0, aList);
+            InsertDListIth(0, 0, a->number);
 
-        for(int i = 0; i < a->size; i++)
-            addDList((int)a->number[i] - '0', aList);
+    } else if(sza == szb) {
+        InsertDListIth(0, 0, a->number);
+        InsertDListIth(0, 0, b->number);
+    } 
 
-    } else if(a->size == b->size) {
-        addDList(0, aList);
-        addDList(0, bList);
+    int sz;
+    if(SizeDList(a->number) > SizeDList(b->number))
+        sz = SizeDList(a->number);
+    else
+        sz = SizeDList(b->number); 
+    int sub[sz];
+    
+    if(!a->negative && !b->negative) {
+        if(sza > szb || (sza == szb && a->number->first->data >= b->number->first->data)) {
+            DPosition it = a->number->first;
+            for(int i = 0; i < sz && it != NULL; i++) {
+                sub[i] = it->data;
+                it = it->next;
+            }
 
-        for(int i = 0; i < a->size; i++) {
-            addDList((int)a->number[i] - '0', aList);
-            addDList((int)b->number[i] - '0', bList);
+            DPosition itb = b->number->last;
+            int tmp;
+            for(int i = sz - 1; i >= 0; i--) {
+                if(itb == NULL) { break; }
+                tmp = sub[i] - itb->data;
+                if(tmp < 0) {
+                    tmp += 10;
+                    sub[i-1]--;
+                }
+                sub[i] = tmp;
+                itb = itb->prev;
+            }
+
+        } else {
+            BigInt result = sub_b(b, a);
+            result->negative = true;
+            return result;
         }
     }
+    char resultSub[sz];
+    int j = 0;
+    while(sub[j] == 0)
+        j++;
+
+    for(int i = 0; i < sz; i++) {
+        if(j < sz)
+            resultSub[i] = (char)(sub[j] + '0'); 
+        j++;
+    }
+
+    BigInt resultSubBig = big_new(resultSub);
+    return resultSubBig;
 }
 
 BigInt mult_b(BigInt a, BigInt b) {
+    int* aArr = BigIntToArr(a);
+    int* bArr = BigIntToArr(b);
+
+    int szc = SizeDList(a->number) + SizeDList(b->number);
+    int* c = malloc((szc) * sizeof(int));
+    for(int i = 0; i < szc; i++) { c[i] = 0; }
+
+    int i = SizeDList(a->number) - 1, j = SizeDList(b->number) - 1, k = szc - 1;
+    int carry = 0, tmp, push_left = 0;
+    while(i >= 0) {
+        k = szc - 1 - push_left++;
+        j = SizeDList(b->number) - 1;
+        while(j >= 0 || carry > 0) {
+            if(j >= 0) {
+                tmp = aArr[i] * bArr[j];
+            } else { tmp = 0; }
+
+            tmp += carry;
+            carry = tmp / 10;
+            c[k] += tmp % 10;
+            carry += c[k] / 10;
+            c[k] %= 10;
+            j--; k--;
+        }
+        i--;
+    }
     
+    BigInt result = ArrToBigInt(c, szc);
+    if((a->negative && !b->negative) || (!a->negative && b->negative)) { result->negative = true; }
+    return result;
 }
 
-BigInt div_b(BigInt a, BigInt b) {}
+BigInt div_b(BigInt a, BigInt b) {} 
 
-BigInt mod_b(BigInt a, BigInt b) {} // sub ate <= que b
+BigInt mod_b(BigInt a, BigInt b) {}
 
 void print_b(BigInt a) {
-    printf("%s\n", a->number);
-}
+    if(a->negative)
+        printf("-");
 
-int main() {
-
+    PrintDList(".", a->number);
 }
