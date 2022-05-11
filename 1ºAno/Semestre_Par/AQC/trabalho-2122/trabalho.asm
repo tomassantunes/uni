@@ -12,18 +12,18 @@ buffer:      .word
 # 	a0 - uma string com o nome do ficheiro a ler 
 # 	a1 - o endereço de um buffer onde a imagem deverá ser escrita
 # Retorna:
-# 	a0 - 
+# 	a0 - array com os valores rgb de cada pixel
 ######################################################
 read_rgb_image:
     li a7, 1024
     la a0, file_name
-    li a1, 1
+    li a1, 0
     ecall
     mv s6, a0
 
     li a7, 63
     mv a0, s6
-    la a1, buffer 
+    la a1, buffer
     li a2, 512
     ecall
     mv s7, a0
@@ -32,6 +32,8 @@ read_rgb_image:
     li a7, 57
     mv a0, s6
     ecall
+    
+    mv a0, s7
 
     ret
 	
