@@ -21,7 +21,11 @@ BTree MakeEmpty( BTree T ){
 
 BTree SetTree( ElementType X, BTree Left, BTree Right ){
     BTree T;
+    T->Element = X;
+    T->Left = Left;
+    T->Right = Right;
     
+    return T;
 }
 
 BTree GetRight( BTree T ){
@@ -37,7 +41,14 @@ BTree GetLeft( BTree T ){
 }
 
 Position Find( ElementType X, BTree T ){
+    while(T->Right != NULL)
+        if(T->Element == X) { return T; }
 
+    while(T->Left != NULL)
+        if(T->Element == X) { return T; }
+
+    return NULL;
+   
 }
 
 
