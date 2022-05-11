@@ -18,6 +18,7 @@ fn main() {
         match client.read_exact(&mut buff) {
             Ok(_) => {
                 let msg = buff.into_iter().take_while(|&x| x != 0).collect::<Vec<_>>();
+                let msg = String::from_utf8(msg).expect("Invalid utf8 message.");
                 println!("Message recv {:?}.", msg);
             },
             Err(ref err) if err.kind() == ErrorKind::WouldBlock => (),
@@ -32,7 +33,6 @@ fn main() {
                 let mut buff = msg.clone().into_bytes();
                 buff.resize(MSG_SIZE, 0);
                 client.write_all(&buff).expect("Writing to socket failed.");
-                println!("Message send {:?}.", msg);
             },
             Err(TryRecvError::Empty) => (),
             Err(TryRecvError::Disconnected) => break
