@@ -9,13 +9,15 @@
 #define PORT 1234 
 #define BUFSIZE 256
 #define MAXCLIENTS 10
+#define MAXPOSTS 10
 
 char *clients[MAXCLIENTS];
+char *posts[MAXPOSTS];
+int post_index = 0;
 
 // verifica se val está no array arr[]
 int valueinarray(char* val, char* arr[]) {
-    int i;
-    for(i = 0; i < MAXCLIENTS; i++)
+    for(int i = 0; i < MAXCLIENTS; i++)
     {
         if(!strcmp(val, arr[i])) {
             return 1;
@@ -53,54 +55,141 @@ int process_client(int sock, char *clients[]) {
 
     n = read(sock, buf, BUFSIZE);
 
+    char* first = strtok(strdup(buf), " "); // retira do buf a primeira palavra
+
     if (n <= 0) {
         return 0; /* client closed socket */
     }
     
     buf[n] = '\0';
+    
+    int sz = 0;
+    char* aux = strdup(buf);
+    while(first[sz] != '\0') { // tamanho da primeira palavra
+        sz++;
+    }
+    aux += sz + 1; // remover primeira palavra
+    
+    if(!strcmp(first, "HELLO")) {
+        sz = 0;
+        int i = 0;
+        while(aux[i] != '\0') { // tamanho do nome
+            if(aux[i] != ' ')
+                sz++;
+            i++;
+        }
 
-    if(clients[index] == "0") {
-        clients[index] = strdup(buf);
-        return 1;
+        if(valueinarray(aux, clients) || sz == 0 || clients[index] != "0") {
+            char msg[BUFSIZE] = "ERR NICK ";
+            strcat(msg, aux);
+            write(sock, msg, strlen(msg));
+            return 1;
+        } 
+
+        if(clients[index] == "0") {
+            clients[index] = aux;
+            char msg[BUFSIZE] = "OK NICK ";
+            strcat(msg, aux);
+            write(sock, msg, strlen(msg));
+            return 1;
+        }
     }
 
-    char* user = strtok(strdup(buf), " "); // retira do buf o nome do utilizador a ser enviada a mensagem
-
-    if(user[0] == '-') {
-        // mensagem para outro cliente
-
-        user++; // remover primeiro caracter da string user
-        if(!valueinarray(user, clients)) // se o cliente nao existir
-            return 1;
-
-        printf("%s\n", buf);
-
-        char message[BUFSIZE] = "-";
-
-        // adicionar o nome do utilizador que enviou
-        strcat(message, clients[index]);
-        strcat(message, " ");
+    if(!strcmp(first, "MSG")) {
+        char* next = strtok(aux, " ");
         
-        int sz = 0;
-        int j = 0;
-
-        char* aux = strdup(buf);
-
-        while(user[sz] != '\0') { // tamanho do nome
+        sz = 0;
+        while(next[sz] != '\0') { // tamanho da segunda palavra
             sz++;
         }
-        aux += sz + 2; // remover -<user> da mensagem
+        aux += sz + 1; // remover segunda palavra
 
-        // junção da mensagem a ser enviada com o nome de utilizador de quem enviou
-        strcat(message, strdup(aux));
-        sendToUser(user, message);
+        if(!strcmp(next, "USER")) {
+            // mensagem para outro cliente
+            char* user = strtok(aux, " ");
+            if(!valueinarray(user, clients)) { // se o cliente nao existir
+                char* msg = "ERR MSG USER";
+                write(sock, msg, strlen(msg));
+                return 1;
+            } else {
+                char* msg = "OK MSG USER";
+                write(sock, msg, strlen(msg));
+            }
 
-    } else if(user[0] == '+') {
-        // mensagem para todos
-        printf("%s \n", buf);
+            printf("%s\n", buf);
+
+            sz = 0;
+            while(user[sz] != '\0') { // tamanho do nickname
+                sz++;
+            }
+            aux += sz + 1; // remover nickname
+
+            // adicionar o nome do utilizador que enviou
+            char message[BUFSIZE] = "FROM ";
+            strcat(message, clients[index]);
+            strcat(message, ": ");
+            
+            // junção da mensagem a ser enviada com o nome de utilizador de quem enviou
+            strcat(message, strdup(aux));
+            sendToUser(user, message);
+
+        } else if(!strcmp(next, "GLOBAL")) {
+            // mensagem para todos
+            printf("%s\n", buf);
+
+            char* ok = "OK MSG GLOBAL";
+            write(sock, ok, strlen(ok));
+
+            char message[BUFSIZE] = "GLOBAL: ";
+            strcat(message, aux);
+            sendToAll(message, index);
+        }
+    }
+
+    if(!strcmp(first, "POST")) {
+        char* next = strtok(aux, " ");
+
+        if(strcmp(next, "GLOBAL")) {
+            char* ok = "ERR POST INVALID TAG";
+            write(sock, ok, strlen(ok));
+            return 1;
+        } else {
+            char* ok = "OK POST GLOBAL";
+            write(sock, ok, strlen(ok));
+        }
         
-        char* message = strdup(buf);
-        sendToAll(message, index);
+        sz = 0;
+        while(next[sz] != '\0') { // tamanho da segunda palavra
+            sz++;
+        }
+        aux += sz + 1; // remover segunda palavra
+        
+        char post[BUFSIZE];
+        sprintf(post, "%s -> %s", clients[index], strdup(aux));
+        posts[post_index++] = strdup(post);
+    }
+
+    if(!strcmp(first, "READ")) {
+        char* next = strtok(aux, " ");
+        if(strcmp(next, "GLOBAL")) {
+            char* ok = "ERR ALLPOSTS INVALID TAG";
+            write(sock, ok, strlen(ok));
+            return 1;
+        } else if(post_index == 0) {
+            char* ok = "ERR ALLPOSTS NO POSTS AVAILABLE";
+            write(sock, ok, strlen(ok));
+            return 1;
+        } else {
+            char ok[BUFSIZE];
+            sprintf(ok, "OK ALL POSTS GLOBAL %d\n", post_index);
+            write(sock, ok, strlen(ok));
+        }
+
+        for(int i = 0; i < post_index; i++) {
+            char post[BUFSIZE];
+            sprintf(post, "POST %d %s\n", i, posts[i]);
+            write(sock, strdup(post), strlen(post));
+        }
     }
 
     return 1;
@@ -112,6 +201,7 @@ int main(int argc, char const *argv[]) {
     
     for(int i = 0; i < 10; i++) {
         clients[i] = "0";
+        posts[i] = "0";
     }
 
     int opt = 1;      // for setsockopt() SO_REUSEADDR, below
@@ -187,8 +277,9 @@ int main(int argc, char const *argv[]) {
                         close(i);
                         
                         char disconnect[BUFSIZE] = "";
-                        strcat(disconnect, clients[i-4]);
+                        strcat(disconnect, strdup(clients[i-4]));
                         strcat(disconnect, " disconnected.");
+                        printf("%s\n", strdup(disconnect));
                         sendToAll(disconnect, i-4);
                     } else { /* already processed */ }
                 }

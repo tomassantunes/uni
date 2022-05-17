@@ -8,6 +8,8 @@ typedef struct Node *PtrToNode;
 typedef PtrToNode List;
 typedef PtrToNode Position;
 
+#include <stdbool.h>
+
 List MakeEmpty( List L );
 bool IsEmpty( List L );
 bool IsLast( Position P, List L );

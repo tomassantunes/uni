@@ -93,7 +93,7 @@ void DeleteList( List L ) { // apagar a lista inteira
 
 
 Position Header( List L ) {
-    return L;
+    return First(L);
 }
 
 
@@ -109,4 +109,64 @@ Position Advance( Position P ) { // ir para o próximo elemento
 
 ElementType Retrieve( Position P ) { // mostrar o elemento na posição P da lista
     return P->Element;
+}
+
+List q3(List L, int n, int m, int k) {
+    List X = NULL;
+    Position Px = Header(X);
+    Position P1 = First(L);
+    int i;
+    for(i = 0; i < n; i++) {
+        if(P1 == NULL)
+            return X;
+        else 
+            P1 = Advance(P1);
+    }
+    
+    while(P1 != NULL && i < m) {
+        Insert(P1->Element, X, Px);
+        Px = Advance(Px);
+        
+        for(int p = 0; p < k; p++) {
+            if(P1 != NULL) {
+                P1 = Advance(P1);
+                i++;
+            } else {
+                return X;
+            }
+        }
+    }
+    return X;
+}
+
+int main() {
+    List L = NULL;
+    printf("here\n");
+    Position header = First(L);
+    Insert(1, L, header);
+    header = Advance(header);
+    Insert(2, L, header);
+    header = Advance(header);
+    Insert(3, L, header);
+    header = Advance(header);
+    Insert(4, L, header);
+    header = Advance(header);
+    Insert(5, L, header);
+    header = Advance(header);
+    Insert(6, L, header);
+    header = Advance(header);
+    Insert(7, L, header);
+    header = Advance(header);
+    Insert(8, L, header);
+    header = Advance(header);
+    Insert(9, L, header);
+    header = Advance(header);
+    Insert(10, L, header);
+    List result = q3(L, 0, 10, 5);
+        
+    header = First(result);
+    for(int i = 0; i < 10; i++) {
+        printf("%d ", header->Element);
+        header = Advance(header);
+    }
 }

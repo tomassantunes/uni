@@ -24,7 +24,7 @@ read_rgb_image:
     li a7, 63
     mv a0, s6
     la a1, buffer
-    li a2, 512
+    li a2, 262144
     ecall
     mv s7, a0
 
