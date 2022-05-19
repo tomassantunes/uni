@@ -31,6 +31,4 @@ void ht_delete(HashTable* table, ElementType key);
 void print_search(HashTable* table, ElementType key);
 void print_table(HashTable* table);
 
-// https://www.journaldev.com/35238/hash-table-in-c-plus-plus
-
 #endif /* hash_table_h */
