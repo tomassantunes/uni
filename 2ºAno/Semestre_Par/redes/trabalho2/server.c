@@ -37,6 +37,19 @@ char* remove_str(char* remove, char* from) {
     return from;
 }
 
+long getNBytes(char* filename) {
+    long count = 0;
+    FILE* file = fopen(filename, "rb");
+
+    if (file== NULL) return -1;
+        fseek(file, 0, SEEK_END);
+    count = ftell(file);
+
+    fclose(file);
+
+    return count;
+}
+
 // envia uma mensagem a todos os utilizadores exluindo aquele que enviou
 void sendToAll(char* message, int index) {
     int i = 0;
@@ -176,9 +189,9 @@ int process_client(int sock, char *clients[]) {
 
         for(int i = 0; i < post_index; i++) {
             char post[BUFSIZE];
-            sprintf(post, "POST %d %s", i, posts[i]);
+            sprintf(post, "POST %d %s\n", i, posts[i]);
             write(sock, strdup(post), strlen(post));
-            write(sock, "\n", strlen("\n"));
+            //write(sock, "\n", strlen("\n"));
         }
     }
 
@@ -186,14 +199,41 @@ int process_client(int sock, char *clients[]) {
         char* next = strtok(aux, " ");
         if(!strcmp(next, "USER")) {
             aux = remove_str(next, aux);
+
+            char* user = strtok(aux, " ");
+            aux = remove_str(user, aux);
+
             char* filename = strtok(aux, " ");
-            FILE *file = fopen(filename, "r");
+            FILE* file = fopen(filename, "r");
             if(!file) {
                 char ok[BUFSIZE];
                 sprintf(ok, "ERR FILE NOT ACCEPTED %s", filename);
                 write(sock, ok, strlen(ok));
+                return 1;
             }
 
+            aux = remove_str(filename, aux);
+            
+            long bytes = (long) atoi(strtok(aux, " "));
+            if(bytes != getNBytes(filename) || bytes > BUFSIZE) {
+                char ok[BUFSIZE];
+                sprintf(ok, "ERR FILE BYTES %s", filename);
+                write(sock, ok, strlen(ok));
+                return 1;
+            }
+
+            char ok[BUFSIZE];
+            sprintf(ok, "OK FILE USER %s", filename);
+            write(sock, ok, strlen(ok));
+
+            char send[BUFSIZE];
+            sprintf(send, "FILEFROM %s USER %s %s %ld\n", clients[index], user, filename, bytes);
+            sendToUser(user, send);
+
+            char fileContents[BUFSIZE];
+            fread(fileContents, 1, bytes, file);
+
+            sendToUser(user, fileContents);
         }
     }
 
