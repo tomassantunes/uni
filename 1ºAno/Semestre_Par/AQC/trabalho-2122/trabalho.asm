@@ -250,8 +250,6 @@ loop_convolution:
     mv s6, a0 # endereco da matriz A
     add s6, s6, t3
 
-    addi s6, s6, 1
-    addi s6, s6, 512
     lbu s5, 0(s6)
     sw s5, 0(s4)
     addi s4, s4, 4
