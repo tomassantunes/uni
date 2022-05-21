@@ -8,7 +8,9 @@ file_name_gray:         .string "imagem.gray"
 buffer_rgb:             .space 786432
 buffer_gray:            .space 262144
 .align 2
-buffer_filtered_conv:   .space 262144
+buffer_filtered_conv_h:   .space 262144
+.align 2
+buffer_filtered_conv_v:   .space 262144
 .align 2
 buffer_coutour:         .space 262144
 matrix_aux:             .word 0,0,0,0,0,0,0,0,0
@@ -190,59 +192,14 @@ convolution:
     li t1, 512
     mv s1, a2
     mv s2, a1
+
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 4
+    li t1, 510
     li t2, 260096
-
-loop_zero_first_line:
-    beqz t1, before_go_last_line
-    sw zero, 0(s1)
-    addi s1, s1, 4
-    addi t1, t1, -1
-    j loop_zero_first_line
-
-before_go_last_line:
-    li t1, 511
-    mv a2, s1
-    mv s1, a2
-    j loop_get_to_last_line
-
-loop_get_to_last_line:
-    beqz t1, before_loop_zero_last_line
-    addi s1, s1, 512
-    addi s1, s1, 512
-    addi s1, s1, 512
-    addi s1, s1, 512
-    addi t1, t1, -1
-    j loop_get_to_last_line
-
-before_loop_zero_last_line:
-    li t1, 512
-    j loop_zero_last_line
-
-loop_zero_last_line:
-    beqz t1, before_loop_zero_column
-    sw zero, 0(s1)
-    addi s1, s1, 4
-    addi t1, t1, -1
-
-before_loop_zero_column:
-    li t1, 512
-    mv a2, s1
-    mv s1, a2
-    j loop_zero_column
-
-loop_zero_column:
-    beqz t1, FIM_ZERO
-    sw zero, 0(s1)
-    sw zero, 2044(s1)
-    addi t1, t1, -1
-    addi s1, s1, 512
-    addi s1, s1, 512
-    addi s1, s1, 512
-    addi s1, s1, 512
-    j loop_zero_column
-
-FIM_ZERO:
-    mv a2, s1
     j loop_convolution
 
 loop_convolution:
@@ -306,14 +263,20 @@ loop_convolution_mul:
 
 update_b:
     beqz t2, FIM_CONV
-    sw t0, 0(a2) # TODO nao mexer na primeira e ultima linha e coluna
-    addi a2, a2, 4
-    mv a1, s2
-    mv s2, s1
+    beqz t1, update_count
+    sw t0, 0(s1)
+    addi s1, s1, 4
+    mv s2, a1
 
     addi t2, t2, -1
+    addi t1, t1, -1
     
     j loop_convolution
+
+update_count:
+    li t1, 510
+    addi s1, s1, 8
+    j update_b
 
 FIM_CONV:
     lw s0, 0(sp)
@@ -326,7 +289,7 @@ FIM_CONV:
     lw s9, 28(sp)
     lw s2, 32(sp)
     addi sp, sp, 36
-    mv a0, a2
+    mv a0, s1
     ret
     
 ######################################################
@@ -379,16 +342,16 @@ loop_div_done:
 loop_countour_sum:
     beqz t1, FIM_COUNTOUR
     
-    lbu t3, 0(t2)
-    addi t2, t2, 1
+    lw t3, 0(t2)
+    addi t2, t2, 4
 
-    lbu t4, 0(a1)
-    addi a1, a1, 1
+    lw t4, 0(a1)
+    addi a1, a1, 4
 
     add t3, t3, t4
     div t3, t3, t5
-    sb t3, 0(a0)
-    addi a0, a0, 1
+    sw t3, 0(a0)
+    addi a0, a0, 4
 
     addi t1, t1, -1
     j loop_countour_sum
@@ -402,11 +365,11 @@ FIM_COUNTOUR:
 loop_strength:
     beqz t1, FIM_C
 
-    lbu t3, 0(a0)
+    lw t3, 0(a0)
     sub t3, t5, t3
-    sb t3, 0(a2)
-    addi a0, a0, 1
-    addi a2, a2, 1
+    sw t3, 0(a2)
+    addi a0, a0, 4
+    addi a2, a2, 4
     
     addi t1, t1, -1
 
@@ -430,16 +393,16 @@ main:
 
     la a0, buffer_gray
     la a1, buffer_sobel_h
-    la a2, buffer_filtered_conv
+    la a2, buffer_filtered_conv_h
     jal convolution
-    mv s0, a0
     
     la a0, buffer_gray
     la a1, buffer_sobel_v
-    la a2, buffer_filtered_conv
+    la a2, buffer_filtered_conv_v
     jal convolution
 
-	mv a1, s0
+	la a0, buffer_filtered_conv_v
+	la a1, buffer_filtered_conv_h
     la a2, buffer_coutour
     jal contour
     
