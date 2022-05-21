@@ -175,7 +175,7 @@ FIM:
 # 	a0 - buffer com o resultado da convoluçaõ da imagem
 ######################################################
 convolution:
-    addi sp, sp, -32
+    addi sp, sp, -36
     sw s0, 0(sp)
     sw s4, 4(sp)
     sw s8, 8(sp)
@@ -184,10 +184,13 @@ convolution:
     sw s7, 20(sp)
     sw s1, 24(sp)
     sw s9, 28(sp)
+    sw s2, 32(sp)
     li t3, 0
     li s7, 262144
     li t1, 512
     mv s1, a2
+    mv s2, a1
+    li t2, 260096
 
 loop_zero_first_line:
     beqz t1, before_go_last_line
@@ -290,20 +293,25 @@ loop_convolution_mul:
     beqz s8, update_b
 
     lw s0, 0(s4)
-    lw s9, 0(a1) # FIXME out of range
+    lw s9, 0(s2)
 
     mul s0, s0, s9
     add t0, t0, s0
 
     addi s4, s4, 4
-    addi a1, a1, 4
+    addi s2, s2, 4
     addi s8, s8, -1
 
     j loop_convolution_mul
 
 update_b:
-    sw t0, 0(a2)
+    beqz t2, FIM_CONV
+    sw t0, 0(a2) # TODO nao mexer na primeira e ultima linha e coluna
     addi a2, a2, 4
+    mv a1, s2
+    mv s2, s1
+
+    addi t2, t2, -1
     
     j loop_convolution
 
@@ -316,7 +324,8 @@ FIM_CONV:
     lw s7, 20(sp)
     lw s1, 24(sp)
     lw s9, 28(sp)
-    addi sp, sp, 32
+    lw s2, 32(sp)
+    addi sp, sp, 36
     mv a0, a2
     ret
     
