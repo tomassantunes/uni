@@ -8,15 +8,55 @@ file_name_gray:         .string "imagem.gray"
 buffer_rgb:             .space 786432
 buffer_gray:            .space 262144
 .align 2
-buffer_filtered_conv:   .space 87040
+buffer_filtered_conv:   .space 262144
 .align 2
-buffer_coutour:         .space 87040
+buffer_coutour:         .space 262144
 matrix_aux:             .word 0,0,0,0,0,0,0,0,0
 
 buffer_sobel_h:         .word   1, 0, -1, 2, 0, -2, 1, 0, -1
 buffer_sobel_v:         .word   1, 2, 1, 0, 0, 0, -1, -2, -1
 
 .text
+
+######################################################
+# Funcao: max
+# Descricao: devolve o maior de dois números
+# Argumentos:
+# 	a0 - um inteiro positivo ou negativo
+# 	a1 - um inteiro positivo ou negativo
+# Retorna:
+# 	a0 - o maior de dois números
+######################################################
+max:
+	mv t0, a0
+	mv t1, a1
+	blt t0, t1, second
+	j FIMMAX
+
+second:
+	mv a0, t1
+	
+FIMMAX:
+	ret
+
+######################################################
+# Funcao: abs
+# Descricao: devolve o absoluto de um número
+# Argumentos:
+# 	a0 - um inteiro positivo ou negativo
+# Retorna:
+# 	a0 - o absoluto de um número
+######################################################
+abs:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	sub a1, zero, a0
+	jal max
+		
+FIMABS:
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
 
 ######################################################
 # Funcao: read_rgb_image
@@ -70,7 +110,7 @@ write_gray_image:
     li a7, 64
     mv a0, s6
     la a1, buffer_coutour
-    li a2, 87040
+    li a2, 262144
     ecall
 
     li a7, 57
@@ -134,35 +174,83 @@ FIM:
 # Retorna:
 # 	a0 - buffer com o resultado da convoluçaõ da imagem
 ######################################################
-convolution: # TODO ignorar 1 elemento de todas as linhas, e o ultimo
-    addi sp, sp, -20
+convolution:
+    addi sp, sp, -32
     sw s0, 0(sp)
     sw s4, 4(sp)
     sw s8, 8(sp)
     sw s5, 12(sp)
     sw s6, 16(sp)
     sw s7, 20(sp)
+    sw s1, 24(sp)
+    sw s9, 28(sp)
     li t3, 0
-    li s7, 260096
+    li s7, 262144
+    li t1, 512
+    mv s1, a2
+
+loop_zero_first_line:
+    beqz t1, before_go_last_line
+    sw zero, 0(s1)
+    addi s1, s1, 4
+    addi t1, t1, -1
+    j loop_zero_first_line
+
+before_go_last_line:
+    li t1, 511
+    mv a2, s1
+    mv s1, a2
+    j loop_get_to_last_line
+
+loop_get_to_last_line:
+    beqz t1, before_loop_zero_last_line
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi t1, t1, -1
+    j loop_get_to_last_line
+
+before_loop_zero_last_line:
+    li t1, 512
+    j loop_zero_last_line
+
+loop_zero_last_line:
+    beqz t1, before_loop_zero_column
+    sw zero, 0(s1)
+    addi s1, s1, 4
+    addi t1, t1, -1
+
+before_loop_zero_column:
+    li t1, 512
+    mv a2, s1
+    mv s1, a2
+    j loop_zero_column
+
+loop_zero_column:
+    beqz t1, FIM_ZERO
+    sw zero, 0(s1)
+    sw zero, 2044(s1)
+    addi t1, t1, -1
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 512
+    addi s1, s1, 512
+    j loop_zero_column
+
+FIM_ZERO:
+    mv a2, s1
+    j loop_convolution
 
 loop_convolution:
     li t0, 0
     bge t3, s7, FIM_CONV
-    la s4, matrix_aux
-    li s8, 9
-    mv s6, a0
+    la s4, matrix_aux # endereco matriz auxiliar
+    li s8, 9 # tamanho matriz auxiliar
+    mv s6, a0 # endereco da matriz A
     add s6, s6, t3
-    
-    lbu s5, 0(s6)
-    sw s5, 0(s4)
-    addi s4, s4, 4
-    lbu s5, 1(s6)
-    sw s5, 0(s4)
-    addi s4, s4, 4
-    lbu s5, 2(s6)
-    sw s5, 0(s4)
-    addi s4, s4, 4
 
+    addi s6, s6, 1
     addi s6, s6, 512
     lbu s5, 0(s6)
     sw s5, 0(s4)
@@ -184,14 +272,27 @@ loop_convolution:
     lbu s5, 2(s6)
     sw s5, 0(s4)
     addi s4, s4, 4
+
+    addi s6, s6, 512
+    lbu s5, 0(s6)
+    sw s5, 0(s4)
+    addi s4, s4, 4
+    lbu s5, 1(s6)
+    sw s5, 0(s4)
+    addi s4, s4, 4
+    lbu s5, 2(s6)
+    sw s5, 0(s4)
+    addi s4, s4, 4
     
-    addi t3, t3, 4
+    addi t3, t3, 1
+
+    la s4, matrix_aux
 
 loop_convolution_mul:
     beqz s8, update_b
 
     lw s0, 0(s4)
-    lw s9, 0(a1)
+    lw s9, 0(a1) # FIXME out of range
 
     mul s0, s0, s9
     add t0, t0, s0
@@ -215,7 +316,9 @@ FIM_CONV:
     lw s5, 12(sp)
     lw s6, 16(sp)
     lw s7, 20(sp)
-    addi sp, sp, 20
+    lw s1, 24(sp)
+    lw s9, 28(sp)
+    addi sp, sp, 32
     mv a0, a2
     ret
     
@@ -230,64 +333,61 @@ FIM_CONV:
 # 	a0 - buffer com a imagem final
 ######################################################
 contour:
+    addi sp, sp, -12
+    sw ra, 0(sp)
+    sw s1, 4(sp)
+    sw s2, 8(sp)
+
     li t0, 4
-    li t1, 87040
+    li t1, 262144
+    mv s1, a0 # buffer Bv
+    mv s2, a1 # buffer Bh
+
 loop_countour_div:
     beqz t1, loop_div_done
     
-    lw t3, 0(a0)
-    div t3, t3, t0
-    sw t3, 0(a0)
-    addi a0, a0, 4
+    lw a0, 0(s1)
+    jal abs
+    div a0, a0, t0
+    sw a0, 0(s1)
+    addi s1, s1, 4
 
-    lw t4, 0(a1)
-    div t4, t4, t0
-    sw t4, 0(a1)
-    addi a1, a1, 4
+    lw a0, 0(s2)
+    jal abs
+    div a0, a0, t0
+    sw a0, 0(s2)
+    addi s2, s2, 4
 
     addi t1, t1, -1
     j loop_countour_div
 
 loop_div_done:
-    li t1, 87040
+    li t1, 262144
+    mv a0, s1
+    mv a1, s2
     mv t2, a0
+    li t5, 2
     j loop_countour_sum
 
 loop_countour_sum:
-    beqz t1, loop_sum_done
+    beqz t1, FIM_COUNTOUR
     
-    lw t3, 0(t2)
-    addi t2, t2, 4 
+    lbu t3, 0(t2)
+    addi t2, t2, 1
 
-    lw t4, 0(a1)
-    addi a1, a1, 4 
+    lbu t4, 0(a1)
+    addi a1, a1, 1
 
     add t3, t3, t4
-    sw t3, 0(a0)
-    addi a0, a0, 4
+    div t3, t3, t5
+    sb t3, 0(a0)
+    addi a0, a0, 1
 
     addi t1, t1, -1
     j loop_countour_sum
     
-loop_sum_done:
-    li t1, 87040
-    li t4, 2
-    mv t2, a0
-    j loop_countour_final_div
-
-loop_countour_final_div:
-    beqz t1, FIM_COUNTOUR
-
-    lw t3, 0(t2)
-    div t3, t3, t4
-    sw t3, 0(t2)
-    addi t2, t2, 4
-
-    addi t1, t1, -1
-    j loop_countour_final_div
-
 FIM_COUNTOUR:
-    li t1, 87040
+    li t1, 262144
     li t5, 255
     mv a0, t2
     j loop_strength
@@ -295,11 +395,11 @@ FIM_COUNTOUR:
 loop_strength:
     beqz t1, FIM_C
 
-    lw t3, 0(a0)
+    lbu t3, 0(a0)
     sub t3, t5, t3
-    sw t3, 0(a2)
-    addi a0, a0, 4
-    addi a2, a2, 4
+    sb t3, 0(a2)
+    addi a0, a0, 1
+    addi a2, a2, 1
     
     addi t1, t1, -1
 
@@ -307,6 +407,10 @@ loop_strength:
 
 FIM_C:
     mv a0, a2
+    lw ra, 0(sp)
+    lw s1, 4(sp)
+    lw s2, 8(sp)
+    addi sp, sp, 12
     ret
 
 main:
@@ -321,8 +425,8 @@ main:
     la a1, buffer_sobel_h
     la a2, buffer_filtered_conv
     jal convolution
-    
     mv s0, a0
+    
     la a0, buffer_gray
     la a1, buffer_sobel_v
     la a2, buffer_filtered_conv
