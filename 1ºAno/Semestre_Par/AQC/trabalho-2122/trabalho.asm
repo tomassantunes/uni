@@ -12,7 +12,7 @@ buffer_filtered_conv_h:   .space 262144
 .align 2
 buffer_filtered_conv_v:   .space 262144
 .align 2
-buffer_coutour:         .space 262144
+buffer_contour:         .space 262144
 matrix_aux:             .word 0,0,0,0,0,0,0,0,0
 
 buffer_sobel_h:         .word   1, 0, -1, 2, 0, -2, 1, 0, -1
@@ -111,7 +111,7 @@ write_gray_image:
     
     li a7, 64
     mv a0, s6
-    la a1, buffer_coutour
+    la a1, buffer_contour
     li a2, 262144
     ecall
 
@@ -188,8 +188,7 @@ convolution:
     sw s9, 28(sp)
     sw s2, 32(sp)
     li t3, 0
-    li s7, 262144
-    li t1, 512
+    li s7, 260100
     mv s1, a2
     mv s2, a1
 
@@ -199,7 +198,7 @@ convolution:
     addi s1, s1, 512
     addi s1, s1, 4
     li t1, 510
-    li t2, 260096
+    li t2, 260100
     j loop_convolution
 
 loop_convolution:
@@ -403,7 +402,7 @@ main:
 
 	la a0, buffer_filtered_conv_v
 	la a1, buffer_filtered_conv_h
-    la a2, buffer_coutour
+    la a2, buffer_contour
     jal contour
     
     jal write_gray_image
