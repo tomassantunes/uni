@@ -154,8 +154,6 @@ convolution:
 
     li s7, 262144
 
-    li t6, 510
-
 loop_convolution:
     beqz s7, FIM_CONV
     li t4, 0
