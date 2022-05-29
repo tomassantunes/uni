@@ -7,11 +7,8 @@ file_name_gray:             .string "imagem.gray"
 
 buffer_rgb:                 .space 786432
 buffer_gray:                .space 262144
-.align 2
 buffer_filtered_conv_h:     .space 262144
-.align 2
 buffer_filtered_conv_v:     .space 262144
-.align 2
 buffer_contour:             .space 262144
 
 buffer_sobel_h:             .word   1, 0, -1, 2, 0, -2, 1, 0, -1
@@ -143,95 +140,84 @@ FIM:
 # Descricao: calcula a convolução de uma imagem A com um operador Sobel (matriz
 # 3 × 3) e coloca o resultado numa matriz B
 # Argumentos:
-# 	a0 - um buffer com a matriz A
+# 	a0 - um buffer com a matriz trabalho.asmA
 # 	a1 - um buffer com um dos operadores Sobel
 #	a2 - um buffer que vai conter a imagem filtrada B
 # Retorna:
-# 	a0 - buffer com o resultado da convoluçaõ da imagem
+# 	a0 - buffer com o resultado da convolução da imagem
 ######################################################
 convolution:
-    addi sp, sp, -16
+    addi sp, sp, -12
     sw ra, 0(sp)
     sw s7, 4(sp)
-    sw s6, 8(sp)
-    sw s4, 12(sp)
+    sw s4, 8(sp)
 
-    li t3, 0
-    li s7, 260100
+    li s7, 262144
 
-    li t5, 513
-    add a2, a2, t5
     li t6, 510
-    li t2, 260100
 
 loop_convolution:
-    bge t3, s7, FIM_CONV
-    mv s6, a0
-    add s6, s6, t3
+    beqz s7, FIM_CONV
     li t4, 0
 
     # a b c
     # d e f
     # g h i
 
-    lbu t0, 0(s6)       # a
-    lb t1, 0(a1)
+    lbu t0, 0(a0)       # a
+    lb t1, 8(a1)
     mul t4, t0, t1
 
-    lbu t0, 1(s6)       # b
-    lb t1, 1(a1)
-    mul t0, t0, t1
-    add t4, t4, t0
-
-    lbu t0, 2(s6)       # c
-    lb t1, 2(a1)
-    mul t0, t0, t1
-    add t4, t4, t0
-
-    lbu t0, 512(s6)     # d
-    lb t1, 3(a1)
-    mul t0, t0, t1
-    add t4, t4, t0
-
-    lbu t0, 513(s6)     # e
-    lb t1, 4(a1)
-    mul t0, t0, t1
-    add t4, t4, t0
-
-    lbu t0, 514(s6)     # f
-    lb t1, 5(a1)
-    mul t0, t0, t1
-    add t4, t4, t0
-
-    lbu t0, 1024(s6)    # g
-    lb t1, 6(a1)
-    mul t0, t0, t1
-    add t4, t4, t0
-
-    lbu t0, 1025(s6)    # h
+    lbu t0, 1(a0)       # b
     lb t1, 7(a1)
     mul t0, t0, t1
     add t4, t4, t0
 
-    lbu t0, 1026(s6)    # i
-    lb t1, 8(a1)
+    lbu t0, 2(a0)       # c
+    lb t1, 6(a1)
     mul t0, t0, t1
     add t4, t4, t0
 
-    addi t3, t3, 1
+    lbu t0, 512(a0)     # d
+    lb t1, 5(a1)
+    mul t0, t0, t1
+    add t4, t4, t0
+
+    lbu t0, 513(a0)     # e
+    lb t1, 4(a1)
+    mul t0, t0, t1
+    add t4, t4, t0
+
+    lbu t0, 514(a0)     # f
+    lb t1, 3(a1)
+    mul t0, t0, t1
+    add t4, t4, t0
+
+    lbu t0, 1024(a0)    # g
+    lb t1, 2(a1)
+    mul t0, t0, t1
+    add t4, t4, t0
+
+    lbu t0, 1025(a0)    # h
+    lb t1, 1(a1)
+    mul t0, t0, t1
+    add t4, t4, t0
+
+    lbu t0, 1026(a0)    # i
+    lb t1, 0(a1)
+    mul t0, t0, t1
+    add t4, t4, t0
+
 
 update_b:
-    beqz t2, FIM_CONV
-    beqz t6, update_count
     blt t4, zero, abs
 
 continue:
+    addi s7, s7, -1
     sb t4, 0(a2)
     addi a2, a2, 1
+    addi a0, a0, 1
 
-    addi t2, t2, -1
-    addi t6, t6, -1
-    
     j loop_convolution
 
 abs:
@@ -239,7 +225,6 @@ abs:
     j continue
 
 update_count:
-    li t6, 510
     addi a2, a2, 2
     j update_b
 
@@ -248,9 +233,8 @@ FIM_CONV:
 
     lw ra, 0(sp)
     lw s7, 4(sp)
-    lw s6, 8(sp)
-    lw s4, 12(sp)
-    addi sp, sp, 16
+    lw s4, 8(sp)
+    addi sp, sp, 12
 
     ret
     
