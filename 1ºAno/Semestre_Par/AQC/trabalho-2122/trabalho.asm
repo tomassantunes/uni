@@ -29,6 +29,10 @@ buffer_sobel_v:             .word   1, 2, 1, 0, 0, 0, -1, -2, -1
 # 	a0 - file descriptor do ficheiro RGB
 ######################################################
 read_rgb_image:
+    addi sp, sp, -8
+    sw s6, 0(sp)
+    sw s7, 4(sp)
+
     li a7, 1024
     la a0, file_name_rgb
     li a1, 0
@@ -49,6 +53,10 @@ read_rgb_image:
     
     mv a0, s7
 
+    lw s6, 0(sp)
+    lw s7, 4(sp)
+    addi sp, sp, 8
+
     ret
 	
 ######################################################
@@ -62,6 +70,9 @@ read_rgb_image:
 # 	a0 - file descriptor do ficheiro GRAY
 ######################################################
 write_gray_image:
+    addi sp, sp, -4
+    sw s6, 0(sp)
+
     li a7, 1024
     la a0, file_name_gray
     li a1, 1
@@ -77,6 +88,9 @@ write_gray_image:
     li a7, 57
     mv a0, s6
     ecall
+
+    lw s6, 0(sp)
+    addi sp, sp, 4
 
     ret
 
@@ -136,17 +150,12 @@ FIM:
 # 	a0 - buffer com o resultado da convoluçaõ da imagem
 ######################################################
 convolution:
-    addi sp, sp, -40
-    sw s0, 0(sp)
-    sw s4, 4(sp)
-    sw s8, 8(sp)
-    sw s5, 12(sp)
-    sw s6, 16(sp)
-    sw s7, 20(sp)
-    sw s1, 24(sp)
-    sw s9, 28(sp)
-    sw s2, 32(sp)
-    sw ra, 36(sp)
+    addi sp, sp, -16
+    sw ra, 0(sp)
+    sw s7, 4(sp)
+    sw s6, 8(sp)
+    sw s4, 12(sp)
+
     li t3, 0
     li s7, 260100
 
@@ -235,18 +244,14 @@ update_count:
     j update_b
 
 FIM_CONV:
-    lw s0, 0(sp)
-    lw s4, 4(sp)
-    lw s8, 8(sp)
-    lw s5, 12(sp)
-    lw s6, 16(sp)
-    lw s7, 20(sp)
-    lw s1, 24(sp)
-    lw s9, 28(sp)
-    lw s2, 32(sp)
-    lw ra, 36(sp)
-    addi sp, sp, 40
     mv a0, a2
+
+    lw ra, 0(sp)
+    lw s7, 4(sp)
+    lw s6, 8(sp)
+    lw s4, 12(sp)
+    addi sp, sp, 16
+
     ret
     
 ######################################################
