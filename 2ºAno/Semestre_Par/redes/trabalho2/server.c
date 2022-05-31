@@ -10,11 +10,27 @@
 #define BUFSIZE 256
 #define MAXCLIENTS 10
 #define MAXPOSTS 10
+#define NTEAMS 4
 
 char *clients[MAXCLIENTS];
-char *posts[MAXPOSTS];
 
+char *posts[MAXPOSTS];
 int post_index = 0;
+
+char *canAdmin[MAXCLIENTS];
+
+char *admin[MAXCLIENTS];
+int adm_index = 0;
+
+char *memeteam[MAXCLIENTS];
+int meme_index = 0;
+
+char *bestteam[MAXCLIENTS];
+int best_index = 0;
+
+char *cheatersteam[MAXCLIENTS];
+int cheaters_index = 0;
+
 
 // verifica se val está no array arr[]
 int valueinarray(char* val, char* arr[]) {
@@ -71,6 +87,21 @@ void sendToUser(char* user, char* message) {
     write(i + 4, message, strlen(message));
 }
 
+// envia uma mensagem para a TAG <tag>
+void sendToTag(char* tag, char* message, int sender) {
+    if(!strcmp(tag, "ADMIN")) {
+        for(int i = 0; i < adm_index; i++) {
+            int j = 0;
+            while(clients[j] != "0") {
+                if(!strcmp(clients[j], admin[i]) && j != sender) {
+                    write(j + 4, message, strlen(message));
+                    break;
+                }
+            }
+        }
+    }
+}
+
 int process_client(int sock, char *clients[]) {
     int n;
     int index = sock - 4;
@@ -78,11 +109,11 @@ int process_client(int sock, char *clients[]) {
 
     n = read(sock, buf, BUFSIZE);
 
-    char* first = strtok(strdup(buf), " "); // retira do buf a primeira palavra
-
     if (n <= 0) {
         return 0; /* client closed socket */
     }
+
+    char* first = strtok(strdup(buf), " "); // retira do buf a primeira palavra
     
     buf[n] = '\0';
     
@@ -104,15 +135,65 @@ int process_client(int sock, char *clients[]) {
             strcat(msg, aux);
             write(sock, msg, strlen(msg));
             return 1;
-        } 
+        }
 
         if(clients[index] == "0") {
             clients[index] = aux;
-            char msg[BUFSIZE] = "OK NICK ";
-            strcat(msg, aux);
+            char msg[BUFSIZE];
+            sprintf(msg, "OK NICK %s", aux);
+            write(sock, msg, strlen(msg));
+            char* listTeams = "These are the available teams/groups: \nADMIN\nMEMETEAM\nBESTTEAM\nCHEATERSTEAM\nYou can use the command SUB <team-name> to subscribe to a team.";
+            write(sock, listTeams, strlen(listTeams));
+            return 1;
+        }
+    }
+
+    // MEMETEAM
+    // BESTTEAM
+    // CHEATERSTEAM
+    // ADMIN
+
+    if(!strcmp(first, "SUB")) {
+        char* next = strtok(aux, " ");
+        aux = remove_str(next, aux);
+
+        if(!strcmp(next, "ADMIN")) {
+            if(valueinarray(clients[index], canAdmin)) {
+                admin[adm_index++] = strdup(clients[index]);
+                char* msg = "OK SUBBED ADMIN";
+                write(sock, msg, strlen(msg));
+                return 1;
+            }
+            char* msg = "ERR PERMITION DENIED";
             write(sock, msg, strlen(msg));
             return 1;
         }
+
+        if(!strcmp(next, "MEMETEAM")) {
+            memeteam[meme_index++] = clients[index];
+            char* msg = "OK SUBBER MEMETEAM";
+            write(sock, msg, strlen(msg));
+            return 1;
+        }
+
+        if(!strcmp(next, "BESTTEAM")) {
+            bestteam[best_index++] = clients[index];
+            char* msg = "OK SUBBER BESTEAM";
+            write(sock, msg, strlen(msg));
+            return 1;
+        }
+
+        if(!strcmp(next, "CHEATERSTEAM")) {
+            cheatersteam[cheaters_index++] = clients[index];
+            char* msg = "OK SUBBER CHEATERSTEAM";
+            write(sock, msg, strlen(msg));
+            return 1;
+        }
+
+        char* msg = "ERR GROUP/TEAM DOES NOT EXIST";
+        write(sock, msg, strlen(msg));
+
+        return 1;
     }
 
     if(!strcmp(first, "MSG")) {
@@ -149,6 +230,15 @@ int process_client(int sock, char *clients[]) {
             char message[BUFSIZE]; 
             sprintf(message, "TEXT %s GLOBAL %s", clients[index], aux);
             sendToAll(message, index);
+        } else if(!strcmp(next, "ADMIN")) {
+            printf("%s\n", buf);
+
+            char* ok = "OK MSG ADMIN";
+            write(sock, ok, strlen(ok));
+
+            char message[BUFSIZE];
+            sprintf(message, "TEXT %s ADMIN %s", clients[index], aux);
+            sendToTag("ADMIN", message, index);
         }
     }
 
@@ -236,7 +326,6 @@ int process_client(int sock, char *clients[]) {
             sendToUser(user, fileContents);
         }
     }
-
     return 1;
 }
 
@@ -247,7 +336,15 @@ int main(int argc, char const *argv[]) {
     for(int i = 0; i < 10; i++) {
         clients[i] = "0";
         posts[i] = "0";
+        admin[i] = "0";
+        memeteam[i] = "0";
+        bestteam[i] = "0";
+        cheatersteam[i] = "0";
+        canAdmin[i] = "0";
     }
+
+    canAdmin[0] = "w0rmer";
+    canAdmin[1] = "daniel";
 
     int opt = 1;      // for setsockopt() SO_REUSEADDR, below
     int addrlen = sizeof(address);
