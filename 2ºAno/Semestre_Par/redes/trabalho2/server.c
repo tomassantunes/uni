@@ -131,8 +131,8 @@ int process_client(int sock, char *clients[]) {
         }
 
         if(valueinarray(aux, clients) || sz == 0 || clients[index] != "0") {
-            char msg[BUFSIZE] = "ERR NICK ";
-            strcat(msg, aux);
+            char msg[BUFSIZE];
+            sprintf(msg, "ERR NICK %s", aux);
             write(sock, msg, strlen(msg));
             return 1;
         }
