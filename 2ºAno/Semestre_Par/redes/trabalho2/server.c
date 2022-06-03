@@ -10,6 +10,7 @@
 #define BUFSIZE 256
 #define MAXCLIENTS 10
 #define MAXPOSTS 10
+#define MAXBADWORDS 15
 #define NTEAMS 4
 
 char *clients[MAXCLIENTS];
@@ -31,11 +32,12 @@ int best_index = 0;
 char *cheatersteam[MAXCLIENTS];
 int cheaters_index = 0;
 
+char *badWords[MAXBADWORDS];
+
 
 // verifica se val está no array arr[]
 int valueinarray(char* val, char* arr[]) {
-    for(int i = 0; i < MAXCLIENTS; i++)
-    {
+    for(int i = 0; i < MAXCLIENTS; i++) {
         if(!strcmp(val, arr[i]))
             return 1;
     }
@@ -43,22 +45,49 @@ int valueinarray(char* val, char* arr[]) {
     return 0;
 }
 
+// verifica se val é uma palavra imprópria
+int isInBadWords(char* val) {
+    for(int i = 0; i < MAXBADWORDS; i++) {
+        if(!strcmp(val, badWords[i]))
+            return 1;
+    }
+
+    return 0;
+}
+
+// verifica se val contém uma palavra imprópria
+int hasBadWord(char* val) {
+    char* word = strtok(val, " ");
+
+    while(word != NULL) {
+        if(isInBadWords(word))
+            return 1;
+
+        word = strtok(NULL, " ");        
+    }
+
+    return 0;
+}
+
+// remover string de outra string
 char* remove_str(char* remove, char* from) {
     int sz = 0;
-    while(remove[sz] != '\0') { // tamanho da segunda palavra
+    while(remove[sz] != '\0') // tamanho da segunda palavra
         sz++;
-    }
+
     from += sz + 1; // remover segunda p
 
     return from;
 }
 
+// contar número de bytes de um ficheiro
 long getNBytes(char* filename) {
     long count = 0;
     FILE* file = fopen(filename, "rb");
 
     if (file== NULL) return -1;
         fseek(file, 0, SEEK_END);
+
     count = ftell(file);
 
     fclose(file);
@@ -97,6 +126,46 @@ void sendToTag(char* tag, char* message, int sender) {
                     write(j + 4, message, strlen(message));
                     break;
                 }
+                j++;
+            }
+        }
+    }
+
+    if(!strcmp(tag, "MEMETEAM")) {
+        for(int i = 0; i < meme_index; i++) {
+            int j = 0;
+            while(clients[j] != "0") {
+                if(!strcmp(clients[j], memeteam[i]) && j != sender) {
+                    write(j + 4, message, strlen(message));
+                    break;
+                }
+                j++;
+            }
+        }
+    }
+
+    if(!strcmp(tag, "BESTTEAM")) {
+        for(int i = 0; i < best_index; i++) {
+            int j = 0;
+            while(clients[j] != "0") {
+                if(!strcmp(clients[j], bestteam[i]) && j != sender) {
+                    write(j + 4, message, strlen(message));
+                    break;
+                }
+                j++;
+            }
+        }
+    }
+
+    if(!strcmp(tag, "CHEATERSTEAM")) {
+        for(int i = 0; i < cheaters_index; i++) {
+            int j = 0;
+            while(clients[j] != "0") {
+                if(!strcmp(clients[j], cheatersteam[i]) && j != sender) {
+                    write(j + 4, message, strlen(message));
+                    break;
+                }
+                j++;
             }
         }
     }
@@ -142,7 +211,7 @@ int process_client(int sock, char *clients[]) {
             char msg[BUFSIZE];
             sprintf(msg, "OK NICK %s", aux);
             write(sock, msg, strlen(msg));
-            char* listTeams = "These are the available teams/groups: \nADMIN\nMEMETEAM\nBESTTEAM\nCHEATERSTEAM\nYou can use the command SUB <team-name> to subscribe to a team.";
+            char* listTeams = "\nThese are the available teams/groups: \nADMIN\nMEMETEAM\nBESTTEAM\nCHEATERSTEAM\nYou can use the command SUB <team-name> to subscribe to a team.";
             write(sock, listTeams, strlen(listTeams));
             return 1;
         }
@@ -159,33 +228,58 @@ int process_client(int sock, char *clients[]) {
 
         if(!strcmp(next, "ADMIN")) {
             if(valueinarray(clients[index], canAdmin)) {
+                if(valueinarray(clients[index], admin)) {
+                    char* msg = "ERR ALREADY IN GROUP/TEAM";
+                    write(sock, msg, strlen(msg));
+                    return 1;
+                }
+
                 admin[adm_index++] = strdup(clients[index]);
                 char* msg = "OK SUBBED ADMIN";
                 write(sock, msg, strlen(msg));
                 return 1;
             }
+
             char* msg = "ERR PERMITION DENIED";
             write(sock, msg, strlen(msg));
             return 1;
         }
 
         if(!strcmp(next, "MEMETEAM")) {
+            if(valueinarray(clients[index], memeteam)) {
+                char* msg = "ERR ALREADY IN GROUP/TEAM";
+                write(sock, msg, strlen(msg));
+                return 1;
+            }
+
             memeteam[meme_index++] = clients[index];
-            char* msg = "OK SUBBER MEMETEAM";
+            char* msg = "OK SUBBED MEMETEAM";
             write(sock, msg, strlen(msg));
             return 1;
         }
 
         if(!strcmp(next, "BESTTEAM")) {
+            if(valueinarray(clients[index], bestteam)) {
+                char* msg = "ERR ALREADY IN GROUP/TEAM";
+                write(sock, msg, strlen(msg));
+                return 1;
+            }
+
             bestteam[best_index++] = clients[index];
-            char* msg = "OK SUBBER BESTEAM";
+            char* msg = "OK SUBBED BESTTEAM";
             write(sock, msg, strlen(msg));
             return 1;
         }
 
         if(!strcmp(next, "CHEATERSTEAM")) {
+            if(valueinarray(clients[index], cheatersteam)) {
+                char* msg = "ERR ALREADY IN GROUP/TEAM";
+                write(sock, msg, strlen(msg));
+                return 1;
+            }
+
             cheatersteam[cheaters_index++] = clients[index];
-            char* msg = "OK SUBBER CHEATERSTEAM";
+            char* msg = "OK SUBBED CHEATERSTEAM";
             write(sock, msg, strlen(msg));
             return 1;
         }
@@ -216,6 +310,12 @@ int process_client(int sock, char *clients[]) {
 
             aux = remove_str(user, aux);
 
+            if(hasBadWord(aux)) {
+                char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
+                write(sock, err, strlen(err));
+                return 1;
+            }
+
             char message[BUFSIZE];
             sprintf(message, "TEXT %s USER %s", clients[index], aux);
             sendToUser(user, message);
@@ -224,12 +324,19 @@ int process_client(int sock, char *clients[]) {
             // mensagem para todos
             printf("%s\n", buf);
 
+            if(hasBadWord(aux)) {
+                char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
+                write(sock, err, strlen(err));
+                return 1;
+            }
+
             char* ok = "OK MSG GLOBAL";
             write(sock, ok, strlen(ok));
 
             char message[BUFSIZE]; 
             sprintf(message, "TEXT %s GLOBAL %s", clients[index], aux);
             sendToAll(message, index);
+
         } else if(!strcmp(next, "ADMIN")) {
             printf("%s\n", buf);
 
@@ -239,6 +346,54 @@ int process_client(int sock, char *clients[]) {
             char message[BUFSIZE];
             sprintf(message, "TEXT %s ADMIN %s", clients[index], aux);
             sendToTag("ADMIN", message, index);
+
+        } else if(!strcmp(next, "MEMETEAM")) {
+            printf("%s\n", buf);
+
+            if(hasBadWord(aux)) {
+                char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
+                write(sock, err, strlen(err));
+                return 1;
+            }
+
+            char* ok = "OK MSG MEMETEAM";
+            write(sock, ok, strlen(ok));
+
+            char message[BUFSIZE];
+            sprintf(message, "TEXT %s MEMETEAM %s", clients[index], aux);
+            sendToTag("MEMETEAM", message, index);
+
+        } else if(!strcmp(next, "BESTTEAM")) {
+            printf("%s\n", buf);
+
+            if(hasBadWord(aux)) {
+                char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
+                write(sock, err, strlen(err));
+                return 1;
+            }
+
+            char* ok = "OK MSG BESTTEAM";
+            write(sock, ok, strlen(ok));
+
+            char message[BUFSIZE];
+            sprintf(message, "TEXT %s BESTTEAM %s", clients[index], aux);
+            sendToTag("BESTTEAM", message, index);
+
+        } else if(!strcmp(next, "CHEATERSTEAM")) {
+            printf("%s\n", buf);
+
+            if(hasBadWord(aux)) {
+                char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
+                write(sock, err, strlen(err));
+                return 1;
+            }
+
+            char* ok = "OK MSG CHEATERSTEAM";
+            write(sock, ok, strlen(ok));
+
+            char message[BUFSIZE];
+            sprintf(message, "TEXT %s CHEATERSTEAM %s", clients[index], aux);
+            sendToTag("CHEATERSTEAM", message, index);
         }
     }
 
@@ -255,6 +410,12 @@ int process_client(int sock, char *clients[]) {
         }
         
         aux = remove_str(next, aux);
+
+        if(hasBadWord(aux)) {
+            char *err = "ERR POST CONTAINS IMPROPER LANGUAGE";
+            write(sock, err, strlen(err));
+            return 1;
+        }
         
         char post[BUFSIZE];
         sprintf(post, "%s -> %s", clients[index], strdup(aux));
@@ -263,7 +424,7 @@ int process_client(int sock, char *clients[]) {
 
     if(!strcmp(first, "READ")) {
         char* next = strtok(aux, " ");
-        if(strcmp(next, "GLOBAL")) {
+        if(next == NULL || strcmp(next, "GLOBAL")) {
             char* ok = "ERR ALLPOSTS INVALID TAG";
             write(sock, ok, strlen(ok));
             return 1;
@@ -280,8 +441,7 @@ int process_client(int sock, char *clients[]) {
         for(int i = 0; i < post_index; i++) {
             char post[BUFSIZE];
             sprintf(post, "POST %d %s\n", i, posts[i]);
-            write(sock, strdup(post), strlen(post));
-            //write(sock, "\n", strlen("\n"));
+            write(sock, post, strlen(post));
         }
     }
 
@@ -344,7 +504,23 @@ int main(int argc, char const *argv[]) {
     }
 
     canAdmin[0] = "w0rmer";
-    canAdmin[1] = "daniel";
+    canAdmin[1] = "daniels";
+
+    badWords[0] = "fuck";
+    badWords[1] = "FUCK";
+    badWords[2] = "Fuck";
+    badWords[3] = "bitch";
+    badWords[4] = "BITCH";
+    badWords[5] = "Bitch";
+    badWords[6] = "gay";
+    badWords[7] = "GAY";
+    badWords[8] = "Gay";
+    badWords[9] = "cunt";
+    badWords[10] = "CUNT";
+    badWords[11] = "Cunt";
+    badWords[12] = "shit";
+    badWords[13] = "SHIT";
+    badWords[14] = "Shit";
 
     int opt = 1;      // for setsockopt() SO_REUSEADDR, below
     int addrlen = sizeof(address);
