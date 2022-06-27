@@ -17,7 +17,6 @@ struct HashTable{
 
 HT_Item* create_item(ElementTypeKey key, ElementTypeValue value){
     HT_Item* item = (HT_Item*) malloc (sizeof(HT_Item));
-    item->key = (ElementTypeKey) malloc (sizeof(int));
     item->value = (ElementTypeValue) malloc (strlen(value) + 1);
 
     item->key = key;
@@ -40,7 +39,6 @@ HashTable* create_table(int size){
 }
 
 void free_item(HT_Item* item){
-    free(item->key);
     free(item->value);
     free(item);
 }
@@ -92,7 +90,7 @@ void ht_insert(HashTable* table, ElementTypeKey key, ElementTypeValue value){
         return;
     }
     
-    if(current_item->key == key) {
+    if(current_item->key == key && current_item->value == NULL) {
         strcpy(table->items[index]->value, value);
         return;
     }
@@ -139,14 +137,4 @@ void print_table(HashTable* table){
             printf("Index: %d, Key: %d, Value: %s\n", i, table->items[i]->key, table->items[i]->value);
         }
     }
-}
-
-int main() {
-    HashTable* test = create_table(10);
-    ht_insert(test, 1, "ola");
-    ht_insert(test, 1, "olaa");
-    ht_insert(test, 1, "ol");
-    ht_insert(test, 1, "o");
-    print_table(test);
-
 }
