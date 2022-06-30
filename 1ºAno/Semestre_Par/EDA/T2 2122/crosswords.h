@@ -2,6 +2,7 @@
 #include "hash_table.c"
 #include "string.h"
 
+
 // direções:
 // 0 -> E
 // 1 -> SE
@@ -14,3 +15,4 @@
 
 void readWords(char* filename);
 void readPrefixes(char* filename);
+void printBoard(char* filename);
