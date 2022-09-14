@@ -66,7 +66,7 @@ void printBoard(char* filename) {
     if(file == 0)
         exit(1);
 
-    char array[MAXLINES][100];
+    unsigned char array[MAXLINES][100];
     int i = 0;
 
     while(i < MAXLINES && fgets(array[i], sizeof(array[0]), file)) {
@@ -84,47 +84,27 @@ void printBoard(char* filename) {
     dims[1] = (int) strtol(strtok(NULL, " "), (char**) NULL, 10);
 
     n++;
-
-    printf("   ");
-    for(int i = 0; i < dims[1]; i++) {
-        if(i < 10)
-            printf("  %d", i + 1);
-        else
-            printf(" %d", i + 1);
-    }
-
-    printf("\n  ");
-    for(int i = 0; i < dims[1]; i++)
-        printf(" -");
-
-    printf("\n");
-
+    
     for(int i = 0; i < dims[0]; i++) {
-        if(i < 10)
-            printf(" %d |", i);
-        else
-            printf("%d |", i);
-
-        for(int j = 0; j < dims[1]; j++) {
-            printf(" %c", array[n + i][j]);
-        }
-        printf(" |\n");
+        printf("%s\n", array[n + i]);
     }
-
 }
 
 int main() {
-    int n = 16;
-    char* board[16];
+    char* filename = "smallPuzzle.txt";
+    
+    char ns[10];
+    FILE *file = fopen(filename, "r");
+    int n = strtol(fgets(ns, sizeof(ns), file), (char**) NULL, 10);
 
     words = create_table(n * 2);
     prefixos = create_table(n * 10);
-    
-    char* filename = "smallPuzzle.txt";
 
     readWords(filename);
+    print_table(words);
 
     readPrefixes(filename);
+    print_table(prefixos);
 
     printBoard(filename);
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "hash_table.c"
 #include "string.h"
+#include "wchar.h"
 
 
 // direções:

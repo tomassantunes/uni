@@ -137,4 +137,5 @@ void print_table(HashTable* table){
             printf("Index: %d, Key: %d, Value: %s\n", i, table->items[i]->key, table->items[i]->value);
         }
     }
+    printf("\n");
 }
