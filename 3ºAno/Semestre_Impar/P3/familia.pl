@@ -8,15 +8,13 @@ mulher(ana).
 mulher(rita).
 mulher(silvia).
 
-progenitor(joao, maria, alex).
-progenitor(joao, rui, bernardo).
-progenitor(manuel, joao, joaquim).
-progenitor(ricardo, manuel, catarina).
-progenitor(ana, rui, amilcal).
-progenitor(rita, joao, joana).
-progenitor(rita, silvia, laura).
-
-% X -> Pai, Y -> Mae, Z -> FIlho
+progenitor(joao, maria).
+progenitor(joao, rui).
+progenitor(manuel, joao).
+progenitor(ricardo, manuel).
+progenitor(ana, rui).
+progenitor(rita, joao).
+progenitor(rita, silvia).
 
 pai(X, Y) :- homem(X), progenitor(X, Y).
 mae(X, Y) :- mulher(X), progenitor(X, Y).
