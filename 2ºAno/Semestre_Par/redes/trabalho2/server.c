@@ -63,7 +63,7 @@ int hasBadWord(char* val) {
         if(isInBadWords(word))
             return 1;
 
-        word = strtok(NULL, " ");        
+        word = strtok(NULL, " "); 
     }
 
     return 0;
