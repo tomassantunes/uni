@@ -14,18 +14,6 @@
             "source": false
           }
         }
-      },
-      {
-        "id": "76e93c61af15860a",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "P3/Prolog - Listas.md",
-            "mode": "preview",
-            "source": false
-          }
-        }
       }
     ],
     "direction": "vertical"
@@ -140,8 +128,9 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "76e93c61af15860a",
+  "active": "632a7ff843d8eea9",
   "lastOpenFiles": [
+    "P3/Prolog - Listas.md",
     "Prolog - Listas.md"
   ]
 }
