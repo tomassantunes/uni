@@ -18,3 +18,5 @@ progenitor(rita, silvia).
 
 pai(X, Y) :- homem(X), progenitor(X, Y).
 mae(X, Y) :- mulher(X), progenitor(X, Y).
+
+feliz(X) :- homem(X).
