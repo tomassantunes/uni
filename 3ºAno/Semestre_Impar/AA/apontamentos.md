@@ -62,3 +62,193 @@ knn.fit(X_train, y_train)
 ```
 
 O método fit retorno o objecto knn, e modifica-o para termos uma string representativa do classificador.
+
+## Fazer previsões
+
+Podemos usar este modelo para fazer previsões sobre dados novos para os quais podemos não saber as designações corretas. Imaginemos que se encontra uma Iris, a que espécie pertencerá esta? Fazemos as medições da mesma, pomos os dados num NumPy array e depois fazemos a previsão.
+
+```python
+X_new = np.array([[5, 2.9, 1, 0.2]])
+print("X_new.shape: {}".format(X_new.shap))
+```
+
+Para fazer uma previsão chamamaos o método *predict* do objecto knn:
+```python
+prediction = knn.predict(X_new)
+print("Prediction: {}".format(prediction))
+print("Predicted target name: {}".format(iris_dataset['target_names'][prediction]))
+```
+
+
+# KNN Teórica
+
+### Algoritmo KNN
+
+- Construção do modelo
+  - Guardar o conjunto de treino.
+
+- Previsão de um exemplo
+  - Encontrar os K exemplos mais próximos no conjunto de treino.
+  - Atribuir a etiqueta da maioria.
+
+- Lazy learning.
+
+### Fronteira de Decisão
+
+- É a fronteira que faz a divisão onde o algoritmo atribui uma classe a outra.
+
+- É calculada através da previsão de todos os possíveis exemplos de teste.
+
+### Exatidão como função do número de vizinhos
+
+- Previsão sobre o conjunto de treino
+  - 1 vizinho
+    - Previsão perfeita.
+  - Mais vizinhos
+    - O modelo torna-se mais simples e a exatidão decresce.
+
+- Previsão sobre conjunto de teste
+  - 1 vizinho
+    - Menor quando comparada com modelos que usam mais vizinhos.
+    - O modelo é demasiado complexo.
+  - 10 vizinhos
+    - O modelo é demasiado simples.
+  - Melhor desempenho
+    - 6 vizinhos.
+
+## Parâmetros e características
+### Parâmetros
+
+- **Nº de vizinhos**.
+
+- Peso dos vizinhos
+  - Uniforme
+  - Inversamente proporcional à distância
+
+- **Função de distância**
+  - Minkowski, p
+  - Euclideana (p=2)
+  - Manhattan (p=1)
+  - Máximo (p=infinito)
+
+- Cálculo dos vizinhos mais próximos
+  - Força bruta (calcula a distância com todos os pontos).
+  - Cáculo otimizado (BallTree, KDTree).
+
+### Função de distância e similaridade
+
+- **Distância e similaridade** - valores numéricos
+  - Minkowski, p
+  - Euclideana (p=2)
+  - Manhattan (p=1)
+
+- **Distância e similaridade** - valores lógicos
+  - Simple Matching and Jaccard Coefficients.
+  - SMC - number of matches / number of attributes = (f11 + f00) / (f01 + f10 + f11 + f00)
+  - J = number of 11 matches / number of non-zero attributes = (f11) / (f01 + f10 + f11)
+
+- **Similaridade do coseno**
+  - Cos(d1, d2) = <d1, d2> / (||d1|| ||d2||)
+
+- Outras
+  - Correlação
+    - Avalia relações lineares.
+    - Não avalia dependência estatística em geral.
+  - Covariância.
+  - Desvio padrão.
+  - Informação mútua.
+
+### Características KNN
+
+- Pontos fortes
+  - Fácil de perceber.
+  - Muitas vezes dá bons resultados sem grandes ajustes.
+
+- Pontos fracos
+  - A previsão é lenta (cálculo dos vizinhos).
+  - Não tem bom desempenho quando existem muitos atributos.
+
+- Outras considerações
+  - É importante fazer o pré-processamento dos dados.
+  - É um bom algoritmo baseline.
+
+### Regressão
+
+- Prever um **valor numérico contínuo**.
+
+- Exemplos
+  - prever rendimento anual a partir da educação, idade e onde vive.
+  - prever a colheita de milho duma plantação, a partir de colheitas anteriores, clima e número de funcionários.
+
+### Modelos lineares
+
+- Combinação linear
+  - $w_{1} * x_{1} + ... + w_{n} * x_{n} + b$
+  - $x_{1}, ..., x_{n}$ são atributos, $w_{1}, ..., w_{n}, b$ são coeficientes.
+
+- Aprendizagem
+  - encontrar pesos w1, ..., wn, b que aproximam o conjunto de dados.
+
+- Modelo
+  - hiperplano, soma pesada dos atributos.
+
+- Comparado com KNN parece muito restritivo
+  - mas é poderoso para conjuntos com muitos atributos.
+
+- Existe uma grande variedade de modelos lineares
+
+- Diferenciam-se
+  - na forma comos os parâmetros são aprendidos.
+  - como a complexidade é controlada.
+  
+- Modelos populares
+  - regressão linear.
+  - regressão Ridge.
+  - Lasso.
+
+### Regressão linear
+
+- É o modelo de regressão mais clássico e simples.
+
+- Aprendizagem
+  - Encontra os parâmetros w e b que minimizam o erro quadrático médio entre as previsões e os valores reais de regressão no conj de treino.
+
+- Erro quadrático médio (MSE - Mean Square Error)
+  - soma dos quadrados das diferenças entre as previsões e os valores reais.
+
+- Características
+  - Não têm parâmetros.
+  - Não é possível controlar a complexidade.
+
+- Também conhecido como Ordinary Least Squares (OLS).
+
+### Regressão por k-vizinhos
+
+- **Algoritmo**
+  - Contrução do modelo.
+  - Guardar o conjunto de treino.
+
+- **Previsão de um exemplo**
+  - Encontrar os K exemplos mais próximos no conjunto de Treino.
+  - Atribuir a média dos vizinhos.
+
+- **Coeficiente $R^{2}$** (R = coeficiente de correlações de Pearson)
+  - coeficiente de determinação.
+  - medida estatística que indica quão bem as previsões se aproximam dos dados reais.
+  - normalmente um valor entre 0 e 1.
+
+- **1 - corresponde a uma previsão perfeita**
+  - o modelo explica completamente a variabilidade dos dados reais.
+
+- **0 - corresponde a um modelo constante que prevê a média do conjunto de treino**
+  - o modelo não explica nenuma variabilidade dos dados.
+
+### Influência do nº de vizinhos
+
+- 1 vizinho
+  - previsão pouco estável
+    - cada ponto do conjunto treino tem influência nas previsões.
+    - valores previstos percorrem todos os pontos do conjunto de treino.
+
+- Mais vizinhos
+  - previsões mais suaves mas que não se ajustam tanto aos dados de treino.
