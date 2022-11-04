@@ -43,7 +43,7 @@ public class Cipher {
       int index = random.nextInt(s.length());
       return s.charAt(index);
 
-   } 
+   }
 
    public static String encode(String plainText, int cols) {
 	   String[] tabela = splitToNChar(plainText, cols);
