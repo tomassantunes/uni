@@ -2,7 +2,7 @@
 
 **Curso**: Engenharia Informática - Bolonha (Licenciatura)
 
-**Instituição**: Universidade de 
+**Instituição**: Universidade de Évora
 
 **Ano de Ingresso**: 2020/2021
 
