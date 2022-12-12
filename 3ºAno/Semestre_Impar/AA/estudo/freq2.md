@@ -2,6 +2,9 @@
 
 ### 1.
 
+No classificador linear binário para se classificar um dataset com 3 classes terá que se usar a abordagem 1 vs resto (one vs rest). Esta abordagem cria o modelo binário para cada classe tentando separar essa classe das restantes.
+
+
 ### 2.
 
 Entre os algoritmos de comité bagging, boosting e stacking existem algumas diferenças. Na abordagem bagging são gerados L conjuntos através do método bootstrap. O método bootstrap tira aleatoriamente, com reposição, N exemplos de um conjunto de treino de tamanho N. Neste caso o método de votação é simples, todos os peritos terão o mesmo peso. Esta estratégia benificia algoritmos instáveis, isto significa que pequenas alterações no conjunto de treino podem provocar grandes diferenças no modelo.
@@ -13,7 +16,7 @@ Por último, a abordagem stacking tem a finalidade de explorar o espaço de mode
 
 ### 3.
 
-No algoritmo de comité usando um algoritmo de votação existem duas vertentes. Numa primeira abordagem, existe a votação simples onde os peritos têm todos o mesmo peso. E numa segunda abordage, a votação pesada sendo que esta utiliza probabilidades à posteriori para decidir o peso de cada perito (importância da decisão).
+No algoritmo de comité usando um algoritmo de votação existem duas vertentes. Numa primeira abordagem, existe a votação simples onde os peritos têm todos o mesmo peso. E numa segunda abordagem, a votação pesada sendo que esta utiliza probabilidades à posteriori para decidir o peso de cada perito (importância da decisão).
 
 
 ### 4.
@@ -22,6 +25,8 @@ O algoritmo random forest introduz aleatoriadade no processo de construção das
 
 
 ### 5.
+#### c)
+Seguindo o ramo correto da árvore, considerando a resolução anterior a classe seria "yes".
 
 ### 6.
 
