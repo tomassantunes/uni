@@ -25,12 +25,21 @@ O algoritmo random forest introduz aleatoriadade no processo de construção das
 
 
 ### 5.
+#### a)
+--------
+| yes | no |
+| -- | -- |
+| 2 | 0 |
+
+#### b)
+0
+
 #### c)
 Seguindo o ramo correto da árvore, considerando a resolução anterior a classe seria "yes".
 
 ### 6.
 
-2, 3, 5
+2, 3, 4, 5
 
 
 ### 7.
@@ -61,6 +70,13 @@ $\frac{(47+2+1)*0.90}{150}$ + $\frac{(1+42+7)*0.79}{150}$ + $\frac{(4+9+37)*0.82
 
 ### 9.
 #### a)
+Sim
+
+#### b)
+Sim
+
+#### c)
+Sim
 
 ### 10.
 1
@@ -101,3 +117,12 @@ $\frac{(47+2+1)*0.90}{150}$ + $\frac{(1+42+7)*0.79}{150}$ + $\frac{(4+9+37)*0.82
 ### 12.
 
 F, V, F, F
+
+
+### 13.
+#### a)
+O objetivo da utilização de um conjunto de validação é ter uma estimativa de error não enviasada.
+
+#### b)
+
+A época ideal seria de 2 -> 5.0 pois é nesta altura que existe o mínimo de perda do conjunto de validação. Preferivelmente quando tende para 2 pois é qunado ambas as linhas estão mais juntas, ou seja, existe menos sobre-ajustamento dos dados.
