@@ -58,4 +58,59 @@ let rec dec m =
   if x mod m = 0 && y mod m = 0
     then m else dec (m - 1)
 in
-dec min
+dec min;;
+
+(* lists *)
+
+[];;
+
+2 :: [];;
+2 :: 3 :: [];;
+
+"Hello" :: "World" :: [];;
+
+("Anthony", 676) :: ("John", 548) :: [];;
+
+let int_list = [1; 2; 3; 4];;
+
+(* Ex1: Write an OCaml function that returns true
+   if all elements of the list are true *)
+
+let rec all_true (lst: bool list) : bool =
+  match lst with
+  | [] -> true
+  | x :: [] -> if x = true then true else false
+  | x :: rest -> x && all_true rest
+
+(* Ex2: Write a function even2ways that checks if an integer
+   list only contains even values and has an even number
+   of elements *)
+
+let even x = x mod 2 = 0
+
+let rec even2ways (lst: int list) : bool = 
+  match lst with
+  | [] -> true
+  | x :: [] -> false
+  | x1 :: x2 :: rest -> even x1 && even x2 && even2ways rest
+
+(* Ex3: Write a function that returns true if
+   the list is empty, and false otherwise *)
+
+let is_empty (lst: 'a list) : bool = 
+  if lst = [] then true else false
+
+  (* ou *)
+
+let is_empty2 (lst: 'a list) : bool =
+  match lst with
+  | [] -> true
+  | _ :: _ -> false
+
+(* Ex4: Write an OCaml function named head that 
+   returns the front element of the list *)
+
+let head (lst: 'a list) : 'a =
+  match lst with
+  | x :: _ -> x
+  | [] -> raise (Invalid_argument "head")
