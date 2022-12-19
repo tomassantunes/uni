@@ -1,0 +1,1 @@
+type 'a abp = ABP of ('a * 'a abp * 'a abp)

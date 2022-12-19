@@ -114,3 +114,29 @@ let head (lst: 'a list) : 'a =
   match lst with
   | x :: _ -> x
   | [] -> raise (Invalid_argument "head")
+
+(* Exercise 1: Write a function that adds up all
+   the numbers in an integer list *)
+
+let rec sum (lst: int list) : int = 
+  match lst with
+  | [] -> 0
+  | x :: rest -> x + sum rest
+
+(* Exercise 2: Write a function that finds the smallest element
+  in the list *)
+
+let rec minimum (lst: 'a list) : 'a = 
+  match lst with
+  | [] -> raise (Invalid_argument "minimum")
+  | x :: [] -> x
+  | x :: rest -> if x < minimum rest then x else minimum rest
+
+(* Exercise 3: Write a function that appends
+   two lists into one *)
+
+let rec append (xs: 'a list) (ys: 'a list) : 'a list =
+  match xs with
+  | [] -> ys
+  | x :: [] -> x :: ys
+  | x :: rest -> x :: (append rest ys) 
