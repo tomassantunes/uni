@@ -16,7 +16,6 @@ rainhas(N, R) :- length(R, N),
 % 2 4 1 3
 % 4 1 3 2
 % ...
-statistics(cpu_time, SinceStart).
 queens(N, QS) :-
     length(QS, N),
     fd_domain(QS, 1, N),
