@@ -18,3 +18,5 @@ na_bispo((LB, CB), (LX, CX)):- LDC is LB+1, CDC is CB+1, diagonal_direita_para_c
                                 LDB is LB-1, CDB is CB+1, diagonal_direita_para_baixo((LX, CX),LDB, CDB),
                                 LEC is LB+1, CEC is CB-1, diagonal_esquerda_para_cima((LX, CX), LEC, CEC),
                                 LEB is LB-1, CEB is CB-1, diagonal_esquerda_para_baixo((LX, CX), LEB, CEB).
+
+na_torre((LT,CT), (LX, CX)):- LX #= LT, CX #= CT.
