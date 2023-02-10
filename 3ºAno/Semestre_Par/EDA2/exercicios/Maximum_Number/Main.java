@@ -15,6 +15,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws NumberFormatException, IOException {
+
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
         int children = Integer.parseInt(input.readLine());
@@ -23,7 +24,8 @@ public class Main {
 
         for(int i = 0; i < children; i++) {
             String[] values = input.readLine().split(" ");
-            for(var x: values) nums.add(Integer.parseInt(x));
+
+            for(int j = 1; j < Integer.parseInt(values[0]); j++) nums.add(Integer.parseInt(values[j]));
         }
 
         System.out.println(getMax(nums));
