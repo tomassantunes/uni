@@ -16,3 +16,5 @@ primos(X, L) :- pessoa(X), primosDireitos(X, L1),
             primosSegundos(X, L2),
             primosTerceiros(X, L3),
             append(L1, L2, L4), append(L4, L3, L5), sort(L5, L). 
+
+esposa(X, Y) :- mulher(X, _, _), homem(Y, _, _), filho(Z, X), filho(Z, Y).
