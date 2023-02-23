@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.SocketTimeoutException;
 
 public class Main {
     public static void main(String[] args) throws NumberFormatException, IOException {
@@ -26,7 +25,6 @@ public class Main {
 class Coins {
     private int nCoins;
     private int[] coins;
-    private int[] mem;
 
       /* Cria um sistema monetário com COINS moedas diferentes. */
     public Coins(int coins) {
@@ -45,7 +43,7 @@ class Coins {
         obter a quantia AMOUNT.
     */
     public int change(int amount) {
-        mem = new int[amount + 1];
+        int[] mem = new int[amount + 1];
         mem[0] = 0;
 
         for(int i = 1; i <= amount; i++) {
