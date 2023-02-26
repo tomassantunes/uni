@@ -27,20 +27,28 @@ class Main {
 }
 
 class City {
-    private int size;
     private int[][] city;
 
     public City(int size) {
-        this.size = size;
-
         city = new int[size][size];
     }
-
+    
     public void addBlockage(int x, int y, String Direction) {
-
+        
     }
-
+    
     public int numberOfWays(int sx, int sy, int ex, int ey) {
-        return 0;
+        city[ex-1][ey-1] = 1;
+
+        for(int i = ex - 1; i >= 0; i--) {
+            for(int j = ey - 1; j >= 0; j--) {
+                if(i < (ex - 1))
+                    city[i][j] += city[i+1][j];
+                if(j < (ey - 1))
+                    city[i][j] += city[i][j+1];
+            }
+        }
+
+        return city[sx-1][sy-1];
     }
 }
