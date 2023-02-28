@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main {
+class Main {
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
@@ -12,19 +12,13 @@ public class Main {
         coins.setValues(input.readLine().split(" "));
 
         int p = Integer.parseInt(input.readLine());
-        int[] perguntas = new int[p];
 
-        for (int i = 0; i < p; i++)
-            perguntas[i] = Integer.parseInt(input.readLine());
-
-        for (var x : perguntas) {
-            Change y = coins.change(x);
-            y.printOut();
+        for (int i = 0; i < p; i++) {
+            coins.change(Integer.parseInt(input.readLine()));
         }
     }
 }
 
-// TOFIX -> Time Limit Exceeded
 class Coins {
     private int nCoins;
     private int[] coins;
@@ -36,7 +30,7 @@ class Coins {
     public void setValues(String[] values) {
         this.coins = new int[nCoins];
 
-        for (int i = 0; i < values.length; i++)
+        for (int i = 0; i < nCoins; i++)
             this.coins[i] = Integer.parseInt(values[i]);
     }
 
@@ -49,8 +43,8 @@ class Coins {
 
         for (int i = 1; i <= amount; i++) {
             mem[i] = Integer.MAX_VALUE;
-            for (int j = 0; j < nCoins; j++) {
-                if (i >= coins[j] && 1 + mem[i - coins[j]] < mem[i]) {
+            for (int j = 0; j < nCoins && coins[j] <= i; j++) {
+                if (1 + mem[i - coins[j]] < mem[i]) {
                     mem[i] = 1 + mem[i - coins[j]];
                     used[i] = coins[j];
                 }
@@ -62,25 +56,13 @@ class Coins {
 }
 
 class Change {
-    private int amount;
-    private int num;
-    private int[] used;
-
     public Change(int amount, int num, int[] used) {
-        this.amount = amount;
-        this.num = num;
-        this.used = used;
-    }
-
-    public void printOut() {
         String nums = " " + used[amount];
-        int tmp = amount - used[amount];
-
-        while (tmp > 0) {
+    
+        for(int tmp = amount - used[amount]; tmp > 0; tmp -= used[tmp]) {
             nums += " " + used[tmp];
-            tmp -= used[tmp];
         }
-
+    
         System.out.println(amount + ": [" + num + "]" + nums);
     }
 }
