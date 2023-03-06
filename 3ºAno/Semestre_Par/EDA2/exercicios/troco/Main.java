@@ -43,9 +43,11 @@ class Coins {
 
         for (int i = 1; i <= amount; i++) {
             mem[i] = Integer.MAX_VALUE;
+
             for (int j = 0; j < nCoins && coins[j] <= i; j++) {
-                if (1 + mem[i - coins[j]] < mem[i]) {
-                    mem[i] = 1 + mem[i - coins[j]];
+                int tmp = mem[i - coins[j]];
+                if (1 + tmp < mem[i]) {
+                    mem[i] = 1 + tmp;
                     used[i] = coins[j];
                 }
             }
@@ -57,12 +59,13 @@ class Coins {
 
 class Change {
     public Change(int amount, int num, int[] used) {
-        String nums = " " + used[amount];
+        StringBuilder nums = new StringBuilder();
+        nums.append(" ").append(used[amount]);
     
         for(int tmp = amount - used[amount]; tmp > 0; tmp -= used[tmp]) {
-            nums += " " + used[tmp];
+            nums.append(" ").append(used[tmp]);
         }
     
-        System.out.println(amount + ": [" + num + "]" + nums);
+        System.out.println(amount + ": [" + num + "]" + nums.toString());
     }
 }
