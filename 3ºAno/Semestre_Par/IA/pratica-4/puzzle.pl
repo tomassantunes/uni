@@ -5,7 +5,7 @@
 
 %estado_inicial(((2,2),[[4,1,3],[2,b,5],[6,7,8]])).
 
-estado_inicial(((2,2),[[4,1,3],[5,b,8],[2,6,7]])).
+estado_inicial(((2,2),[[4,1,3],[2,b,5],[6,7,8]])).
 
 %estado final
 estado_final(((2,2),[[1,2,3],[4,b,5],[6,7,8]])).
@@ -28,7 +28,7 @@ retira(N,X,Y,[A|R],[A|S]):- M is N-1, retira(M,X,Y,R,S).
 %heuristica para estimar distancia h(Estado,Valor)
 
 h(A,B):- h1(A,B).
-%h(A,B):- h2(A,B).  
+% h(A,B):- h2(A,B).  
 h1((_,E),Val):- estado_final((_,Ef)), distancia_Npecas(E,Ef,0,Val).
 
 h2((_,E),Val):- estado_final((_,Ef)), distancia_Manh(E,Ef,Val).
