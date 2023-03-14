@@ -5,9 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import javax.management.Query;
-import javax.swing.ImageIcon;
-
 class Main {
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -18,7 +15,7 @@ class Main {
 
         for(int i = 0; i < E; i++) {
             String[] line = input.readLine().split(" ");
-            for(int j = 1; j < Integer.parseInt(line[0]); j++) {
+            for(int j = 1; j <= Integer.parseInt(line[0]); j++) {
                 org.addFriend(i, Integer.parseInt(line[j]));
             }
         }
@@ -33,7 +30,11 @@ class Main {
 
 class Boom {
     public Boom(int maxBoom, int firstBoomDay) {
-        System.out.println(maxBoom + " " + firstBoomDay);
+        if(maxBoom != 0 || firstBoomDay != 0) {
+            System.out.println(maxBoom + " " + firstBoomDay);
+            return;
+        }
+        System.out.println(0);
     }
 }
 
@@ -86,10 +87,31 @@ class Organisation {
                     d[v] = d[u] + 1;
                     p[v] = u;
 
-                    Q.add(v); 
+                    Q.add(v);
                 }
                 colour[u] = Colour.BLACK;
             }
         }
+
+        int maxBoom = 0;
+        int firstBoomDay = 0;
+        int tmp = 0;
+
+        for(int i = 1; i < employees; i++) {
+            for(int x : d) {
+                if(x == i) {
+                    tmp++;
+                }
+            }
+            if(tmp == 0) break;
+
+            if(tmp > maxBoom) {
+                maxBoom = tmp;
+                firstBoomDay = i;
+            }
+            tmp = 0;
+        }
+
+        return new Boom(maxBoom, firstBoomDay);
     }
 }
