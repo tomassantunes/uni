@@ -95,7 +95,7 @@ ElementType Front( Queue Q ){ // mostrar o primeiro elemento da queue
 
 
 ElementType Dequeue( Queue Q ){ // remover o primeiro elemento da queue
-    ElementType X = 0;          // respeitando o formato First In First Out
+    ElementType X;          // respeitando o formato First In First Out
     if(IsEmptyQueue(Q)){
         Error("Queue is empty."); 
     } else {
@@ -103,43 +103,4 @@ ElementType Dequeue( Queue Q ){ // remover o primeiro elemento da queue
         Q->Front = successor(Q->Front, Q); // para remover o primeiro elemento adicionamos 1 
     }                                      // ao índice front
     return X;
-}
-
-// 2. (da ficha queues)
-Queue inverte( Queue q ){ // função para inverter a queue
-    int queue[size(q)];
-    int h = size(q);
-
-    for(int i = 0; i < h; i++){
-        queue[i] = Dequeue(q); // guardar todos os elementos da queue no array queue
-    }
-
-    for(int j = h-1, i = 0; j >= i; j--){
-        Enqueue(queue[j], q); // voltar a por os elementos na queue mas por ordem inversa
-    }
-
-    printf("Inverso \n");
-
-    for(int i = 0; i<h; i++){
-        printf("%d \n", Dequeue(q) ); // fazer print dos elementos da queue
-    }
-}
-
-void Troca( ElementType *Lhs, ElementType *Rhs ){
-    ElementType Tmp = *Lhs;
-    *Lhs = *Rhs;
-    *Rhs = Tmp;
-} 
-
-void Bubblesort(ElementType A[], int size){
-
-    for (int i=1;i<size;i++){
-        //printf("Passagem %d: \n", i);
-        for (int j=0;j<size-i;j++) {
-            if (A[j]>A[j+1]){
-                //printf("troca %d com %d\n",A[j],A[j+1]);
-                Troca(&A[j],&A[j+1]);
-            }
-        }
-    }
 }

@@ -1,7 +1,12 @@
-typedef int ElementType;
-
 #ifndef _Queue_h
 #define _Queue_h
+
+typedef struct {
+    char* state;
+    int time;
+} Process;
+
+typedef Process ElementType;
 
 struct QueueRecord;
 typedef struct QueueRecord *Queue;

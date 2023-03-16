@@ -3,10 +3,10 @@
 #define MAX_PROCESS 8
 #define COUNT_OF(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
 
-typedef struct {
-    char* state;
-    int time;
-} Process;
+void run(Process* p) {
+    p->state = "RUN";
+    printf(" RUN  | ");
+}
 
 void runProgram(int p[]) {
     int procCount = 0;
@@ -14,10 +14,10 @@ void runProgram(int p[]) {
 
     for(int i = 0; i < MAX_PROCESS; i++) {
         if(p[i] > 0) {
-            Process* p;
-            p.state = ("READY");
-            p.time = p[i];
-            Enqueue(p, program);
+            Process process;
+            process.state = ("READY");
+            process.time = p[i];
+            Enqueue(process, program);
             procCount++;
         }
     }
@@ -30,14 +30,21 @@ void runProgram(int p[]) {
 
     int i = 1;
     while(!IsEmptyQueue(program)) {
-        int instances = Dequeue(program);
+        Process process = Dequeue(program);
+        procCount--;
 
-        while(instances > 0) {
+
+        while(process.time > 0) {
+            printf("%d        | ", i++);
+
+            run(&process);
+            for(int j = 0; j < procCount; j++) {
+                printf("%s | ", program->Array[j].state);
+            }
+            printf("\n");
+            process.time--;
         }
     }
-
-    // for(int k = 0; k < procCount; k++)
-    //     printf("%d ", program->Array[k]);
 
     DisposeQueue(program);
 }
