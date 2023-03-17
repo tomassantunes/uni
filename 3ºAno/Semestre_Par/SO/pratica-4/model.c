@@ -5,7 +5,12 @@
 
 void run(Process* p) {
     p->state = "RUN";
-    printf(" RUN  | ");
+
+    for(int i = 0; i < p->num - 1; i++) {
+      printf("        ");
+    }
+
+    printf("   RUN    ");
 }
 
 void runProgram(int p[]) {
@@ -17,6 +22,7 @@ void runProgram(int p[]) {
             Process process;
             process.state = ("READY");
             process.time = p[i];
+            process.num = i + 1;
             Enqueue(process, program);
             procCount++;
         }
@@ -35,13 +41,14 @@ void runProgram(int p[]) {
 
 
         while(process.time > 0) {
-            printf("%d        | ", i++);
+            printf("%d        ", i++);
 
             run(&process);
             for(int j = 0; j < procCount; j++) {
-                printf("%s | ", program->Array[j].state);
+                printf("%s   ", program->Array[j].state);
             }
             printf("\n");
+
             process.time--;
         }
     }

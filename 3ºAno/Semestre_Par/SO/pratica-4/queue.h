@@ -4,6 +4,7 @@
 typedef struct {
     char* state;
     int time;
+    int num;
 } Process;
 
 typedef Process ElementType;
