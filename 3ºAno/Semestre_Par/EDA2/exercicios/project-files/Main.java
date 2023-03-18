@@ -8,29 +8,50 @@ class Main {
 
         String[] nums = input.readLine().split(" ");
         int tasks = Integer.parseInt(nums[0]);
-        int rules = Integer.parseInt(nums[1]);
+        int rulesNum = Integer.parseInt(nums[1]);
 
-        for(int i = 0; i < rules; i++) {
-            String rules = input.readLine();
+        Project project = new Project(tasks);
+        
+        for(; rulesNum > 0; rulesNum--) {
+            String[] line = input.readLine().split(" ");
+            int[] rules = new int[line.length];
+
+            for(int i = 0; i < line.length; i++) {
+                rules[i] = Integer.parseInt(line[i]);
+            }
+
+            project.addDependencies(rules);
         }
 
+        project.printTasks();
     }
 }
 
 class Project {
-    public Project(int tasks) {
+    int[][] tasks;
 
+    public Project(int tasks) {
+        this.tasks = new int[tasks][tasks];
     }
 
     public void addDependency(int task, int precedent) {
-
+        tasks[task-1][precedent-1] = 1;
     }
 
     public void addDependencies(int[] rules) {
-
+        
     }
 
-    public int[] computeOrder() {
-        return new int[1];
+    public void printTasks() {
+        for(var x : tasks) {
+            for(var y : x) {
+                System.out.print(y + " ");
+            }
+            System.out.println("");
+        }
     }
+
+    /* public int[] computeOrder() {
+
+    } */
 }
