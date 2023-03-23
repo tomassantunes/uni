@@ -33,3 +33,5 @@
 - [Artificial Intelligence](https://github.com/tomassantunes/uni/tree/main/3%C2%BAAno/Semestre_Par/IA)
 
 - [Operating Systems](https://github.com/tomassantunes/uni/tree/main/3%C2%BAAno/Semestre_Par/SO)
+
+- [Ciber Security](https://github.com/tomassantunes/uni/tree/main/3%C2%BAAno/Semestre_Par/CiSec)
