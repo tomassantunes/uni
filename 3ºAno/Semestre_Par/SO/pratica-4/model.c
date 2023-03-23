@@ -6,11 +6,11 @@
 void run(Process* p) {
     p->state = "RUN";
 
-    for(int i = 0; i < p->num - 1; i++) {
+    for(int i = 1; i < p->num; i++) {
       printf("        ");
     }
 
-    printf("   RUN    ");
+    printf("   %s    ", p->state);
 }
 
 void runProgram(int p[]) {
@@ -20,7 +20,7 @@ void runProgram(int p[]) {
     for(int i = 0; i < MAX_PROCESS; i++) {
         if(p[i] > 0) {
             Process process;
-            process.state = ("READY");
+            process.state = "READY";
             process.time = p[i];
             process.num = i + 1;
             Enqueue(process, program);
@@ -39,20 +39,18 @@ void runProgram(int p[]) {
         Process process = Dequeue(program);
         procCount--;
 
-
-        while(process.time > 0) {
-            printf("%d        ", i++);
+        for(; process.time > 0; process.time--) {
+            if(i < 10) printf("%d        ", i++);
+            else printf("%d       ", i++);
 
             run(&process);
             for(int j = 0; j < procCount; j++) {
                 printf("%s   ", program->Array[j].state);
             }
             printf("\n");
-
-            process.time--;
         }
     }
-
+    printf("\n");
     DisposeQueue(program);
 }
 
@@ -66,5 +64,4 @@ int main() {
     for(int i = 0; i < COUNT_OF(programas); i++) {
         runProgram(programas[i]);
     }
-
 }
