@@ -28,10 +28,14 @@ class Main {
 }
 
 class Project {
+    int nodes;
     int[][] tasks;
 
+    private static enum Colour { WHITE, GREY, BLACK };
+
     public Project(int tasks) {
-        this.tasks = new int[tasks][tasks];
+        this.nodes = tasks;
+        this.tasks = new int[nodes][nodes];
     }
 
     public void addDependency(int task, int precedent) {
@@ -39,7 +43,9 @@ class Project {
     }
 
     public void addDependencies(int[] rules) {
-        
+        for(int i = 2; i < 2 + rules[1]; i++) {
+            addDependency(rules[0], rules[i]);
+        }
     }
 
     public void printTasks() {
@@ -51,7 +57,7 @@ class Project {
         }
     }
 
-    /* public int[] computeOrder() {
-
-    } */
+    public int[] computeOrder() {
+        
+    }
 }
