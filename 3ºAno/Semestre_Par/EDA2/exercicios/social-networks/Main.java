@@ -23,7 +23,7 @@ class Main {
             sn.addRelation(Integer.parseInt(tmp[0]), Integer.parseInt(tmp[1]), Integer.parseInt(tmp[2]));
         }
 
-        System.out.println(sn.maximumBackboneWeight() + "\n");
+        System.out.println(sn.maximumBackboneWeight());
     }
 }
 
@@ -32,7 +32,7 @@ class SocialNetwork {
     int p;
     List<Edge>[] adj;
 
-    public static final int INFINITY = Integer.MAX_VALUE;
+    public static final int INFINITY = Integer.MIN_VALUE;
     public static final int NONE = -1;
 
     @SuppressWarnings("unchecked")
@@ -46,51 +46,86 @@ class SocialNetwork {
     }
 
     public void addRelation(int person1, int person2, int days) {
-        adj[person1-1].add(new Edge(person2 - 1, days));
-        adj[person2-1].add(new Edge(person1 - 1, days));
+        adj[person1-1].add(new Edge(person1 - 1, person2 - 1, days));
+        adj[person2-1].add(new Edge(person2 - 1, person1 - 1, days));
+    }
+
+    public void union(Subset[] subsets, int x, int y) {
+        int rootX = findRoot(subsets, x);
+        int rootY = findRoot(subsets, y);
+
+        if(subsets[rootY].rank < subsets[rootX].rank) {
+            subsets[rootY].parent = rootX;
+        } else if(subsets[rootX].rank < subsets[rootY].rank) {
+            subsets[rootX].parent = rootY;
+        } else {
+            subsets[rootY].parent = rootX;
+            subsets[rootX].rank++;
+        }
+    }
+
+    public int findRoot(Subset[] subsets, int i) {
+        if(subsets[i].parent == i) {
+            return subsets[i].parent;
+        }
+
+        subsets[i].parent = findRoot(subsets, subsets[i].parent);
+        return subsets[i].parent;
     }
 
     public int maximumBackboneWeight() {
-        int[] key = new int[this.p];
-        int[] p = new int[this.p];
-        int maxWeight = 0;
+        int index = 0;
+        int sum = 0;
+        Edge result[] = new Edge[p];
+        Subset subsets[] = new Subset[p];
 
-        for(int i = 0; i < this.p; i++) {
-            key[i] = INFINITY;
-            p[i] = NONE;
+        for(int i = 0; i < p; i++) {
+            subsets[i] = new Subset(i, 0);
         }
 
-        key[0] = 0;
         Queue<Edge> Q = new PriorityQueue<>((a,b) -> a.compareTo(b));
-        Q.add(new Edge(0, 0));
-
-        while(!Q.isEmpty()) {
-            Edge u = Q.remove();
-
-            for(Edge v : adj[u.destination]) {
-                if(Q.contains(v) && u.weight > v.weight) {
-                    p[v.destination] = u.destination;
-                    key[v.destination] = u.weight;
-
-                    Q.add(new Edge(p[v.destination], key[v.destination]));
-                }
+        for(var x : adj) {
+            for(var y : x) {
+                Q.add(y);
             }
         }
 
-        return key[this.p - 1];
+        int e = 0;
+        while(e < p - 1) {
+            Edge u = Q.remove();
+            if(findRoot(subsets, u.source) != findRoot(subsets, u.destination)) {
+                result[e] = u;
+                union(subsets, u.source, u.destination);
+                sum += u.weight;
+                e++;
+            }
+        }
+
+        return sum;
+    }
+}
+
+class Subset {
+    int parent, rank;
+ 
+    public Subset(int parent, int rank) {
+        this.parent = parent;
+        this.rank = rank;
     }
 }
 
 class Edge implements Comparable<Edge> {
+    public int source;
     public int destination;
     public int weight;
 
-    public Edge(int destination, int weight) {
+    public Edge(int source, int destination, int weight) {
+        this.source = source;
         this.destination = destination;
         this.weight = weight;
     }
 
     public int compareTo(Edge other) {
-        return weight - other.weight;
+        return other.weight - weight;
     }
 }
