@@ -36,15 +36,9 @@ class PolygonPhobia {
     public static final int YMAX = 1000;
     public static final int NONE = -1;
 
-    @SuppressWarnings("unchecked")
     public PolygonPhobia(int nSegments) {
         this.p = nSegments;
         map = new int[XMAX][YMAX];
-
-        // segments = new List[nSegments];
-        // for(int i = 0; i < p; i++) {
-        //     segments[i] = new LinkedList<>();
-        // }
 
         segments = new LinkedList<>();
     }
@@ -62,26 +56,17 @@ class PolygonPhobia {
         int i = getPoint(x1, y1);
         int j = getPoint(x2, y2);
 
-        // segments[i-1].add(new Pair(i, j));
         segments.add(new Pair(i, j));
     }
 
     public int drawableSegments() {
         int lines = 0;
-        Pair[] result = new Pair[p];
+        Pair[] result = new Pair[c];
 
-        Subset subset = new Subset(p);   
+        Subset subset = new Subset(c);   
         Queue<Pair> Q = new LinkedList<>();
 
-        // for(var x : segments) {
-        //     for(var y : x) {
-        //         Q.add(y);
-        //     }
-        // }
-
-        for(var x : segments) {
-            Q.add(x);
-        }
+        for(var x : segments) Q.add(x);
 
         int e = 0;
         while(!Q.isEmpty()) {
