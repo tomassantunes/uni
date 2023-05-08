@@ -178,6 +178,7 @@ int process_client(int sock, char *clients[]) {
 
     n = read(sock, buf, BUFSIZE);
 
+
     if (n <= 0) {
         return 0; /* client closed socket */
     }
@@ -310,7 +311,7 @@ int process_client(int sock, char *clients[]) {
 
             aux = remove_str(user, aux);
 
-            if(hasBadWord(aux)) {
+            if(hasBadWord(strdup(aux))) {
                 char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
                 write(sock, err, strlen(err));
                 return 1;
@@ -324,7 +325,7 @@ int process_client(int sock, char *clients[]) {
             // mensagem para todos
             printf("%s\n", buf);
 
-            if(hasBadWord(aux)) {
+            if(hasBadWord(strdup(aux))) {
                 char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
                 write(sock, err, strlen(err));
                 return 1;
@@ -334,6 +335,7 @@ int process_client(int sock, char *clients[]) {
             write(sock, ok, strlen(ok));
 
             char message[BUFSIZE]; 
+            printf("!!! %s\n", aux);
             sprintf(message, "TEXT %s GLOBAL %s", clients[index], aux);
             sendToAll(message, index);
 
@@ -350,7 +352,7 @@ int process_client(int sock, char *clients[]) {
         } else if(!strcmp(next, "MEMETEAM")) {
             printf("%s\n", buf);
 
-            if(hasBadWord(aux)) {
+            if(hasBadWord(strdup(aux))) {
                 char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
                 write(sock, err, strlen(err));
                 return 1;
@@ -366,7 +368,7 @@ int process_client(int sock, char *clients[]) {
         } else if(!strcmp(next, "BESTTEAM")) {
             printf("%s\n", buf);
 
-            if(hasBadWord(aux)) {
+            if(hasBadWord(strdup(aux))) {
                 char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
                 write(sock, err, strlen(err));
                 return 1;
@@ -382,7 +384,7 @@ int process_client(int sock, char *clients[]) {
         } else if(!strcmp(next, "CHEATERSTEAM")) {
             printf("%s\n", buf);
 
-            if(hasBadWord(aux)) {
+            if(hasBadWord(strdup(aux))) {
                 char *err = "ERR MSG CONTAINS IMPROPER LANGUAGE";
                 write(sock, err, strlen(err));
                 return 1;
@@ -411,7 +413,7 @@ int process_client(int sock, char *clients[]) {
         
         aux = remove_str(next, aux);
 
-        if(hasBadWord(aux)) {
+        if(hasBadWord(strdup(aux))) {
             char *err = "ERR POST CONTAINS IMPROPER LANGUAGE";
             write(sock, err, strlen(err));
             return 1;
