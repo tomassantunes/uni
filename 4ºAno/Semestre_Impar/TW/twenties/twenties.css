@@ -1,0 +1,29 @@
+h1 {
+    color: red;
+    border-bottom: 1px;
+    border-color: red;
+}
+
+h2 {
+    color: grey;
+    margin-left: 100px;
+}
+
+p {
+    font-size: small;
+    font-family: sans-serif;
+    margin-left: 100px;
+}
+
+em {
+    font-weight: bold;
+    color: blue;
+}
+
+#twenties-gif {
+    float: right;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 12px;
+    margin-right: 12px;
+}

@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'Marko One';
+    font-style: normal;
+    font-weight: 400;
+    src: url(http://fonts.gstatic.com/s/markoone/v22/9Btq3DFG0cnVM5lw1haqLZ8e.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+h1 {
+    font-family: 'Marko One';
+    font-size: 1.5em;
+    text-align: center;
+    text-shadow: .1em .1em .2em lightslategray;
+}
+
+h2 {
+    font-size: 1em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 100%;
+    line-height: 1.4em;
+}
+
+dl {
+    font-size: 0.875em;
+}
+
+dt {
+   font-weight: bold; 
+}
+
+em {
+    font-size: 0.875em;
+}
+
+strong {
+    font-style: italic;
+}
+
+dt strong {
+    color: maroon;
+}
+
+#info {
+    color: teal;
+    text-align: center;
+}
+
+#info p {
+    font-style: italic;
+    color: grey;
+} 
+
+#appetizers p {
+    text-align: center;
+    font-style: italic;
+}
+
+#entrees p {
+    text-align: center;
+    font-style: italic;
+}
+
+.price {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    color: grey;
+}
+
+.label {
+    font-weight: bold;
+    font-style: normal;
+    font-variant: small-caps;
+}
+
+.warning {
+    font-size: x-small;
+    color: red;
+}
