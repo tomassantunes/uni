@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>hi</title>
+</head>
+
+<body>
+    <div id="container">
+        <p>Welcome to the Billion Dollar Web Page!</p>
+        <p id="status"></p>
+        <button onclick="addMessage">Check</button>
+    </div>
+
+    <script>
+        originalTitle = document.getElementsByTagName("title")[0].innerHTML
+        var messages = 0;
+        function addMessage() {
+            messages++;
+            document.getElementsByTagName("title")[0].innerHTML = originalTitle + " (" + messages + " unread messages)";
+            document.getElementById("status").innerHTML = "You have " + messages + " unread messages";
+        }
+    </script>
+</body>
+</html>

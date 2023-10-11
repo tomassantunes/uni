@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Million Dollar WebApp</title>
+</head>
+
+<body>
+
+	<script>
+		var originalTitle = document.getElementsByTagName("title")[0].innerHTML;
+
+		function showUnreadCount(unread) {
+			document.getElementsByTagName("title")[0].innerHTML = originalTitle + " " + unread;
+		}
+
+		showUnreadCount("hello");
+	</script>
+</body>
+</html>

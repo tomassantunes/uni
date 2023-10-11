@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+</head>
+
+<body>
+    <script>
+        var friends = ["Tomás", "Mariana", "João", "Vaco"];
+        alert(friends[2]);
+
+        var name = "Tomás";
+
+        if(name.length > 4) {
+            alert("Comprimento superior a 4.");
+        } else {
+            alert("Comprimento não superior a 4");
+        }
+        
+        if(friends.includes(name)) {
+            alert("Há uma amigo com o mesmo nome!");
+        } else {
+            alert("Nenhum homónimo");
+        }
+
+        var myVariable = parseInt(prompt("Indique um número: ", "0"));
+        while(isNaN(myVariable)) {
+            myVariable = parseInt(prompt("Indique um número: ", "0"));
+        }
+
+        if(myVariable > 5) {
+            alert("upper, " + typeof(myVariable));
+        } else {
+            alert("lower, " + typeof(myVariable));
+        }
+    </script>
+</body>
+</html>
