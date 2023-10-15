@@ -32,25 +32,68 @@
 
   <p>Custom Shoe Design</p>
 
-  <p>Color <em>(choose one)</em>:</p>
+  <!-- <p>Color <em>(choose one)</em>:</p>
     <ul>
-    <li>Red</li>
-    <li>Blue</li>
-    <li>Black</li>
-    <li>Silver</li>
-    </ul>
+      <li><input type="radio" id="color_red" name="color_red" value="RED">
+      <label for="color_red">Red</label></li>
+      <li><input type="radio" id="color_blue" name="color_blue" value="BLUE">
+      <label for="color_blue">Blue</label></li>
+      <li><input type="radio" id="color_black" name="color_black" value="BLACK">
+      <label for="color_black">Black</label></li>
+      <li><input type="radio" id="color_silver" name="color_silver" value="SILVER">
+      <label for="color_silver">Silver</label></li>
+    </ul> -->
+    <label for="shoe_color">Color:</label>
+    <input type="color" id="shoe_color" name="shoe_color" value="#FF00FF">
 
   <p>Features <em>(Choose as many as you want)</em></p>
     <ul>
-    <li>Sparkley laces</li>
-    <li>Metallic logo</li>
-    <li>Light-up heels</li>
-    <li>MP3-enabled</li>
+      <li>
+        <input type="checkbox" id="sparkley_laces" name="sparkley_laces" value="SPARKLEY_LACES">
+        <label for="sparkley_laces">Sparkley laces</label>
+      </li>
+      <li>
+        <input type="checkbox" id="metallic_logo" name="metallic_logo" value="METALLIC_LOGO">
+        <label for="metallic_logo">Metallic logo</label>
+      </li>
+      <li>
+        <input type="checkbox" id="lightup_heels" name="lightup_heels" value="LIGHTUP_HEELS">
+        <label for="lightup_heels">Light-up heels</label>
+      </li>
+      <li>
+        <input type="checkbox" id="mp3_enable" name="mp3_enable" value="MP3_ENABLED">
+        <label for="mp3_enable">MP3-enabled</label>
+      </li>
     </ul>
 
   <p>Size</p>
-  <p>Sizes reflect standard men's sizes:</p>
-</form>
+  <p><label for="sizes">Sizes reflect standard men's sizes:</label>
+    <select id="sizes" name="sizes">
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+    </select>
+  </p>
+  
+  <p>
+    <label for="age">Date of Birth</label>
+    <input type="date" id="age" name="age">
+  </p>
 
+  <p>
+    <input type="file" id="photo" name="photo">
+  </p>
+
+  <p>
+    <input type="submit" value="Pimp My Shoes!">
+    <input type="reset" value="Reset">
+  </p>
+</form>
 </body>
 </html>
