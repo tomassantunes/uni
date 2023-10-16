@@ -35,3 +35,7 @@
 - [Operating Systems](https://github.com/tomassantunes/uni/tree/main/3%C2%BAAno/Semestre_Par/SO)
 
 - [Ciber Security](https://github.com/tomassantunes/uni/tree/main/3%C2%BAAno/Semestre_Par/CiSec)
+
+- [Web Technologies](https://github.com/tomassantunes/uni/tree/main/4%C2%BAAno/Semestre_Impar/TW)
+
+- [Distributed Systems](https://github.com/tomassantunes/uni/tree/main/4%C2%BAAno/Semestre_Impar/SD)
