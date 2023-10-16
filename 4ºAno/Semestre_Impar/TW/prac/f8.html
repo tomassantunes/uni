@@ -5,12 +5,6 @@
 </head>
 
 <body>
-    <div id="container">
-        <p>Welcome to the Billion Dollar Web Page!</p>
-        <p id="status"></p>
-        <button onclick="addMessage">Check</button>
-    </div>
-
     <script>
         originalTitle = document.getElementsByTagName("title")[0].innerHTML
         var messages = 0;
@@ -18,7 +12,18 @@
             messages++;
             document.getElementsByTagName("title")[0].innerHTML = originalTitle + " (" + messages + " unread messages)";
             document.getElementById("status").innerHTML = "You have " + messages + " unread messages";
+
+            if(messages > 3) {
+                document.getElementById("status").style.color = "red";
+                document.getElementById("status").style.fontWeight = "bold";
+            }
         }
     </script>
+
+    <div id="container">
+        <p>Welcome to the Billion Dollar Web Page!</p>
+        <p id="status"></p>
+        <button onclick="addMessage()">Check</button>
+    </div>
 </body>
 </html>
