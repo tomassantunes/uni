@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>conversor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Câmbio</h1>
+
+        <style>
+            input:valid {
+                border: 1px solid black;
+            }
+
+            input:invalid {
+                border: 1px dashed red;
+            }
+        </style>
+
+        <form name="f1" action="https://www.bportugal.pt/conversor-moeda" method="GET" onsubmit="return onSubmit()">
+            <p>
+                Moeda de origem:
+                <input type="text" name="from" size="10" onchange="validateCoin(this.value, 0)" pattern="EUR|USD|GBP|BRL">
+                Moeda final:
+                <input type="text" name="to" size="10" onchange="validateCoin(this.value, 1)" pattern="EUR|USD|GBP|BRL">
+            </p>            
+            <p>
+                Valor a converter: <span id="conv_zone"></span>
+                <input type="text" name="value" id="conv_value" value="1">
+            </p>         
+
+            <input type="submit" value="converter">
+        </form>
+
+        <script>
+            const valid = ["EUR", "USD", "GBP", "BRL"];
+
+            function onSubmit() {
+                let x = document.forms["f1"]
+                if(x["from"].value == "" || x["to"].value == "" || x["value"] == "") {
+                    alert("All fields must be filled out.");
+                    return false;
+                }
+
+                if(!valid.includes(x["from"].value) || !valid.includes(x["to"].value)) {
+                    alert("O nome de uma ou mais moedas não está correto.\nAs moedas válidas são: EUR, USD, GBP BRL.");
+                    return false;
+                }
+            }
+            
+            function validateCoin(val, x) {
+                if(!valid.includes(val)) {
+                    if(x == 0) {
+                        var p = document.createElement("p");
+                        p.id = "invalida_origem";
+                        p.appendChild(document.createTextNode("Moeda de origem INVÁLIDA."));
+                        document.getElementById("alertas").appendChild(p);
+                    } else {
+                        var p = document.createElement("p");
+                        p.id = "invalida_destino"
+                        p.appendChild(document.createTextNode("Moeda de destino INVÁLIDA."));
+                        document.getElementById("alertas").appendChild(p);
+                    }
+                } else {
+                    if(x == 0 && document.getElementById("invalida_origem")) {
+                        document.getElementById("alertas").removeChild(document.getElementById("invalida_origem"))
+                    } else if(x == 1 && document.getElementById("invalida_destino")) {
+                        document.getElementById("alertas").removeChild(document.getElementById("invalida_destino"))
+                    }
+
+                    document.getElementById("conv_zone").innerHTML = document.forms["f1"]["from"].value + " -> " + document.forms["f1"]["to"].value + " ";
+                }
+            }
+        </script>
+
+        <footer>
+            <div id="alertas" style="color: red">
+
+            </div>
+        </footer>
+    </body>
+</html>
