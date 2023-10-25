@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script>
+</head>
+<body>
+   <h2>Aula</h2>
+   <h3>fonte de dados</h3>
+   <textarea id="src1" rows="10" cols="60">
+   {
+      "notas":[
+         {"aluno":"90001",
+         "aval":{
+            "f1":11,
+            "f2":12,
+            "f3":15
+         }},
+         {"aluno":"90002",
+         "aval":{
+            "f1":11,
+            "f2":12,
+            "f3":15
+         }}
+      ]
+
+   }
+   </textarea>
+   <button id="outro">Click me</button>
+   <button id="bd">Click me too</button>
+
+   <h3>resultado</h3>
+   <p id="target"></p>
+   <script>
+      // obter e mostrar conteúdo de src1
+      // mostrar o tipo
+      // converter para Object
+      // no parágrafo com identificador "target", mostrar a média de cada aluno
+
+      alasql("CREATE TABLE IF NOT EXISTS notas(aluno int, f1 int, f2 int, f3 int)");
+      alasql("INSERT INTO notas VALUES(90001, 11, 12, 15)");
+      alasql("INSERT INTO notas VALUES(90002, 11, 12, 15)");
+      alasql("INSERT INTO notas VALUES(48511, 20, 30, 20)");
+
+      console.log(alasql("SELECT * FROM notas"));
+
+      $(document).ready(function() {
+         $("#outro").click(function() {
+               var data = $("#src1").val();
+               console.log(data);
+               console.log(typeof data);
+
+               const obj = JSON.parse(data);
+               console.log(obj);
+
+               obj["notas"].forEach(student => {
+                  var average = student["aval"]["f1"] + student["aval"]["f2"] + student["aval"]["f3"];
+                  document.getElementById("target").innerHTML += "Média do aluno " + student["aluno"] + ": " + average/3 + " <br>";
+            });
+         });
+
+         $("#bd").click(function() {
+            var data = JSON.parse($("#src1").val());
+            data["notas"].forEach(student => {
+               alasql("INSERT INTO notas VALUES(" + student["aluno"] + "," + student["aval"]["f1"] + "," + student["aval"]["f2"] + "," + student["aval"]["f3"] + ")");
+            });
+
+            console.log(alasql("SELECT * FROM notas"));
+
+            var minmax = alasql("SELECT MAX(f1) AS g, MIN(f1) AS l FROM notas");
+            console.log("Min f1: " + minmax[0]["l"] + "\nMax f1: " + minmax[0]["g"]);
+
+            var data1= [{a:{aa:1},b:{bb:2}},{a:{aa:2},b:{bb:2}},{a:{aa:1},b:{bb:3}}];
+            //var res = alasql("SELECT a->aa FROM ? WHERE a->aa >=1", [data1]);
+            var res = alasql("SELECT a FROM ? ", [data1]);
+            for (x in res) {
+                     console.log(' result item: '+ JSON.stringify( res[x].a ));
+                     console.log(' result item field: '+ res[x].a.aa );
+            }
+         });
+      });
+   </script>
+</body>
+</html>
