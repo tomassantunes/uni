@@ -1,3 +1,4 @@
+# Resumo
 ## Cloud Computing
 
 Autoatendimento na hora e em função da necessidade
@@ -151,3 +152,273 @@ Ring compression
 **URN**
 - Uniform Resource Name
 	- identificador persistente, mesmo que o recurso mude de localização
+
+# Resolução de frequências
+## 2º Frequencia Sistemas Distribuidos
+1. No contexto de cloud computing, qual o impacto da virtualização na previsibilidade e desempenho do serviço? E o uso de recursos?
+	- A virtualização simplifica a gestão de recursos físicios relacionados com interpretadores, memória e comunicação, e permite ao utilizador o use de ambiente que lhe é familiar, em vez de obrigar ao uso de outros distintos ao que estão habituados. Esta impacta o desempenho e a previsibilidade ao permitir a migração de aplicações de uma plataforma para outra.
+
+2. Quais os desafios de cloud computing?
+	- Os desafios de cloud computing são: a disponibilidade do serviço, a variedade de serviços, estruturas e modelos de dados, a confidencialidade de dados e auditabilidade, o risco de estrangulamento por sobrecarga de dados, a imprevisibilidade do desempenho, as gestão de recursos e a segurança.
+
+3. O que entende por microsserviços? Que tecnologias utilizadas nas aulas práticas podem ser usadas neste contexto?
+	- Microsserviços são uma abordagem de desenvolvimento de software que separa as tarefas de um processo complexo num conjunto de serviços e processos autónomos, que comunicam através de APIs, cooperando para a realização de um serviço composto. A tecnologia que usámos nas aulas práticas que pode ser usada neste contexto seria as threads.
+
+4. Para comunicação entre processos, como compara web services com REST services?
+	- Para comunicação entre processos, podemos dizer que os REST services são mais leves que os web services, podem ser considerados intelegíveis e os formatos dos dados podem ser JSON ou XML mantendo assim a flexibilidade. Em REST cada objeto tem um estado atribuído, e a representação do mesmo é transportada por pedidos HTTP.
+
+5. Refira os tipos de virtual machines que conhece?
+	- Os tipos de virtual machines/hypervisors que conheço são: tipo 1 em que um "guest" OS executa diretamente numa certa plataform, e o tipo 2 em que o "guest" OS executa sobre um OS principal.
+
+6. O que é um web service?
+	- Um web service é uma camada de software para facilitar a interação entre cliente e servidor, tornando-a mais rica e mais estruturada. Incluem uma API que permite aceder a serviços remotos através da rede.
+
+7. Na escolha de Container ou Virtual Machine, quais os aspetos a ter em conta?
+	- Em relação às virtual machines os containers permitem concentrar mais carga computacional na mesma plataforma, requerem menos tempo para arranque de uma solução, são mais flexíveis e é mais fácil especificar um ambiente de execução. No entanto a partilha da infraestrutura sibjacente pode trazer desafios como a imprevisibilidade do desempenho e esgotar os recursos partilhados. Contrariamente as virtual machines são mais dinâmicas, o que torna o seu desenvolvimento mais simples, quase como se de um simples computador se tratasse. As virtual machines ainda apresentam a vantagem de poderem guardar o seu estado, podendo ser replicadas ou transferidas para outras máquinas.
+
+8. O que entende por resolução de nomes com navegação controlada por servidor? Distinga serviço de nomes de serviços de diretoria.
+	- A resolução de nomes controlada pelo servidor ocorre quando um cliente tenta resolver um nome e o servidor faz a procura desta resolução. Esta resolução pode ser recursiva, ou não recursiva (de modo iterativo ou multicast). Na pesquisa recursiva, o cliente realiza o pedido de resolução de nomes e o servidor tenta resolver esse nome e no caso de não conseguir, pede a outro servidor para o tentar resolver, no caso de este falhar, irá recorrer a outro servidor para tentar resolver o nome, quando o nome for resolvido, este irá percorrer o caminho inverso até chegar ao cliente. Na pesquisa não recursiva, o cliente faz o pedido e o servidor faz a comunicação com os restantes servidores para que estes tentem resolver o nome.
+	- Os serviços de nome oferem uma camada de abstração que permite que os componentes do sistema usem nomes simbólicos em vez de lidar diretamente com endereços físicos.
+	- Os serviços de diretoria guardam associações entre nomes e atributos, e permite pesquisa de entradas baseada nos atributos.
+
+## so2 - freq 2(2).txt
+1. Descreva dois tipos de Uniform Resource Identifier (URI), apontando as caracteristicas chaves de cada.
+	- URL (Uniform Resource Locator) tem um esquema (http, mail, ftp), hostname e pathname até ao documento. Tem problemas em dangling links, se o objeto é movido podem ficar apontadores inválidos.
+	- URN (Uniform Resource Name) é um identificador persistente, mesmo que o recurso mude de localização, regista-se o nome (URN), incluindo atributos do documento (o seu URL, ...), se o URL mudar basta atualizar o URL registado para aquele URN e a pesquisa faz-se pelo URN e resulta sempre no URL correto.
+
+2. Diga o que entende por “resolução de nomes”.
+	- A resolução de nomes é o processo em que se apresenta um nome a um contexto, que tem um binding direto desse nome num conjunto de atributos, ou efetua a procura de um binding num outro contexto.
+
+3. Há alguma funcionalidade nos serviços de directoria que não exista nos serviços de nomes? Comente.
+	- Nos serviços de nomes existem pares (nome, atributos) e a pesquisa efectua-se pelo nome mas em determinados cenários pode interessar a pesquisa pelos atributos, enquanto que o serviço de directoria guarda associações (bindings) entre nomes e atributos e permite pesquisa de entradas baseada nos atributos, logo podemos afirmar que os serviços de diretorias têm mais funcionalidades que os serviços de nomes.
+
+4. Que razões poderão motivar o uso de replicação num sistema distribuído?
+	- Num sistema distribuído espera-se que os serviços tenham alta disponibilidade, a melhor performance possível e que o efeito das falhas seja mínimo, assim replicação é fundamental, na medida em que contribui para a performancem, alta disponibilidade e tolerância a falhas.
+
+# coisas
+Web services
+- camada de software para facilitar a interação entre cliente e servidor, tornando-a mais rica e mais estruturada. Incluem uma API que permite aceder a serviços remotos através da rede.
+- servem de suporte à computação distribuída na internet, facilitando a cooperação de aplicações baseadas em diferentes linguagens.
+- diferença relativamente ao Object Model distribuído: um web service é assegurado por um único objeto
+	- o garbage collection neste caso não é tão crítico, porque não expõe objetos a referências remotas.
+	- a referência remota para o objeto não é relevante.
+	- para lá do web service podem existir muitos objetos
+
+SOAP - Simple Object Access Protocol
+- extensão de XML-RPC
+- é um protocolo para troca de mensagens, usualmente sobre HTTP, que trata do correto encapsulamento dos dados em XML.
+- possíveis protocolos para envio das mensagens HTTP, SMTP, TCP, UDP
+- não levanta problemas na presença de firewalls
+- Uso de XML em SOAP e nos dados:
+	- vantagem: mais legível, por humanos
+	- desvantagem: processamento mais lento que formatos binários.
+
+UDDI - Universal Description Discovery and Integration
+- protocolo para publicar e pesquisar meta-informação sobre web services... permite que uma aplicação descubra e use um web service em tempo de execução.
+
+Assumindo que se começa por desenvolver a Service Interface e a sua implementação
+- o Skeleton e a descrição do serviço em WSDL são gerados automaticamente.
+- o serviço vai correr num Servlet Container
+- depois de preparado, o web service deve estar num ficheiro .war
+- é possível gerar a classe do proxy, para o cliente, em runtime, a partir da service description.
+
+GRID Computing
+- middleware desenhado para permitir e optimizar a partilha de recursos em larga escala.
+- usualmente para utilizadores que necessitam de processar grande quantidades de dados (cientistas).
+- recursos alojados em computadores de diferentes plataformas, ambiente heterogéneo.
+- pode assentar em Web Services.
+
+Motivações da Cloud
+- uso mais geral.
+- vocação para os serviços.
+- virtualização.
+- alocação de recursos dinâmica em função das necessidades
+
+REST - Representational State Transfer
+- Arquitetura para interação em sistemas distribuídas.
+- Objetos têm estado, cuja representação é transportada por pedidos HTTP (PUT, GET, POST, DELETE)
+- **VS SOAP**
+	- mais leve
+	- ainda intelegível
+	- formato dos dados pode ser JSON ou XML
+
+Microsserviços
+- Uma abordagem de desenvolvimento de software que separa as tarefas de um processo complexo num conjunto de serviços e processos autónomos, que comunicam através de APIs, cooperando para a realização de um serviço composto.
+- **VS sistemas monolíticos**
+	- maior agilidade
+	- facilitam manuntenção de software
+	- promovem a modularização e conformidade com normas e APIs
+	- facilitam alterações à arquitetura, permitindo escalar de modo mais eficaz
+
+Cloud Computing
+- uso de recursos computacionais disponibilizados como um serviço, através da rede.
+- Características fundamentais
+	- Autoatendimento na hora e em função da necessidade
+	- Acesso com grande largura de banda
+	- Resource pooling
+	- Elasticidade
+	- Mensurabilidade do serviço
+- Segurança e manuntenção ficam a cargo dos fornecedores (CSP - Cloud Service Provider).
+
+Elastic Computing
+- capacidade de ativar dinamicamente o acesso a recursos computacionais, de modo a responder a uma carga variável.
+
+Armazenamento dos dados
+- Perto do site que precisa deles
+- junto à ligação de rede de alta velocidade
+- facilita acessos com origem em diversas localizações
+
+Tipos de cloud
+- Pública
+	- infraestrutura disponibilizada ao grande público, operada por um consórcio
+- Privada
+	- operada por uma só organização
+- Comunitária
+	- partilhada por várias entidades
+- Híbrida
+	- combinação de um ou mais tipos
+
+Benefícios de cloud computing
+- recursos partilhados
+- espera-se que o pico de solicitações não ocorra ao mesmo tempo, uso global dos recursos é otimizado
+- recursos podem ser agregados para facilitar aplicações com uso intensivo de dados
+- partilha de dados favorece atividades colaborativas
+- elimina ou reduz o investimento inicial
+- redução de custo, pay as you go
+- elasticidade
+- conveniência, virtualização permite ao utilizador o uso de um ambiente que lhe é familiar
+
+Desafios
+- Disponibilidade
+- Variedade de serviços
+- Segurança, confidencialidade e auditabilidade
+- Risco de estrangulamento, data transfer bottleneck
+- Imprevisibilidade do desempenho
+- Gestão de recursos
+
+Saas
+- Aplicações são disponibilizadas pelo CSP como um serviço
+
+PaaS
+- O utilizador da nuvem implanta aplicações, desde que compatíveis com linguagens de programação e ferramentas do CSP
+
+IaaS
+- User pode implantar e executar qualquer software, incluindo aplicações e OSs
+
+Multiplexing
+- criar múltiplos objetos a partir de uma só instância de objeto físico
+
+Agregação
+- criar um recurso virtual a partir de vários objetos físicos/reais
+
+Emulação
+- formar um objeto virtual, do tipo A, a partir de um objeto físico de tipo B
+
+Multiplexing e emulação
+- como exemplo da memória virtual com paginação para memória real ou disco; um endereço virtual emula um endereço real
+
+Type 1 hypervisor
+- executa diretamente numa certa plataforma, um "guest" OS executa no segundo nível acima do hardware.
+
+Type 2 hypervisor
+- executa sobre um OS, um "guest" OS executa no terceiro nível acima do hardware.
+
+VM
+- ambiente isolado que aparente ser um PC completo, no entanto tem apenas acesso a parte dos recursos da máquina.
+
+Virtualization examples
+- recuperação de desastre
+- teste e treino
+- workspaces portáteis
+
+Desvantagens/riscos da virtualização
+- as proteções num determinado nível/camada podem ser ultrapassadas por malware em camada inferior.
+- Pode existir um VMM Rootkit entre o hardware e o SO
+
+Containers
+- recursos para alojar aplicações
+- forma mais leve de virtualização orientada para aplicações
+- isolamento
+- portabilidade
+
+VMs VS Containers
+- Pontos a favor dos containers
+	- permitem concentrar mais carga computacional na mesma plataforma
+	- requerem menos tempo para arranque de uma solução
+	- flexibilidade
+	- maior facilidade para especificar um ambiente de execução
+- Desafios
+	- a partilha da infraestrutura subjacente pode trazer desafios
+		- imprevisibilidade do desempenho
+		- esgotar recursos partilhados
+
+Desafios no desenvolvimento de aplicações
+- gestão de desempenho
+- fiabilidade
+- variabilidade na latência e largura de banda disponível
+- compromisso entre o detalhe de data logging e a capacidade de identificar causa de erros
+
+Opções de comunicação
+- RPC (remote procedure calls)
+- SOAP (simple object access protocol)
+- REST (representation state transfer) - permite a transmissão entre stateless servers, independente de plataforma e linguagens de programação
+
+Com computação em nuvem
+- grandes infraestruturas
+- acesso on-demand
+- processos com uso intensivo de dados
+- novos paradigmas de programação com distribuição
+
+Serviços de nomes
+- fornecem informação sobre objetos a partir do seu nome
+- relacionados com os serviços de diretorias e discovery services
+- armazenam um ou mais contextos de nomes
+- operações:
+	- resolver um nome
+	- adicionar, listar e apagar binding ou contextos
+
+Resolver um nome
+- obter informação associada a um nome, necessária para efetuar uma operação
+
+Binding
+- associação entre nome e objeto
+- em geral entre nome e atributos do objeto
+	- atributo: propriedade do objeto, que tem um valor
+
+Contexto
+- conjunto de bindings
+
+Endereços
+- nomes que também são resolvidos (ARP requests) para MAC address
+
+URI -> URL
+- esquema (http, mail, ftp), hostname e pathname até ao documento
+- problema dangling links: se o objeto é movido podem ficar apontadores inválidos
+
+URI -> URN
+- identificador persistente
+- regista o nome (URN), incluindo atributos do documento: o seu URL
+
+Espaço de nomes
+- conjunto de todos os nomes válidos para determinado serviço e que obedecem a regras sintáticas específicas
+
+Aliases
+- nomes alternativos
+
+Resolução de nomes
+- processo em que se apresenta um nome a um contexto, que tem um binding direto desse nome num conjunto de atributos, ou efetua a procura de um binding num outro contexto
+- com os aliases pode haver ciclos
+
+Navegação
+- Controlada pelo cliente
+	- iterativa
+		- se um servidor não tem resposta liga-se ao seguinte
+	- multicast
+		- o cliente faz um multicast com o nome a resolver para um grupo de servidores. O servidor que tem a informação responde com unicast
+- Controlada pelo servidor
+	- não recursiva
+		- de modo iterativo ou multicast
+	- recursiva
+
+Cache
+- DNS: clientes e servidores costumam ter uma cache; ajuda a manter boa performance
