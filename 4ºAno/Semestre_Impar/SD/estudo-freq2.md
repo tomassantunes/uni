@@ -154,9 +154,9 @@ Ring compression
 	- identificador persistente, mesmo que o recurso mude de localização
 
 # Resolução de frequências
-## 2º Frequencia Sistemas Distribuidos
+## 2º Frequência Sistemas Distribuídos
 1. No contexto de cloud computing, qual o impacto da virtualização na previsibilidade e desempenho do serviço? E o uso de recursos?
-	- A virtualização simplifica a gestão de recursos físicios relacionados com interpretadores, memória e comunicação, e permite ao utilizador o use de ambiente que lhe é familiar, em vez de obrigar ao uso de outros distintos ao que estão habituados. Esta impacta o desempenho e a previsibilidade ao permitir a migração de aplicações de uma plataforma para outra.
+	- A virtualização simplifica a gestão de recursos físicos relacionados com interpretadores, memória e comunicação, e permite ao utilizador o use de ambiente que lhe é familiar, em vez de obrigar ao uso de outros distintos ao que estão habituados. Esta impacta o desempenho e a previsibilidade ao permitir a migração de aplicações de uma plataforma para outra.
 
 2. Quais os desafios de cloud computing?
 	- Os desafios de cloud computing são: a disponibilidade do serviço, a variedade de serviços, estruturas e modelos de dados, a confidencialidade de dados e auditabilidade, o risco de estrangulamento por sobrecarga de dados, a imprevisibilidade do desempenho, as gestão de recursos e a segurança.
@@ -174,11 +174,11 @@ Ring compression
 	- Um web service é uma camada de software para facilitar a interação entre cliente e servidor, tornando-a mais rica e mais estruturada. Incluem uma API que permite aceder a serviços remotos através da rede.
 
 7. Na escolha de Container ou Virtual Machine, quais os aspetos a ter em conta?
-	- Em relação às virtual machines os containers permitem concentrar mais carga computacional na mesma plataforma, requerem menos tempo para arranque de uma solução, são mais flexíveis e é mais fácil especificar um ambiente de execução. No entanto a partilha da infraestrutura sibjacente pode trazer desafios como a imprevisibilidade do desempenho e esgotar os recursos partilhados. Contrariamente as virtual machines são mais dinâmicas, o que torna o seu desenvolvimento mais simples, quase como se de um simples computador se tratasse. As virtual machines ainda apresentam a vantagem de poderem guardar o seu estado, podendo ser replicadas ou transferidas para outras máquinas.
+	- Em relação às virtual machines os containers permitem concentrar mais carga computacional na mesma plataforma, requerem menos tempo para arranque de uma solução, são mais flexíveis e é mais fácil especificar um ambiente de execução. No entanto a partilha da infraestrutura subjacente pode trazer desafios como a imprevisibilidade do desempenho e esgotar os recursos partilhados. Contrariamente as virtual machines são mais dinâmicas, o que torna o seu desenvolvimento mais simples, quase como se de um simples computador se tratasse. As virtual machines ainda apresentam a vantagem de poderem guardar o seu estado, podendo ser replicadas ou transferidas para outras máquinas.
 
 8. O que entende por resolução de nomes com navegação controlada por servidor? Distinga serviço de nomes de serviços de diretoria.
 	- A resolução de nomes controlada pelo servidor ocorre quando um cliente tenta resolver um nome e o servidor faz a procura desta resolução. Esta resolução pode ser recursiva, ou não recursiva (de modo iterativo ou multicast). Na pesquisa recursiva, o cliente realiza o pedido de resolução de nomes e o servidor tenta resolver esse nome e no caso de não conseguir, pede a outro servidor para o tentar resolver, no caso de este falhar, irá recorrer a outro servidor para tentar resolver o nome, quando o nome for resolvido, este irá percorrer o caminho inverso até chegar ao cliente. Na pesquisa não recursiva, o cliente faz o pedido e o servidor faz a comunicação com os restantes servidores para que estes tentem resolver o nome.
-	- Os serviços de nome oferem uma camada de abstração que permite que os componentes do sistema usem nomes simbólicos em vez de lidar diretamente com endereços físicos.
+	- Os serviços de nome oferecem uma camada de abstração que permite que os componentes do sistema usem nomes simbólicos em vez de lidar diretamente com endereços físicos.
 	- Os serviços de diretoria guardam associações entre nomes e atributos, e permite pesquisa de entradas baseada nos atributos.
 
 ## so2 - freq 2(2).txt
@@ -423,11 +423,28 @@ Navegação
 Cache
 - DNS: clientes e servidores costumam ter uma cache; ajuda a manter boa performance
 
+MapReduce
+- Framework para computação paralela distribuída
+- mapping a function f over a sequence x y z
+	- yields f(x) f(y) f(z)
+- reduce combines sequences of elements using a binary op
+- many data analysis computations can be expressed as:
+	- applying a map operation to each logical input record
+	- produce a set of intermeadiate (key, value) pairs
+	- applying a reduce to all intermidiate pairs with same key
+
+Basicamente
+- a função map processa um registo de cada vez, e de modo independente (map square (1 2 3 4) -> (1 4 9 16))
+- a função reduce processa o conjunto de todos os registos em grupos, usando um operador (reduce + (1 4 9 16) -> (1+4+9+16) = 30)
+
+Apache Hadoop
+- framework distributed processing of large data sets, across clusters of computers, using simple programming models (OS implementation of MapReduce)
+
 ## Perguntas ChatGPT
 1. O que é um Web Service e qual é o propósito principal por trás do seu uso em sistemas distribuídos?
-	- Um web service é uma camada de software que facilita a interação entre cliente e servidor, tornando-a mais rica e estruturada, também incluem uma API que permite aceder a serviços através da rede. Os web services também permitem que diferentes plataformas comuniquem entre si de forma eficiente, sendo este o seu propósito principal.
+	- Um web service é uma camada de software que facilita a interação entre cliente e servidor, tornando-a mais rica e estruturada, também incluem uma API que permite aceder a serviços através da rede. Estes permitem que diferentes plataformas comuniquem entre si de forma eficiente, sendo este o seu propósito principal.
 
-2. Explique a diferença entre RESTful e serviços web baseados em SOAP.
+2. Explique a diferença entre serviços RESTful e serviços web baseados em SOAP.
 	- Os serviços RESTful em comparação com os serviços web baseados em SOAP, são mais leves, ainda podem ser considerados intelegíveis e suportam, para além de XML, o JSON como linguagem de comunicação. Os serviços RESTful comunicam através de métodos HTTP, enquanto que os serviços SOAP comunicam através do protocolo SOAP.
 
 3. Quais são as vantagens e desvantagens da arquitetura de microsserviços em comparação com monolitos?
@@ -440,7 +457,7 @@ Cache
 	- Cloud computing refere-se a um modelo de fornecimento de serviços de computação pela internet. Em vez de possuir e manter servidores e infraestruturas local e fisicamente, o utilizador pode aceder a recursos computacionais, como armazenamento, processamento e software através da internet. Os principais modelos de serviço oferecidos pelos CSPs/fornecedores são: IaaS (Infrastructure-as-a-Service), PaaS (Platform-as-a-Service) e SaaS (Software-as-a-Service).
 
 6. Como é que a escalabilidade automática beneficia os utilizadores em ambientes de nuvem?
-	- A escalabilidade beneficia os utilizadores em ambientes de nuvem no sentido em que, disponibiliza recursos, seja de armazenamento ou processamento, à medida que o utilizador necessita, fazendo com que este apenas pague pelo que utiliza e evitando a necessidade de intrevir manualmente sempre que precisar de mais ou menos recursos.
+	- A escalabilidade beneficia os utilizadores em ambientes de nuvem no sentido em que, disponibiliza recursos, seja de armazenamento ou processamento, à medida que o utilizador necessita, fazendo com que este apenas pague pelo que utiliza e evitando a necessidade de intervir manualmente sempre que precisar de mais ou menos recursos.
 
 7. Explique o conceito de virtualização e como ele difere de uma máquina virtual.
 	- Virtualização é um processo que permite a utilização eficiente de hardware computacional, esta usa software para criar uma camada de abstração sobre o hardware de um computador que permite que os elementos do mesmo (memória, processador...) sejam dividos em vários computadores virtuais, normalmente chamados de máquinas virtuais. Uma máquina virtual é um ambiente virtualizado que simula um computador físico em forma de software.
@@ -449,13 +466,13 @@ Cache
 	- Em termos de eficiência de recursos a virtualização permite que aplicações sejam executadas cada uma na sua VM, sem sacrificar a fiabilidade do sistema e assegurando que cada aplicação tem acesso a todos os recursos que necessita. Em termos de isolamento, a virtualização cria uma camada de segurança, pois caso aconteça alguma coisa à VM, como por exemplo, seja atacada por um vírus, é possível fazer um rollback daquela VM até ao momento antes de ser atacada, e como esta está isolada do sistema operativo principal, este não será afetado pelo vírus.
 
 9. Qual é a diferença fundamental entre máquinas virtuais e containers?
-	- A diferença fundamental entre máquinas virtuais e containers é que as máquinas virtuais reproduzem todo o hardware do computador, e cada máquina virtual irá executar um OS inteiro, o que causa a repetição de código desnecssário. Os containers, por outro lado, apenas executam uma aplicação e as coisas de que esta aplicação depende, como bibliotecas de software e variáveis de sistema.
+	- A diferença fundamental entre máquinas virtuais e containers é que as máquinas virtuais reproduzem todo o hardware do computador, e cada máquina virtual irá executar um OS inteiro, o que causa a repetição de código desnecessário. Os containers, por outro lado, apenas executam uma aplicação e as coisas de que esta aplicação depende, como bibliotecas de software e variáveis de sistema.
 
 10. Como é que os containers facilitam a implantação consistente de aplicações em diferentes ambientes?
 	- Os containers facilitam a implantação consitente de aplicações em diferente máquinas, através do empacotamento de bibliotecas de software, código e dependências num únicos container, tornando-os portáteis e mais leves que as máquinas virtuais.
 
 11. O que é um serviço de nome e como é que este facilita a comunicação em sistemas distribuídos?
-	- Um serviço de nomes refere-se a uma função ou sistema que atribui e gere nomes para identificar recursos numa rede de computadores. O serviço de nomes atribui um nome legível a um endereço físico, fazendo com que os componentes de um sistema distribuído não tenham de lidar com endereços físicos complexos, facilitando assim a comunicação.
+	- Um serviço de nome refere-se a uma função ou sistema que atribui e gere nomes para identificar recursos numa rede de computadores. O serviço de nomes atribui um nome legível a um endereço físico, fazendo com que os componentes de um sistema distribuído não tenham de lidar com endereços físicos complexos, facilitando assim a comunicação.
 
 12. Explique a diferença entre um serviço de nome e um serviço de diretoria.
-	- Um serviço de nome oferece uma camada de abstração em que permite que os componentes do sistema usem nomes simbólicos em vez de endereços físicos, enquanto que os serviços de diretoria estabelecem relações entre estes nomes simbólicos e atributos, como o URL, chamados bindings, e permitem a pesquisa de entradas baseadas nos atributos.
+	- Um serviço de nome oferece uma camada de abstração em que permite que os componentes do sistema usem nomes simbólicos em vez de endereços físicos, enquanto que os serviços de diretoria estabelecem relações entre estes nomes simbólicos e atributos, como o URL, chamados bindings, e permitem a pesquisa de entradas baseadas nos atributos, também fornece informações adicionais além da resolução de nomes.
