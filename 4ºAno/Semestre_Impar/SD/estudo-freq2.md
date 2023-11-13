@@ -162,7 +162,7 @@ Ring compression
 	- Os desafios de cloud computing são: a disponibilidade do serviço, a variedade de serviços, estruturas e modelos de dados, a confidencialidade de dados e auditabilidade, o risco de estrangulamento por sobrecarga de dados, a imprevisibilidade do desempenho, as gestão de recursos e a segurança.
 
 3. O que entende por microsserviços? Que tecnologias utilizadas nas aulas práticas podem ser usadas neste contexto?
-	- Microsserviços são uma abordagem de desenvolvimento de software que separa as tarefas de um processo complexo num conjunto de serviços e processos autónomos, que comunicam através de APIs, cooperando para a realização de um serviço composto. A tecnologia que usámos nas aulas práticas que pode ser usada neste contexto seria as threads.
+	- Microsserviços são uma abordagem de design de software em que uma aplicação é dividida em pequenos serviços independentes, cada um focado em executar uma tarefa específica. Cada microsserviço opera como uma entidade autónoma, comunicando-se com outros microsserviços através de interfaces bem-definidas, geralmente através de protocolos de comunicação como HTTP/REST ou mensagens assíncronas.
 
 4. Para comunicação entre processos, como compara web services com REST services?
 	- Para comunicação entre processos, podemos dizer que os REST services são mais leves que os web services, podem ser considerados intelegíveis e os formatos dos dados podem ser JSON ou XML mantendo assim a flexibilidade. Em REST cada objeto tem um estado atribuído, e a representação do mesmo é transportada por pedidos HTTP.
@@ -422,3 +422,40 @@ Navegação
 
 Cache
 - DNS: clientes e servidores costumam ter uma cache; ajuda a manter boa performance
+
+## Perguntas ChatGPT
+1. O que é um Web Service e qual é o propósito principal por trás do seu uso em sistemas distribuídos?
+	- Um web service é uma camada de software que facilita a interação entre cliente e servidor, tornando-a mais rica e estruturada, também incluem uma API que permite aceder a serviços através da rede. Os web services também permitem que diferentes plataformas comuniquem entre si de forma eficiente, sendo este o seu propósito principal.
+
+2. Explique a diferença entre RESTful e serviços web baseados em SOAP.
+	- Os serviços RESTful em comparação com os serviços web baseados em SOAP, são mais leves, ainda podem ser considerados intelegíveis e suportam, para além de XML, o JSON como linguagem de comunicação. Os serviços RESTful comunicam através de métodos HTTP, enquanto que os serviços SOAP comunicam através do protocolo SOAP.
+
+3. Quais são as vantagens e desvantagens da arquitetura de microsserviços em comparação com monolitos?
+	- As vantagens da arquitetura de microsserviços em comparação como monolitos são: a sua escalabilidade, visto que utilizando um sistema de microsserviços podemos escalar cada serviço individualmente, enquanto que num sistema monolito não temos essa separação; a sua resiliência e tolerância a falhas, no sentido em que se um serviço falha, isso não afeta necessariamente toda a aplicação; a facilidade de manuntenção e atualizações, como a aplicação está dividida em vários serviços, não requer necessariamente a paragem da aplicação para fazer a atualização; e por fim, temos a flexibilidade tecnológica, ou seja, cada serviço pode ser desenvolvido usando tecnologias diferentes. No entando, a arquitetura de microsserviços também tem desvantagens, como a complexidade na gestão da comunicação entre serviços, visto que estes podem ser desenvolvidos em tecnologias diferentes, a necessidade de lidar com a consistência dos dados em ambientes distribuídos e por fim, a sobrecarga de gerir múltiplos serviços em produção.
+
+4. Como é que é alcançada a independência de implantação numa arquitetura de microsserviços?
+	- A independência de implantação numa arquitetura de microsserviços é alcançada através da possibilidade de implantar, atualizar e escalar cada serviço de forma independente, sem afetar os restantes serviços.
+
+5. Defina cloud computing e liste os principais modelos de serviço oferecidos pelos fornecedores de nuvem.
+	- Cloud computing refere-se a um modelo de fornecimento de serviços de computação pela internet. Em vez de possuir e manter servidores e infraestruturas local e fisicamente, o utilizador pode aceder a recursos computacionais, como armazenamento, processamento e software através da internet. Os principais modelos de serviço oferecidos pelos CSPs/fornecedores são: IaaS (Infrastructure-as-a-Service), PaaS (Platform-as-a-Service) e SaaS (Software-as-a-Service).
+
+6. Como é que a escalabilidade automática beneficia os utilizadores em ambientes de nuvem?
+	- A escalabilidade beneficia os utilizadores em ambientes de nuvem no sentido em que, disponibiliza recursos, seja de armazenamento ou processamento, à medida que o utilizador necessita, fazendo com que este apenas pague pelo que utiliza e evitando a necessidade de intrevir manualmente sempre que precisar de mais ou menos recursos.
+
+7. Explique o conceito de virtualização e como ele difere de uma máquina virtual.
+	- Virtualização é um processo que permite a utilização eficiente de hardware computacional, esta usa software para criar uma camada de abstração sobre o hardware de um computador que permite que os elementos do mesmo (memória, processador...) sejam dividos em vários computadores virtuais, normalmente chamados de máquinas virtuais. Uma máquina virtual é um ambiente virtualizado que simula um computador físico em forma de software.
+
+8. Quais são os benefícios da virtualização em termos de eficiência de recursos e isolamento?
+	- Em termos de eficiência de recursos a virtualização permite que aplicações sejam executadas cada uma na sua VM, sem sacrificar a fiabilidade do sistema e assegurando que cada aplicação tem acesso a todos os recursos que necessita. Em termos de isolamento, a virtualização cria uma camada de segurança, pois caso aconteça alguma coisa à VM, como por exemplo, seja atacada por um vírus, é possível fazer um rollback daquela VM até ao momento antes de ser atacada, e como esta está isolada do sistema operativo principal, este não será afetado pelo vírus.
+
+9. Qual é a diferença fundamental entre máquinas virtuais e containers?
+	- A diferença fundamental entre máquinas virtuais e containers é que as máquinas virtuais reproduzem todo o hardware do computador, e cada máquina virtual irá executar um OS inteiro, o que causa a repetição de código desnecssário. Os containers, por outro lado, apenas executam uma aplicação e as coisas de que esta aplicação depende, como bibliotecas de software e variáveis de sistema.
+
+10. Como é que os containers facilitam a implantação consistente de aplicações em diferentes ambientes?
+	- Os containers facilitam a implantação consitente de aplicações em diferente máquinas, através do empacotamento de bibliotecas de software, código e dependências num únicos container, tornando-os portáteis e mais leves que as máquinas virtuais.
+
+11. O que é um serviço de nome e como é que este facilita a comunicação em sistemas distribuídos?
+	- Um serviço de nomes refere-se a uma função ou sistema que atribui e gere nomes para identificar recursos numa rede de computadores. O serviço de nomes atribui um nome legível a um endereço físico, fazendo com que os componentes de um sistema distribuído não tenham de lidar com endereços físicos complexos, facilitando assim a comunicação.
+
+12. Explique a diferença entre um serviço de nome e um serviço de diretoria.
+	- Um serviço de nome oferece uma camada de abstração em que permite que os componentes do sistema usem nomes simbólicos em vez de endereços físicos, enquanto que os serviços de diretoria estabelecem relações entre estes nomes simbólicos e atributos, como o URL, chamados bindings, e permitem a pesquisa de entradas baseadas nos atributos.
