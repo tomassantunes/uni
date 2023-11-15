@@ -2,6 +2,7 @@
 a.out
 *.class
 .obsidian
+.idea
 
 /3ºAno/Semestre_Impar/Sistemas_Distribuidos/Aula1/nbproject/private/
 /3ºAno/Semestre_Impar/Sistemas_Distribuidos/Aula1/build/
@@ -36,3 +37,5 @@ a.out
 /4ºAno/Semestre_Impar/SD/spring-data-jpa-postgresql_maven01/target/
 /4ºAno/Semestre_Impar/SD/Primos/target/
 /4ºAno/Semestre_Impar/SD/rest-service_jersey.grizzly/target/
+4ºAno/Semestre_Impar/TW/spring_gs-serving-web-content/.gradle
+4ºAno/Semestre_Impar/TW/spring_gs-serving-web-content/taget
