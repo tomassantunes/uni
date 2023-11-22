@@ -1,0 +1,8 @@
+example\users\web\UserController$UserForm.class
+example\users\UserRepository.class
+example\users\UserManagement.class
+example\users\Username.class
+example\users\Password.class
+example\Application.class
+example\users\User.class
+example\users\web\UserController.class
