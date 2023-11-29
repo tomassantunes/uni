@@ -1,0 +1,4 @@
+spring\boot\security\jdbc\auth\config\DatabaseConfig.class
+spring\boot\security\jdbc\auth\config\SecurityConfig.class
+spring\boot\security\jdbc\auth\SpringSecurityFormBasedJdbcAuthApp.class
+spring\boot\security\jdbc\auth\controller\SpringSecurityController.class
