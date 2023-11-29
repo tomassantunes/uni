@@ -21,8 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		final String sqlUserName = "select u.user_name, u.user_pass, u.enable from user u where u.user_name = ?";
-		final String sqlAuthorities = "select ur.user_name, ur.user_role from user_role ur where ur.user_name = ?";
+		final String sqlUserName = "select u.user_name, u.user_pass, u.enable from my_user u where u.user_name = ?";
+		final String sqlAuthorities = "select ur.user_name, ur.user_role from my_user_role ur where ur.user_name = ?";
 		auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(sqlUserName)
 				.authoritiesByUsernameQuery(sqlAuthorities).passwordEncoder(passwordEncoder());
 	}
@@ -31,19 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http// ,
 				.authorizeRequests()// , authorize request
+				.antMatchers("/admin")// Ensures that request with "/admin" to
+				// our application requires the user to
+				// be authenticated
+				.access("hasRole('ADMIN')")// Any URL that starts with
+				// "/admin" will
+				// be restricted to users who have the
+				// role "ROLE_ADMIN",
 				.antMatchers("/", "/login", "/static/**", "/error**").permitAll().anyRequest().authenticated()// ,
 																												// ignore
 																												// /,login
 																												// page,static
 				// resources, error
 				// pages
-				.antMatchers("/admin")// Ensures that request with "/admin" to
-										// our application requires the user to
-										// be authenticated
-				.access("hasRole('ADMIN')")// Any URL that starts with
-											// "/admin" will
-				// be restricted to users who have the
-				// role "ROLE_ADMIN",
 				.and()// ,
 				.formLogin()// Allows users to authenticate with form based
 							// login,

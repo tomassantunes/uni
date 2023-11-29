@@ -52,7 +52,20 @@
       <artifactId>h2</artifactId>
       <version>1.4.196</version>
       <scope>runtime</scope>
-    </dependency>   
+    </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-jdbc</artifactId>
+          <version>RELEASE</version>
+          <scope>compile</scope>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+      <dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <version>42.7.0</version>
+      </dependency>
+
   </dependencies>
 
   <build>
